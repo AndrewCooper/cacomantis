@@ -1,15 +1,15 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the routines to jump in ISP mode
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file contains the routines to jump in ISP mode
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -46,68 +46,73 @@
 #include "lib_mcu/wdt/wdt_drv.h"
 
 #ifdef __ICCAVR__
-   #if (defined(__AT90USB1287__) || defined(__AT90USB1286__)) 
-      void (*start_bootloader) (void)=(void (*)(void))0xf000;
-   #elif (defined(__AT90USB647__) || defined(__AT90USB646__))
-      void (*start_bootloader) (void)=(void (*)(void))0x7800;
-   #else
-      #error MCU part not define in project options
-   #endif
+#if (defined(__AT90USB1287__) || defined(__AT90USB1286__))
+void (*start_bootloader) (void)=(void (*)(void))0xf000;
+#elif (defined(__AT90USB647__) || defined(__AT90USB646__))
+void (*start_bootloader) (void)=(void (*)(void))0x7800;
+#else
+#error MCU part not define in project options
+#endif
 #elif defined __GNUC__
-   #if (defined(__AVR_AT90USB1287__) || defined(__AVR_AT90USB1286__)) 
-      void (*start_bootloader) (void)=(void (*)(void))0xf000;
-   #elif (defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB646__))
-      void (*start_bootloader) (void)=(void (*)(void))0x7800;
-   #else
-      #error MCU part not define in project options
-   #endif
+#if (defined(__AVR_AT90USB1287__) || defined(__AVR_AT90USB1286__))
+void (*start_bootloader) (void)=(void (*)(void))0xf000;
+#elif (defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB646__))
+void (*start_bootloader) (void)=(void (*)(void))0x7800;
+#else
+#error MCU part not define in project options
+#endif
 #else // Other compiler
-   #error Compiler unknow
+#error Compiler unknow
 #endif
 
 #ifdef __GNUC__
-   U32 boot_key __attribute__ ((section (".noinit")));
+U32 boot_key __attribute__ ((section (".noinit")));
 #else
-   __no_init U32 boot_key At(0x0100); 
+__no_init U32 boot_key At(0x0100);
 #endif
-   
-//! @brief This function will start the on-chip bootloader after a watchdog timer reset.
-//!
-//! The function set a special key in sram (uninitialized during mcu start-up execution) and performs a mcu
-//! watchdog timer reset.
-//! This function should be called when a special eve,t is detected in the application that requires the bootloader activation.
-//! When this function is used, be sure to implement the "start_boot_if_required()" function at the begining of main().   
-//!
-void start_boot(void)
-{
-   boot_key=0x55AAAA55;
-   
-   // Enable the WDT for reset mode
-   wdtdrv_enable(WDTO_500MS);
-   while(1);
-}
 
-   
-//! @brief This function calls the on-chip bootloader.
-//!
-//! The function starts the on-chip bootloader if the application has posted such a request.
-//! This function sould be inserted at the begining of the main function.   
-//!
-void start_boot_if_required(void)
-{
-  if(boot_key==GOTOBOOTKEY)
-  {
-      boot_key = 0;
-      (*start_bootloader)();           //! Jumping to bootloader
-  }
-}
+/**
+ * @brief Jump to on-chip bootloader without CPU reset.
+ */
+void goto_boot( void )
+	{
+	( * start_bootloader )(); /// Jumping to bootloader
+	}
 
+/**
+ * @brief Start the on-chip bootloader after a watchdog timer reset.
+ *
+ * The function sets a special key in sram (uninitialized during mcu start-up
+ * execution) and performs a mcu watchdog timer reset.
+ *
+ * This function should be called when a special event is detected in the
+ * application that requires the bootloader activation. When this function is
+ * used, be sure to implement the "start_boot_if_required()" function at the
+ * begining of main().
+ */
+void start_boot( void )
+	{
+	boot_key = 0x55AAAA55;
 
-//! @brief This function jump to on-chip bootloader without CPU reset.
-//!
-void goto_boot(void)
-{
-   (*start_bootloader)();              //! Jumping to bootloader
-}
+	// Enable the WDT for reset mode
+	wdtdrv_enable( WDTO_500MS );
+	while( 1 )
+		;
+	}
 
+/**
+ * @brief Call the on-chip bootloader.
+ *
+ * The function starts the on-chip bootloader if the application has posted
+ * such a request. This function sould be inserted at the begining of the main
+ * function.
+ */
+void start_boot_if_required( void )
+	{
+	if( boot_key == GOTOBOOTKEY )
+		{
+		boot_key = 0;
+		( * start_bootloader )(); /// Jumping to bootloader
+		}
+	}
 

@@ -1,15 +1,15 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief Specific enumeration process requests header file
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief Specific enumeration process requests header file
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -53,7 +53,7 @@
 extern code S_usb_device_descriptor usb_dev_desc;
 extern code S_usb_user_configuration_descriptor usb_conf_desc;
 extern code S_usb_manufacturer_string_descriptor
-		usb_user_manufacturer_string_descriptor;
+	usb_user_manufacturer_string_descriptor;
 extern code S_usb_product_string_descriptor usb_user_product_string_descriptor;
 #if (USB_DEVICE_SN_USE==ENABLE)
 extern code S_usb_serial_number usb_user_serial_number;
@@ -68,11 +68,12 @@ U8 usb_user_interface_get(U16 wInterface);
 void usb_user_interface_reset(U16 wInterface, U8 alternate_setting);
 Bool usb_user_get_descriptor(U8, U8);
 
-//! Usb HID Report Descriptor HID generic
+/**
+ * Usb HID Report Descriptor HID generic
+ */
 typedef struct
-{
+    {
 	U8 report[SIZE_OF_REPORT];
-} S_usb_hid_report_descriptor;
+    } S_usb_hid_report_descriptor;
 
 #endif
-

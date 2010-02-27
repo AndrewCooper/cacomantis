@@ -1,18 +1,18 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the Power Management low level driver definition
-//!
-//!  This module allows to configure the different power mode of the AVR core and
-//!  also to setup the the internal clock prescaler
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file contains the Power Management low level driver definition
+ *
+ * This module allows to configure the different power mode of the AVR core and
+ * also to setup the the internal clock prescaler
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -50,9 +50,11 @@
 #ifdef  __GNUC__
 #include <avr/power.h>
 #endif
-//! @defgroup powermode Power management drivers
-//!
-//! @{
+/**
+ * @defgroup powermode Power management drivers
+ *
+ * @{
+ */
 
 //_____ M A C R O S ________________________________________________________
 
@@ -63,18 +65,20 @@
 #define Setup_standby_mode()                    (SMCR=0,SMCR |= (1<<SE)+(1<<SM2)+(1<<SM1))
 #define Setup_ext_standby_mode()                (SMCR=0,SMCR |= (1<<SE)+(1<<SM2)+(1<<SM1)+(1<<SM0))
 
-//! This function reset the internal CPU core clock prescaler
-//!
+/**
+ * @brief This function reset the internal CPU core clock prescaler
+ */
 #ifdef  __GNUC__
 #define Clear_prescaler()                       clock_prescale_set(0)
 #else
 #define Clear_prescaler()                       Set_cpu_prescaler(0)
 #endif
 
-//! This function configure the internal CPU core clock prescaler value
-//!
-//! @param x: prescaler new value
-//!
+/**
+ * @brief This function configure the internal CPU core clock prescaler value
+ *
+ * @param x: prescaler new value
+ */
 #ifdef  __GNUC__
 #define Set_cpu_prescaler(x)                        clock_prescale_set(x)
 #else
@@ -89,38 +93,44 @@ extern void Set_cpu_prescaler(U8 x);
 
 //_____ D E C L A R A T I O N ______________________________________________
 
-void set_idle_mode(void);
-void set_power_down_mode(void);
-void set_adc_noise_reduction_mode(void);
-void set_power_save_mode(void);
-void set_standby_mode(void);
-void set_ext_standby_mode(void);
+void set_idle_mode( void );
+void set_power_down_mode( void );
+void set_adc_noise_reduction_mode( void );
+void set_power_save_mode( void );
+void set_standby_mode( void );
+void set_ext_standby_mode( void );
 
-//! This function makes the AVR core enter idle mode.
-//!
+/**
+ * @brief This function makes the AVR core enter idle mode.
+ */
 #define Enter_idle_mode()                 (set_idle_mode())
 
-//! This function makes the AVR core enter power down mode.
-//!
+/**
+ * @brief This function makes the AVR core enter power down mode.
+ */
 #define Enter_power_down_mode()           (set_power_down_mode())
 
-//! This function makes the AVR core enter adc noise reduction mode.
-//!
+/**
+ * @brief This function makes the AVR core enter adc noise reduction mode.
+ */
 #define Enter_adc_noise_reduction_mode()  (set_adc_noise_reduction_mode())
 
-//! This function makes the AVR core enter power save mode.
-//!
+/**
+ * @brief This function makes the AVR core enter power save mode.
+ */
 #define Enter_power_save_mode()           (set_power_save_mode())
 
-//! This function makes the AVR core enter standby mode.
-//!
+/**
+ * @brief This function makes the AVR core enter standby mode.
+ */
 
 #define Enter_standby_mode()              (set_standby_mode())
 
-//! This function makes the AVR core enter extended standby mode.
-//!
+/**
+ * @brief This function makes the AVR core enter extended standby mode.
+ */
 #define Enter_ext_standby_mode()          (set_ext_standby_mode())
 
-//! @}
+/// @}
 
 #endif  // _POWER_DRV_H_

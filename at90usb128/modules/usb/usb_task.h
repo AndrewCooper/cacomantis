@@ -1,15 +1,15 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the function declarations
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file contains the function declarations
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -46,17 +46,21 @@
 
 #include "modules/usb/usb_commun.h"
 
-//! @defgroup usb_task USB task entry point
-//! @{
+/**
+ * @defgroup usb_task USB task entry point
+ * @{
+ */
 
 //_____ I N C L U D E S ____________________________________________________
 
 
 //_____ M A C R O S ________________________________________________________
 
-//! @defgroup usb_software_evts USB software Events Management
-//! Macros to manage USB events detected under interrupt
-//! @{
+/**
+ * @defgroup usb_software_evts USB software Events Management
+ * Macros to manage USB events detected under interrupt
+ * @{
+ */
 #define Usb_send_event(x)               (g_usb_event |= (1<<x))
 #define Usb_ack_event(x)                (g_usb_event &= ~(1<<x))
 #define Usb_clear_all_event()           (g_usb_event = 0)
@@ -89,7 +93,7 @@
 #define EVT_OTG_SRP_RECEIVED          3        // A-Device received a SRP
 #define EVT_OTG_DEV_UNSUPPORTED       4        // An error occured while the device was enumerated
 #define EVT_OTG_DEVICE_CONNECTED      5        // B-Device has been configured
-//! @}
+///@}
 
 #define USB_MODE_UNDEFINED            0x00
 #define USB_MODE_HOST                 0x01
@@ -102,9 +106,9 @@
 // after "n" failures, the "b_hnp_enable" feature is cancelled
 
 
-//!
-//! @brief Definitions of OTG user requests (user software requests)
-//!
+/**
+ * Definitions of OTG user requests (user software requests)
+ */
 #define USER_RQST_SRP           0x01
 #define USER_RQST_SUSPEND       0x02
 #define USER_RQST_VBUS          0x04    // Vbus TOGGLE
@@ -154,10 +158,10 @@
 #define Clear_all_user_request()      (otg_user_request = 0)
 
 /**
- * @brief This macro initializes the timer for OTG specific timings
+ * This macro initializes the timer for OTG specific timings
  *
- *  The corresponding timer is selected in conf_usb.h
- *  An IT is launched every 2ms when CPU runned at 8 MHz
+ * The corresponding timer is selected in conf_usb.h
+ * An IT is launched every 2ms when CPU runned at 8 MHz
  */
 #define Otg_timer_init()              (Timer16_select(OTG_USE_TIMER), Timer16_set_clock(TIMER16_CLKIO_BY_256), \
                                        Timer16_set_mode_output_a(TIMER16_COMP_MODE_NORMAL), \
@@ -172,28 +176,28 @@ extern U8 g_usb_mode;
 extern U8 remote_wakeup_feature;
 
 /**
- * @brief This function initializes the USB process.
+ * @brief Initialize the USB process.
  *
- *  This function enables the USB controller and init the USB interrupts.
- *  The aim is to allow the USB connection detection in order to send
- *  the appropriate USB event to the operating mode manager.
- *  Depending on the mode supported (HOST/DEVICE/DUAL_ROLE) the function
- *  calls the corespong usb mode initialization function
+ * This function enables the USB controller and init the USB interrupts.
+ * The aim is to allow the USB connection detection in order to send
+ * the appropriate USB event to the operating mode manager.
+ * Depending on the mode supported (HOST/DEVICE/DUAL_ROLE) the function
+ * calls the corespong usb mode initialization function
  */
-void usb_task_init(void);
+void usb_task_init( void );
 
 /**
- *  @brief Entry point of the USB mamnagement
+ * @brief Entry point of the USB mamnagement
  *
- *  Depending on the mode supported (HOST/DEVICE/DUAL_ROLE) the function
- *  calls the coresponding usb management function
+ * Depending on the mode supported (HOST/DEVICE/DUAL_ROLE) the function
+ * calls the coresponding usb management function
  */
-void usb_task(void);
+void usb_task( void );
 
 extern volatile U8 private_sof_counter;
 
 /**
- *  @brief External public declarations for OTG features
+ * @brief External public declarations for OTG features
  */
 extern volatile U8 otg_features_supported;
 extern U8 otg_user_request;
@@ -204,49 +208,59 @@ extern volatile U16 g_otg_event;
 extern U8 id_changed_to_host_event;
 #endif
 
-extern void otg_not_supported_device(void);
+extern void otg_not_supported_device( void );
 
 #if (USB_OTG_FEATURE == ENABLED)
-//! @brief Enable some additionnal feature to pass compliance plan
-//!
-//! This feature must be  ENABLED to pass the OTG compliance program (FS-A-UUT tests TD4.5-2.9ms and TD4.6)
-//! Possible values are : ENABLE to add a special feature to OTG firmware : the problem comes from the disconnection delay
-//!                       of A-PERIPH once it has detected a Suspend condition. This delay is 3ms, but compliance test
-//!                       is not enough precise. This feature waits 500�s freezing clock when it notices that SOF are missing
-//!                       DISABLE to disable this feature (that may lead to malfunction in original cases)
+/**
+ * @brief Enable some additionnal feature to pass compliance plan
+ *
+ * This feature must be  ENABLED to pass the OTG compliance program (FS-A-UUT tests TD4.5-2.9ms and TD4.6)
+ * Possible values are : ENABLE to add a special feature to OTG firmware : the problem comes from the disconnection delay
+ *                       of A-PERIPH once it has detected a Suspend condition. This delay is 3ms, but compliance test
+ *                       is not enough precise. This feature waits 500µs freezing clock when it notices that SOF are missing
+ *                       DISABLE to disable this feature (that may lead to malfunction in original cases)
+ */
 #ifndef   OTG_COMPLIANCE_TRICKS
 #define OTG_COMPLIANCE_TRICKS                   DISABLED
 #endif
 
-//! @brief Selects a Vbus delivery option
-//!
-//! This feature must be ENABLED to pass the OTG compliance program (Checklist OTG Protocol P23/P24)
-//! Possible values are : ENABLE to make the application initiate a session (like an answer to SRP) once A-plug inserted
-//!                       DISABLE to disable this feature
-//! This feature is compatible with OTG_VBUS_AUTO_WHEN_A_PLUG feature disabled
+/**
+ * @brief Selects a Vbus delivery option
+ *
+ * This feature must be ENABLED to pass the OTG compliance program (Checklist OTG Protocol P23/P24)
+ * Possible values are : ENABLE to make the application initiate a session (like an answer to SRP) once A-plug inserted
+ *                       DISABLE to disable this feature
+ * This feature is compatible with OTG_VBUS_AUTO_WHEN_A_PLUG feature disabled
+ */
 #ifndef   OTG_VBUS_AUTO_AFTER_A_PLUG_INSERTION
 #define OTG_VBUS_AUTO_AFTER_A_PLUG_INSERTION    DISABLED
 #endif
 
-//! @brief ENABLE to make the B-Device run a HNP automatically if a SetFeature(b_hnp_enable) is received and Suspend detected
-//!
-//! This feature must be ENABLED to pass the OTG compliance program
-//! Possible values ENABLE or DISABLE
+/**
+ * @brief ENABLE to make the B-Device run a HNP automatically if a SetFeature(b_hnp_enable) is received and Suspend detected
+ *
+ * This feature must be ENABLED to pass the OTG compliance program
+ * Possible values ENABLE or DISABLE
+ */
 #ifndef   OTG_B_DEVICE_AUTORUN_HNP_IF_REQUIRED
 #define OTG_B_DEVICE_AUTORUN_HNP_IF_REQUIRED    ENABLED
 #endif
 
-//! @brief Selects the Reset Length (x11ms)
-//!
-//! This value is the number of consecutives Reset sent by the Host
+/**
+ * @brief Selects the Reset Length (x11ms)
+ *
+ * This value is the number of consecutives Reset sent by the Host
+ */
 #ifndef   OTG_RESET_LENGTH
 #define OTG_RESET_LENGTH                        1
 #endif
 #endif
 
-//! @brief  OTG Messaging definitions
-//!         "No Silent Failure" rule makes any OTG compliant device handle messaging functions
-//!         Differents means are supported : LCD display, LEDs, etc.
+/**
+ * @brief OTG Messaging definitions
+ *         "No Silent Failure" rule makes any OTG compliant device handle messaging functions
+ *         Differents means are supported : LCD display, LEDs, etc.
+ */
 
 #define   MSG_DISPLAY_NODELAY     0xFFFF
 #define   OTG_TEMPO_1SEC          0x01F4  // 500 (x2ms)
@@ -287,12 +301,12 @@ extern void Otg_output_event_msg(U8);
 extern void Otg_output_failure_msg(U8);
 extern void Otg_output_event_clear(void);
 extern void Otg_output_failure_clear(void);
-//! Otg_print_new_event_message(str,tm) displays the "str" message on the EVENT line during the "tm" delay (x2ms)
+///Otg_print_new_event_message(str,tm) displays the "str" message on the EVENT line during the "tm" delay (x2ms)
 #define   Otg_print_new_event_message(str,tm)     (Otg_output_event_msg(str), otg_msg_event_delay = tm)
 #define   Otg_clear_event_message()               Otg_output_event_clear()
 #define   Get_event_msg_delay()                   (otg_msg_event_delay)
 #define   Decrement_event_msg_delay()             (otg_msg_event_delay--)
-//! Otg_print_new_failure_message(str,tm) displays the "str" message on the FAILURE line during the "tm" delay (x2ms)
+///Otg_print_new_failure_message(str,tm) displays the "str" message on the FAILURE line during the "tm" delay (x2ms)
 #define   Otg_print_new_failure_message(str,tm)   (Otg_output_failure_msg(str), otg_msg_failure_delay = tm)
 #define   Otg_clear_failure_message()             Otg_output_failure_clear()
 #define   Get_failure_msg_delay()                 (otg_msg_failure_delay)
@@ -320,7 +334,7 @@ extern void Otg_output_failure_clear(void);
 #define   Get_failure_msg_delay()
 #define   Decrement_failure_msg_delay()
 #endif
-//! @}
+///@}
 
 #endif /* _USB_TASK_H_ */
 

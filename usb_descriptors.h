@@ -1,18 +1,18 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief HID generic Identifers.
-//!
-//!  This file contains the usb parameters that uniquely identify the
-//!  application through descriptor tables.
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief HID generic Identifers.
+ *
+ * This file contains the usb parameters that uniquely identify the
+ * application through descriptor tables.
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -155,141 +155,204 @@
 
 #define LANGUAGE_ID           0x0409
 
-//! Usb Request
+/// Usb Request
 typedef struct
-{
-	U8 bmRequestType; //!< Characteristics of the request
-	U8 bRequest; //!< Specific request
-	U16 wValue; //!< field that varies according to request
-	U16 wIndex; //!< field that varies according to request
-	U16 wLength; //!< Number of bytes to transfer if Data
-} S_UsbRequest;
+	{
+		/// Characteristics of the request
+		U8 bmRequestType;
+		/// Specific request
+		U8 bRequest;
+		/// field that varies according to request
+		U16 wValue;
+		/// field that varies according to request
+		U16 wIndex;
+		/// Number of bytes to transfer if Data
+		U16 wLength;
+	} S_UsbRequest;
 
-//! Usb Device Descriptor
+/// Usb Device Descriptor
 typedef struct
-{
-	U8 bLength; //!< Size of this descriptor in bytes
-	U8 bDescriptorType; //!< DEVICE descriptor type
-	U16 bscUSB; //!< Binay Coded Decimal Spec. release
-	U8 bDeviceClass; //!< Class code assigned by the USB
-	U8 bDeviceSubClass; //!< Sub-class code assigned by the USB
-	U8 bDeviceProtocol; //!< Protocol code assigned by the USB
-	U8 bMaxPacketSize0; //!< Max packet size for EP0
-	U16 idVendor; //!< Vendor ID. ATMEL = 0x03EB
-	U16 idProduct; //!< Product ID assigned by the manufacturer
-	U16 bcdDevice; //!< Device release number
-	U8 iManufacturer; //!< Index of manu. string descriptor
-	U8 iProduct; //!< Index of prod. string descriptor
-	U8 iSerialNumber; //!< Index of S.N.  string descriptor
-	U8 bNumConfigurations; //!< Number of possible configurations
-} S_usb_device_descriptor;
+	{
+		/// Size of this descriptor in bytes
+		U8 bLength;
+		/// DEVICE descriptor type
+		U8 bDescriptorType;
+		/// Binay Coded Decimal Spec. release
+		U16 bscUSB;
+		/// Class code assigned by the USB
+		U8 bDeviceClass;
+		/// Sub-class code assigned by the USB
+		U8 bDeviceSubClass;
+		/// Protocol code assigned by the USB
+		U8 bDeviceProtocol;
+		/// Max packet size for EP0
+		U8 bMaxPacketSize0;
+		/// Vendor ID. ATMEL = 0x03EB
+		U16 idVendor;
+		/// Product ID assigned by the manufacturer
+		U16 idProduct;
+		/// Device release number
+		U16 bcdDevice;
+		/// Index of manu. string descriptor
+		U8 iManufacturer;
+		/// Index of prod. string descriptor
+		U8 iProduct;
+		/// Index of S.N.  string descriptor
+		U8 iSerialNumber;
+		/// Number of possible configurations
+		U8 bNumConfigurations;
+	} S_usb_device_descriptor;
 
-//! Usb Configuration Descriptor
+/// Usb Configuration Descriptor
 typedef struct
-{
-	U8 bLength; //!< size of this descriptor in bytes
-	U8 bDescriptorType; //!< CONFIGURATION descriptor type
-	U16 wTotalLength; //!< total length of data returned
-	U8 bNumInterfaces; //!< number of interfaces for this conf.
-	U8 bConfigurationValue; //!< value for SetConfiguration resquest
-	U8 iConfiguration; //!< index of string descriptor
-	U8 bmAttibutes; //!< Configuration characteristics
-	U8 MaxPower; //!< maximum power consumption
-} S_usb_configuration_descriptor;
+	{
+		/// size of this descriptor in bytes
+		U8 bLength;
+		/// CONFIGURATION descriptor type
+		U8 bDescriptorType;
+		/// total length of data returned
+		U16 wTotalLength;
+		/// number of interfaces for this conf.
+		U8 bNumInterfaces;
+		/// value for SetConfiguration resquest
+		U8 bConfigurationValue;
+		/// index of string descriptor
+		U8 iConfiguration;
+		/// Configuration characteristics
+		U8 bmAttributes;
+		/// maximum power consumption
+		U8 MaxPower;
+	} S_usb_configuration_descriptor;
 
-//! Usb Interface Descriptor
+/// Usb Interface Descriptor
 typedef struct
-{
-	U8 bLength; //!< size of this descriptor in bytes
-	U8 bDescriptorType; //!< INTERFACE descriptor type
-	U8 bInterfaceNumber; //!< Number of interface
-	U8 bAlternateSetting; //!< value to select alternate setting
-	U8 bNumEndpoints; //!< Number of EP except EP 0
-	U8 bInterfaceClass; //!< Class code assigned by the USB
-	U8 bInterfaceSubClass; //!< Sub-class code assigned by the USB
-	U8 bInterfaceProtocol; //!< Protocol code assigned by the USB
-	U8 iInterface; //!< Index of string descriptor
-} S_usb_interface_descriptor;
+	{
+		/// size of this descriptor in bytes
+		U8 bLength;
+		/// INTERFACE descriptor type
+		U8 bDescriptorType;
+		/// Number of interface
+		U8 bInterfaceNumber;
+		/// value to select alternate setting
+		U8 bAlternateSetting;
+		/// Number of EP except EP 0
+		U8 bNumEndpoints;
+		/// Class code assigned by the USB
+		U8 bInterfaceClass;
+		/// Sub-class code assigned by the USB
+		U8 bInterfaceSubClass;
+		/// Protocol code assigned by the USB
+		U8 bInterfaceProtocol;
+		/// Index of string descriptor
+		U8 iInterface;
+	} S_usb_interface_descriptor;
 
-//! Usb Endpoint Descriptor
+/// Usb Endpoint Descriptor
 typedef struct
-{
-	U8 bLength; //!< Size of this descriptor in bytes
-	U8 bDescriptorType; //!< ENDPOINT descriptor type
-	U8 bEndpointAddress; //!< Address of the endpoint
-	U8 bmAttributes; //!< Endpoint's attributes
-	U16 wMaxPacketSize; //!< Maximum packet size for this EP
-	U8 bInterval; //!< Interval for polling EP in ms
-} S_usb_endpoint_descriptor;
+	{
+		/// Size of this descriptor in bytes
+		U8 bLength;
+		/// ENDPOINT descriptor type
+		U8 bDescriptorType;
+		/// Address of the endpoint
+		U8 bEndpointAddress;
+		/// Endpoint's attributes
+		U8 bmAttributes;
+		/// Maximum packet size for this EP
+		U16 wMaxPacketSize;
+		/// Interval for polling EP in ms
+		U8 bInterval;
+	} S_usb_endpoint_descriptor;
 
-//! Usb Language Descriptor
+/// Usb Language Descriptor
 typedef struct
-{
-	U8 bLength; //!< size of this descriptor in bytes
-	U8 bDescriptorType; //!< STRING descriptor type
-	U16 wlangid; //!< language id
-} S_usb_language_id;
+	{
+		/// size of this descriptor in bytes
+		U8 bLength;
+		/// STRING descriptor type
+		U8 bDescriptorType;
+		/// language id
+		U16 wLangId;
+	} S_usb_language_id;
 
 //_____ U S B   M A N U F A C T U R E R   D E S C R I P T O R _______________
 
 
-//struct usb_st_manufacturer
+/// manufacturer string
 typedef struct
-{
-	U8 bLength; // size of this descriptor in bytes
-	U8 bDescriptorType; // STRING descriptor type
-	U16 wstring[USB_MN_LENGTH];// unicode characters
-} S_usb_manufacturer_string_descriptor;
+	{
+		/// size of this descriptor in bytes
+		U8 bLength;
+		/// STRING descriptor type
+		U8 bDescriptorType;
+		/// unicode characters
+		U16 wString[USB_MN_LENGTH];
+	} S_usb_manufacturer_string_descriptor;
 
 //_____ U S B   P R O D U C T   D E S C R I P T O R _________________________
 
 
-//struct usb_st_product
+/// product string
 typedef struct
-{
-	U8 bLength; // size of this descriptor in bytes
-	U8 bDescriptorType; // STRING descriptor type
-	U16 wstring[USB_PN_LENGTH];// unicode characters
-} S_usb_product_string_descriptor;
+	{
+		/// size of this descriptor in bytes
+		U8 bLength;
+		/// STRING descriptor type
+		U8 bDescriptorType;
+		/// unicode characters
+		U16 wString[USB_PN_LENGTH];
+	} S_usb_product_string_descriptor;
 
 //_____ U S B   S E R I A L   N U M B E R   D E S C R I P T O R _____________
 
 
 #if (USB_DEVICE_SN_USE==ENABLE)
-//struct usb_st_serial_number
+/// device serial number
 typedef struct
-{
-	U8 bLength; // size of this descriptor in bytes
-	U8 bDescriptorType; // STRING descriptor type
+	{
+	/// size of this descriptor in bytes
+	U8 bLength;
+	/// STRING descriptor type
+	U8 bDescriptorType;
 #if (USE_DEVICE_SN_UNIQUE==ENABLE)
 
 #else
-	U16 wstring[USB_SN_LENGTH];// unicode characters
+	/// unicode characters
+	U16 wString[USB_SN_LENGTH];
 #endif
-}S_usb_serial_number;
+	}S_usb_serial_number;
 #endif
 
 /*_____ U S B   H I D   D E S C R I P T O R __________________________________*/
 
+/// HID descriptor
 typedef struct
-{
-	U8 bLength; /* Size of this descriptor in bytes */
-	U8 bDescriptorType; /* HID descriptor type */
-	U16 bscHID; /* Binay Coded Decimal Spec. release */
-	U8 bCountryCode; /* Hardware target country */
-	U8 bNumDescriptors; /* Number of HID class descriptors to follow */
-	U8 bRDescriptorType; /* Report descriptor type */
-	U16 wDescriptorLength; /* Total length of Report descriptor */
-} S_usb_hid_descriptor;
+	{
+		/// Size of this descriptor in bytes
+		U8 bLength;
+		/// HID descriptor type
+		U8 bDescriptorType;
+		/// Binay Coded Decimal Spec. release
+		U16 bcdHIDVer;
+		/// Hardware target country
+		U8 bCountryCode;
+		/// Number of HID class descriptors to follow
+		U8 bNumDescriptors;
+		/// Report descriptor type
+		U8 bRDescriptorType;
+		/// Total length of Report descriptor
+		U16 wDescriptorLength;
+	} S_usb_hid_descriptor;
 
+/// USB configuration descriptor
 typedef struct
-{
-	S_usb_configuration_descriptor cfg;
-	S_usb_interface_descriptor ifc;
-	S_usb_hid_descriptor hid;
-	S_usb_endpoint_descriptor ep1;
-	S_usb_endpoint_descriptor ep2;
-} S_usb_user_configuration_descriptor;
+	{
+		S_usb_configuration_descriptor cfg;
+		S_usb_interface_descriptor ifc;
+		S_usb_hid_descriptor hid;
+		S_usb_endpoint_descriptor ep1;
+		S_usb_endpoint_descriptor ep2;
+	} S_usb_user_configuration_descriptor;
 
 #endif
 

@@ -1,15 +1,15 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the low level macros and definition for the USB PLL
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file contains the low level macros and definition for the USB PLL
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -46,62 +46,61 @@
 
 //_____ I N C L U D E S ____________________________________________________
 
-//! @defgroup PLL PLL driver
-//! PLL Module
-//! @{
+/**
+ * @defgroup PLL PLL driver
+ * PLL Module
+ * @{
+ */
 //_____ M A C R O S ________________________________________________________
 
-   //! @defgroup PLL_macros PLL Macros
-   //! These functions allow to control the PLL
-   //! @{
+/**
+ * @defgroup PLL_macros PLL Macros
+ * These functions allow to control the PLL
+ * @{
+ */
 #define PLLx06          ( (0<<PLLP2) | (1<<PLLP1) | (1<<PLLP0) )
 
 #ifdef __ICCAVR__
-   #if (defined(__AT90USB1287__) || defined(__AT90USB1286__)) 
-      #define PLLx03          ( (1<<PLLP2) | (0<<PLLP1) | (1<<PLLP0) )
-   #elif (defined(__AT90USB647__) || defined(__AT90USB646__) || defined(__ATmega32U6__))
-      #define PLLx03          ( (1<<PLLP2) | (1<<PLLP1) | (0<<PLLP0) )
-   #else
-      #error TARGET should be defined 
-   #endif
+#if (defined(__AT90USB1287__) || defined(__AT90USB1286__))
+#define PLLx03          ( (1<<PLLP2) | (0<<PLLP1) | (1<<PLLP0) )
+#elif (defined(__AT90USB647__) || defined(__AT90USB646__) || defined(__ATmega32U6__))
+#define PLLx03          ( (1<<PLLP2) | (1<<PLLP1) | (0<<PLLP0) )
+#else
+#error TARGET should be defined
+#endif
 #elif defined __GNUC__
-   #if (defined(__AVR_AT90USB1287__) || defined(__AVR_AT90USB1286__)) 
-      #define PLLx03          ( (1<<PLLP2) | (0<<PLLP1) | (1<<PLLP0) )
-   #elif (defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB646__) || defined(__AVR_ATmega32U6__))
-      #define PLLx03          ( (1<<PLLP2) | (1<<PLLP1) | (0<<PLLP0) )
-   #endif
+#if (defined(__AVR_AT90USB1287__) || defined(__AVR_AT90USB1286__))
+#define PLLx03          ( (1<<PLLP2) | (0<<PLLP1) | (1<<PLLP0) )
+#elif (defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB646__) || defined(__AVR_ATmega32U6__))
+#define PLLx03          ( (1<<PLLP2) | (1<<PLLP1) | (0<<PLLP0) )
+#endif
 #else // Other compiler
-   #error Compiler unknow
+#error Compiler unknow
 #endif
 
-
-      //! @brief Start the PLL at only 48 MHz, regarding CPU frequency
-      //! Start the USB PLL with correct clockfactor
+/// Start the USB PLL with correct clockfactor
 #define Start_pll(clockfactor)   (PLLCSR = ( clockfactor  | (1<<PLLE)  ))
-      //! return 1 when PLL locked
+/// return 1 when PLL locked
 #define Is_pll_ready()           (PLLCSR & (1<<PLOCK) )
-      //! Test PLL lock bit and wait until lock is set
+/// Test PLL lock bit and wait until lock is set
 #define Wait_pll_ready()         while (!(PLLCSR & (1<<PLOCK)))
-      //! Stop the PLL
-#define Stop_pll()               (PLLCSR  &= (~(1<<PLLE)),PLLCSR=0 ) 
+/// Stop the PLL
+#define Stop_pll()               (PLLCSR  &= (~(1<<PLLE)),PLLCSR=0 )
 #ifdef CUSTOM_PLL_START_AUTO
-   #define    Pll_start_auto()   CUSTOM_PLL_START_AUTO
+#define    Pll_start_auto()   CUSTOM_PLL_START_AUTO
 #else
 
-      // Start the PLL in autofactor mode
-      // regarding FOSC define
+/// Start the PLL in autofactor mode regarding FOSC define
 #if   (FOSC==8000)
-   #define Pll_start_auto()   Start_pll(PLLx06)
+#define Pll_start_auto()   Start_pll(PLLx06)
 #elif (FOSC==16000)
-   #define Pll_start_auto()   Start_pll(PLLx03)
+#define Pll_start_auto()   Start_pll(PLLx03)
 #else
-   #error   "FOSC should be defined with 8000KHz or 16000KHz in config.h"
+#error   "FOSC should be defined with 8000KHz or 16000KHz in config.h"
 #endif
 #endif
 
-   //! @}
+/// @}
 
-//! @}
+/// @}
 #endif  // PLL_DRV_H
-
-

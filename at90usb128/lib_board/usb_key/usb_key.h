@@ -1,15 +1,15 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the low level macros and definition for USB KEY board
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file contains the low level macros and definition for USB KEY board
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -52,18 +52,22 @@
 //_____ M A C R O S ________________________________________________________
 
 
-//! @defgroup USB_KEY_module USBKEY
-//! This module contains low level hardware abstraction layer for AT90USBkey board
-//! @image html avrusbkey.gif
-//! @{
+/**
+ * @defgroup USB_KEY_module USBKEY
+ * This module contains low level hardware abstraction layer for AT90USBkey board
+ * @image html avrusbkey.gif
+ * @{
+ */
 
-      //! @defgroup USB_key_leds Leds Management
-      //! Macros to manage Leds on USB KEY
-      //! The led 0 correspond at led D2 RED
-      //! The led 1 correspond at led D2 GREEN
-      //! The led 2 correspond at led D5 GREEN
-      //! The led 3 correspond at led D5 RED
-      //! @{
+/**
+ * @defgroup USB_key_leds Leds Management
+ * Macros to manage Leds on USB KEY
+ * The led 0 correspond at led D2 RED
+ * The led 1 correspond at led D2 GREEN
+ * The led 2 correspond at led D5 GREEN
+ * The led 3 correspond at led D5 RED
+ * @{
+ */
 #define  LED_PORT             PORTD
 #define  LED_DDR              DDRD
 #define  LED_PIN              PIND
@@ -71,7 +75,7 @@
 #define  LED1_BIT             PIND5
 #define  LED2_BIT             PIND6
 #define  LED3_BIT             PIND7
-                      
+
 #define  Leds_init()          (LED_DDR |= (1<<LED0_BIT) | (1<<LED1_BIT) | (1<<LED2_BIT) | (1<<LED3_BIT))
 #define  Leds_on()            (LED_PORT |= (1<<LED0_BIT) | (1<<LED1_BIT) | (1<<LED2_BIT) | (1<<LED3_BIT))
 #define  Leds_off()           (LED_PORT &= ~((1<<LED0_BIT) | (1<<LED1_BIT) | (1<<LED2_BIT) | (1<<LED3_BIT)))
@@ -94,11 +98,13 @@
 #define  Is_led1_on()         (LED_PIN  &   (1<<LED1_BIT) ? TRUE : FALSE)
 #define  Is_led2_on()         (LED_PIN  &   (1<<LED2_BIT) ? TRUE : FALSE)
 #define  Is_led3_on()         (LED_PIN  &   (1<<LED3_BIT) ? TRUE : FALSE)
-      //! @}
+/// @}
 
-      //! @defgroup USB_key_joy Joystick Management
-      //! Macros to manage Joystick on USB KEY
-      //! @{
+/**
+ * @defgroup USB_key_joy Joystick Management
+ * Macros to manage Joystick on USB KEY
+ * @{
+ */
 #define  Joy_init()           (DDRB &= ~((1<<PINB7)|(1<<PINB6)|(1<<PINB5)), PORTB |= ((1<<PINB7)|(1<<PINB6)|(1<<PINB5)), DDRE &= ~((1<<PINE5)|(1<<PINE4)), PORTE |= ((1<<PINE5)|(1<<PINE4)))
 
 #define  Is_btn_left()        Is_hwb()
@@ -119,42 +125,50 @@
 #define  Is_joy_not_down()    ((PINE & (1<<PINE5)) ?  TRUE : FALSE)
 #define  Is_joy_not_right()   ((PINE & (1<<PINE4)) ?  TRUE : FALSE)
 
-//! Enable interrupts for switches (PINB5 to PINB7)
-//! - Set up interrupts for switches
-//! - clear flag
-//! - enable interrupt
+/**
+ * Enable interrupts for switches (PINB5 to PINB7)
+ * - Set up interrupts for switches
+ * - clear flag
+ * - enable interrupt
+ */
 #define  Switches_enable_it() {  \
       PCMSK0 |= (1<<PCINT5)|(1<<PCINT6)|(1<<PCINT7);\
       PCIFR |= (1<<PCIF0);       \
       PCICR |= (1<<PCIE0);}
- 
-//! Disable interrupts for switches (PINB5 to PINB7)
-//! - disable interrupt
-//! - clear flag
-//! - Clear mask
+
+/**
+ * Disable interrupts for switches (PINB5 to PINB7)
+ * - disable interrupt
+ * - clear flag
+ * - Clear mask
+ */
 #define  Switches_disable_it() { \
       PCICR  &= ~(1<<PCIE0);     \
       PCIFR  |= (1<<PCIF0);      \
       PCMSK0 &= ~((1<<PCINT5)|(1<<PCINT6)|(1<<PCINT7));}
-      //! @}
+/// @}
 
 
-      //! @defgroup USB_key_HWB HWB button management
-      //! HWB button is connected to PE2 and can also
-      //! be used as generic push button
-      //! @{
+/**
+ * @defgroup USB_key_HWB HWB button management
+ * HWB button is connected to PE2 and can also
+ * be used as generic push button
+ * @{
+ */
 #define Hwb_button_init()      (DDRE  &= ~(1<<PINE2), PORTE |= (1<<PINE2))
 #define Is_hwb()               ((PINE &   (1<<PINE2)) ?  FALSE : TRUE)
 #define Is_not_hwb()           ((PINE &   (1<<PINE2)) ?  TRUE : FALSE)
-      //! @}
+/// @}
 
 
-      //! @defgroup USB_key_df USB KEY Hardware data flash configuration
-      //! Macros to init the environnement for DF on USB KEY
-      //! @{
+/**
+ * @defgroup USB_key_df USB KEY Hardware data flash configuration
+ * Macros to init the environnement for DF on USB KEY
+ * @{
+ */
 
-// One AT45DB642D
-#define DF_8_MB            
+/// One AT45DB642D
+#define DF_8_MB
 #define DF_NB_MEM          2
 
 // PINB0 : SPI Slave Select pin, this pin must be disable (disable input mode) because it is used by joystick
@@ -173,44 +187,39 @@
 #define  Df_select_1()     (PORTE &= ~(1<<PINE1))
 #define  Df_desel_all()    (PORTE |=  ((1<<PINE1)|(1<<PINE0)))
 
-      //! @}
+/// @}
 
-//! @}
+///@}
 
 
-// USB KEY ADC Channel Definition
+/// USB KEY ADC Channel Definition
 #define ADC_TEMP_CH  0x00
 
-#ifdef USE_ADC       //!< this define is set in config.h file
+#ifdef USE_ADC       ///< this define is set in config.h file
+/**
+ * @brief This function performs an ADC conversion from the USB KEY TEMP channel
+ * an returns the 10 bits result in an U16 value.
+ *
+ * @warning USE_ADC should be defined in config.h
+ *
+ * @param none
+ *
+ * @return U16 analog sensor temperature value.
+ */
+U16 Get_adc_temp_val(void);
 
-
-
-//! @brief This function performs an ADC conversion from the USB KEY TEMP channel
-//! an returns the 10 bits result in an U16 value.
-//!
-//! @warning USE_ADC should be defined in config.h
-//!
-//! @param none
-//!
-//! @return U16 analog sensor temperature value.
-//!
-   U16 Get_adc_temp_val(void);
-
-
-//! @brief This function performs an ADC conversion from the USB KEY TEMP channel
-//! an returns the 10 bits result of the temperature (in �C) in an S16 value.
-//!
-//! @warning USE_ADC should be defined in config.h
-//!
-//! @param none
-//!
-//! @return S16 temperature value in �C.
-//!
-   S16  Read_temperature(void);
+/**
+ * @brief This function performs an ADC conversion from the USB KEY TEMP channel
+ * an returns the 10 bits result of the temperature (in °C) in an S16 value.
+ *
+ * @warning USE_ADC should be defined in config.h
+ *
+ * @param none
+ *
+ * @return S16 temperature value in °C.
+ */
+S16 Read_temperature(void);
 
 #endif   // USE_ADC
-
 #endif   // TARGET_BOARD==USBKEY
-
 #endif   // USB_KEY_H
-

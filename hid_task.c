@@ -1,15 +1,15 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file manages the generic HID IN/OUT task.
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file manages the generic HID IN/OUT task.
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -55,124 +55,126 @@
 //_____ M A C R O S ________________________________________________________
 
 
-//_____ D E F I N I T I O N S ______________________________________________
-
-
 //_____ D E C L A R A T I O N S ____________________________________________
 
 volatile U8 cpt_sof = 0;
 extern U8 jump_bootloader;
 U8 g_last_joy = 0;
 
-void hid_report_out(void);
-void hid_report_in(void);
+void hid_report_out( void );
+void hid_report_in( void );
 
-//! @brief This function initializes the target board ressources.
-//!
-void hid_task_init(void)
-{
+/**
+ * @brief Initialize the target board resources.
+ */
+void hid_task_init( void )
+	{
 	Leds_init();
 	Joy_init();
-}
+	}
 
-//! @brief Entry point of the HID generic communication task
-//! This function manages IN/OUT repport management.
-//!
-void hid_task(void)
-{
-	if (!Is_device_enumerated()) // Check USB HID is enumerated
+/**
+ * @brief Entry point of the HID generic communication task
+ *
+ * This function manages IN/OUT report management.
+ */
+void hid_task( void )
+	{
+	if( ! Is_device_enumerated() ) // Check USB HID is enumerated
 		return;
 
 	hid_report_out();
 	hid_report_in();
-}
+	}
 
-//! @brief Get data report from Host
-//!
-void hid_report_out(void)
-{
-	Usb_select_endpoint(EP_HID_OUT);
-	if (Is_usb_receive_out())
+/**
+ * @brief Get data report from Host
+ */
+void hid_report_out( void )
 	{
+	Usb_select_endpoint(EP_HID_OUT);
+	if( Is_usb_receive_out() )
+		{
 		//* Read report from HID Generic Demo
 		U8 led_state;
 		U8 led_number;
 		led_state = Usb_read_byte() & 0x0F; // RepportOUT[0] is LEDS value
 		led_number = Usb_read_byte() & 0x0F;
-		switch (led_number)
-		{
-		case 1:
-			if (led_state)
+		switch( led_number )
 			{
+		case 1 :
+			if( led_state )
+				{
 				Led0_on();
-			}
+				}
 			else
-			{
+				{
 				Led0_off();
-			}
+				}
 			break;
-		case 2:
-			if (led_state)
-			{
+		case 2 :
+			if( led_state )
+				{
 				Led1_on();
-			}
+				}
 			else
-			{
+				{
 				Led1_off();
-			}
+				}
 			break;
-		case 3:
-			if (led_state)
-			{
+		case 3 :
+			if( led_state )
+				{
 				Led2_on();
-			}
+				}
 			else
-			{
+				{
 				Led2_off();
-			}
+				}
 			break;
-		case 4:
-			if (led_state)
-			{
+		case 4 :
+			if( led_state )
+				{
 				Led3_on();
-			}
+				}
 			else
-			{
+				{
 				Led3_off();
-			}
+				}
 			break;
-		}
+			}
 		Usb_ack_receive_out();
-	}
+		}
 
-	//** Check if we received DFU mode command from host
-	if (jump_bootloader)
-	{
+	// Check if we received DFU mode command from host
+	if( jump_bootloader )
+		{
 		U32 volatile tempo;
 		Leds_off();
 		Usb_detach(); // Detach actual generic HID application
-		for (tempo = 0; tempo < 70000; tempo++)
+		for( tempo = 0; tempo < 70000; tempo++ )
 			; // Wait some time before
 		start_boot(); // Jumping to booltoader
+		}
 	}
-}
 
-//! @brief Send data report to Host
-//!
-void hid_report_in(void)
-{
+/**
+ * @brief Send data report to Host
+ */
+void hid_report_in( void )
+	{
 	U8 joy = 0;
 
 	Usb_select_endpoint(EP_HID_IN);
-	if (!Is_usb_write_enabled())
+	if( ! Is_usb_write_enabled() )
 		return; // Not ready to send report
 
 	// Build the Joytick report
-	if (Is_joy_up() || Is_joy_down() || Is_joy_right() || Is_joy_left()) //! Check for UP event
-	{
+	if( Is_joy_up() || Is_joy_down() || Is_joy_right() || Is_joy_left() ) //! Check for UP event
+		{
 		joy = 0x01;
-	}
-	if (joy == g_last_joy)
+		}
+	if( joy == g_last_joy )
 		return; // Same report then no send report
 	g_last_joy = joy;
 
@@ -186,13 +188,16 @@ void hid_report_in(void)
 	Usb_write_byte(GPIOR1); // Dummy (not used)
 	Usb_write_byte(GPIOR1); // Dummy (not used)
 	Usb_ack_in_ready(); // Send data over the USB
-}
+	}
 
-//! @brief  This function increments the cpt_sof counter each times
-//! the USB Start Of Frame interrupt subroutine is executed (1ms)
-//! Usefull to manage time delays
-//!
+/**
+ * @brief  Increments the cpt_sof counter
+ *
+ * Runs each time the USB Start Of Frame interrupt subroutine is executed (1ms)
+ *
+ * Usefull to manage time delays.
+ */
 void sof_action()
-{
-	cpt_sof++;
-}
+	{
+	cpt_sof++ ;
+	}

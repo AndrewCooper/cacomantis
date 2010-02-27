@@ -1,18 +1,18 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief user call-back functions
-//!
-//!  This file contains the user call-back functions corresponding to the
-//!  application:
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief user call-back functions
+ *
+ * This file contains the user call-back functions corresponding to the
+ * application:
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -71,23 +71,24 @@ U8 g_u8_report_rate = 0;
 
 //_____ D E C L A R A T I O N ______________________________________________
 
-void hid_get_report_descriptor(void);
-void usb_hid_set_report_ouput(void);
-void usb_hid_set_idle(U8 u8_report_id, U8 u8_duration);
-void usb_hid_get_idle(U8 u8_report_id);
-void hid_get_hid_descriptor(void);
-void usb_hid_set_report_feature(void);
+void hid_get_report_descriptor( void );
+void usb_hid_set_report_ouput( void );
+void usb_hid_set_idle( U8 u8_report_id, U8 u8_duration );
+void usb_hid_get_idle( U8 u8_report_id );
+void hid_get_hid_descriptor( void );
+void usb_hid_set_report_feature( void );
 
-//! @brief This function checks the specific request and if known then processes it
-//!
-//! @param type      corresponding at bmRequestType (see USB specification)
-//! @param request   corresponding at bRequest (see USB specification)
-//!
-//! @return TRUE,  when the request is processed
-//! @return FALSE, if the request is'nt know (STALL handshake is managed by the main standard request function).
-//!
-Bool usb_user_read_request(U8 type, U8 request)
-{
+/**
+ * @brief Check the specific request and if known then process it
+ *
+ * @param type      corresponding at bmRequestType (see USB specification)
+ * @param request   corresponding at bRequest (see USB specification)
+ *
+ * @return TRUE,  when the request is processed
+ * @return FALSE, if the request is'nt know (STALL handshake is managed by the main standard request function).
+ */
+Bool usb_user_read_request( U8 type, U8 request )
+	{
 	U8 wValue_msb;
 	U8 wValue_lsb;
 
@@ -95,125 +96,128 @@ Bool usb_user_read_request(U8 type, U8 request)
 	wValue_lsb = Usb_read_byte();
 	wValue_msb = Usb_read_byte();
 
-	//** Specific request from Class HID
-	if (USB_SETUP_GET_STAND_INTERFACE == type)
-	{
-		switch (request)
+	// Specific request from Class HID
+	if( USB_SETUP_GET_STAND_INTERFACE == type )
 		{
-		case SETUP_GET_DESCRIPTOR:
-			switch (wValue_msb)
-			// Descriptor ID
+		switch( request )
 			{
-			case DESCRIPTOR_HID:
+		case SETUP_GET_DESCRIPTOR :
+			switch( wValue_msb )
+				// Descriptor ID
+				{
+			case DESCRIPTOR_HID :
 				hid_get_hid_descriptor();
 				return TRUE;
 				break;
 
-			case DESCRIPTOR_REPORT:
+			case DESCRIPTOR_REPORT :
 				hid_get_report_descriptor();
 				return TRUE;
 
-			case DESCRIPTOR_PHYSICAL:
+			case DESCRIPTOR_PHYSICAL :
 				// TODO
 				break;
-			}
+				}
 			break;
+			}
 		}
-	}
-	if (USB_SETUP_SET_CLASS_INTER == type)
-	{
-		switch (request)
+	if( USB_SETUP_SET_CLASS_INTER == type )
 		{
-		case SETUP_HID_SET_REPORT:
+		switch( request )
+			{
+		case SETUP_HID_SET_REPORT :
 			// The MSB wValue field specifies the Report Type
 			// The LSB wValue field specifies the Report ID
-			switch (wValue_msb)
-			{
-			case REPORT_TYPE_INPUT:
+			switch( wValue_msb )
+				{
+			case REPORT_TYPE_INPUT :
 				// TODO
 				break;
 
-			case REPORT_TYPE_OUTPUT:
+			case REPORT_TYPE_OUTPUT :
 				usb_hid_set_report_ouput();
 				return TRUE;
 				break;
 
-			case REPORT_TYPE_FEATURE:
+			case REPORT_TYPE_FEATURE :
 				usb_hid_set_report_feature();
 				return TRUE;
 				break;
+				}
+			break;
+
+		case SETUP_HID_SET_IDLE :
+			usb_hid_set_idle( wValue_lsb, wValue_msb );
+			return TRUE;
+
+		case SETUP_HID_SET_PROTOCOL :
+			// TODO
+			break;
 			}
-			break;
-
-		case SETUP_HID_SET_IDLE:
-			usb_hid_set_idle(wValue_lsb, wValue_msb);
-			return TRUE;
-
-		case SETUP_HID_SET_PROTOCOL:
-			// TODO
-			break;
 		}
-	}
-	if (USB_SETUP_GET_CLASS_INTER == type)
-	{
-		switch (request)
+	if( USB_SETUP_GET_CLASS_INTER == type )
 		{
-		case SETUP_HID_GET_REPORT:
+		switch( request )
+			{
+		case SETUP_HID_GET_REPORT :
 			// TODO
 			break;
-		case SETUP_HID_GET_IDLE:
-			usb_hid_get_idle(wValue_lsb);
+		case SETUP_HID_GET_IDLE :
+			usb_hid_get_idle( wValue_lsb );
 			return TRUE;
-		case SETUP_HID_GET_PROTOCOL:
+		case SETUP_HID_GET_PROTOCOL :
 			// TODO
 			break;
+			}
 		}
-	}
 	return FALSE; // No supported request
-}
+	}
 
-//! @brief This function configures the endpoints
-//!
-//! @param conf_nb configuration number choosed by USB host
-//!
-void usb_user_endpoint_init(U8 conf_nb)
-{
+/**
+ * @brief Configure the endpoints
+ *
+ * @param conf_nb configuration number choosed by USB host
+ */
+void usb_user_endpoint_init( U8 conf_nb )
+	{
 	usb_configure_endpoint( EP_HID_IN,
-			TYPE_INTERRUPT,
-			DIRECTION_IN,
-			SIZE_8,
-			ONE_BANK,
-			NYET_ENABLED);
+		TYPE_INTERRUPT,
+		DIRECTION_IN,
+		SIZE_8,
+		ONE_BANK,
+		NYET_ENABLED);
 
 	usb_configure_endpoint( EP_HID_OUT,
-			TYPE_INTERRUPT,
-			DIRECTION_OUT,
-			SIZE_8,
-			ONE_BANK,
-			NYET_ENABLED);
-}
+		TYPE_INTERRUPT,
+		DIRECTION_OUT,
+		SIZE_8,
+		ONE_BANK,
+		NYET_ENABLED);
+	}
 
-//! @brief This function returns the interface alternate setting
-//!
-//! @param wInterface         Interface selected
-//!
-//! @return alternate setting configurated
-//!
-U8 usb_user_interface_get(U16 wInterface)
-{
-	return 0; // Only one alternate setting possible for all interface
-}
-
-//! @brief This function selects (and resets) the interface alternate setting
-//!
-//! @param wInterface         Interface selected
-//! @param alternate_setting  alternate setting selected
-//!
-void usb_user_interface_reset(U16 wInterface, U8 alternate_setting)
-{
-	// default setting selected = reset data toggle
-	if (INTERFACE_NB == wInterface)
+/**
+ * @brief Return the interface alternate setting
+ *
+ * @param wInterface         Interface selected
+ *
+ * @return alternate setting configurated
+ */
+U8 usb_user_interface_get( U16 wInterface )
 	{
+	return 0; // Only one alternate setting possible for all interface
+	}
+
+/**
+ * @brief Select (and resets) the interface alternate setting
+ *
+ * @param wInterface         Interface selected
+ * @param alternate_setting  alternate setting selected
+ */
+void usb_user_interface_reset( U16 wInterface, U8 alternate_setting )
+	{
+	// default setting selected = reset data toggle
+	if( INTERFACE_NB == wInterface )
+		{
 		// Interface HID
 		Usb_select_endpoint(EP_HID_IN);
 		Usb_disable_stall_handshake();
@@ -223,38 +227,39 @@ void usb_user_interface_reset(U16 wInterface, U8 alternate_setting)
 		Usb_disable_stall_handshake();
 		Usb_reset_endpoint(EP_HID_OUT);
 		Usb_reset_data_toggle();
+		}
 	}
-}
 
-//! This function fills the global descriptor
-//!
-//! @param type      corresponding at MSB of wValue (see USB specification)
-//! @param string    corresponding at LSB of wValue (see USB specification)
-//!
-//! @return FALSE, if the global descriptor no filled
-//!
-Bool usb_user_get_descriptor(U8 type, U8 string)
-{
-	switch (type)
+/**
+ * @brief Fill the global descriptor
+ *
+ * @param type      corresponding at MSB of wValue (see USB specification)
+ * @param string    corresponding at LSB of wValue (see USB specification)
+ *
+ * @return FALSE, if the global descriptor no filled
+ */
+Bool usb_user_get_descriptor( U8 type, U8 string )
 	{
-	case DESCRIPTOR_STRING:
-		switch (string)
+	switch( type )
 		{
-		case LANG_ID:
-			data_to_transfer = sizeof(usb_user_language_id);
-			pbuffer = &(usb_user_language_id.bLength);
+	case DESCRIPTOR_STRING :
+		switch( string )
+			{
+		case LANG_ID :
+			data_to_transfer = sizeof( usb_user_language_id );
+			pbuffer = & ( usb_user_language_id.bLength );
 			return TRUE;
 			break;
 
-		case MAN_INDEX:
-			data_to_transfer = sizeof(usb_user_manufacturer_string_descriptor);
-			pbuffer = &(usb_user_manufacturer_string_descriptor.bLength);
+		case MAN_INDEX :
+			data_to_transfer = sizeof( usb_user_manufacturer_string_descriptor );
+			pbuffer = & ( usb_user_manufacturer_string_descriptor.bLength );
 			return TRUE;
 			break;
 
-		case PROD_INDEX:
-			data_to_transfer = sizeof(usb_user_product_string_descriptor);
-			pbuffer = &(usb_user_product_string_descriptor.bLength);
+		case PROD_INDEX :
+			data_to_transfer = sizeof( usb_user_product_string_descriptor );
+			pbuffer = & ( usb_user_product_string_descriptor.bLength );
 			return TRUE;
 			break;
 
@@ -269,16 +274,17 @@ Bool usb_user_get_descriptor(U8 type, U8 string)
 			return TRUE;
 			break;
 #endif
-		}
+			}
 		break;
-	}
+		}
 	return FALSE;
-}
+	}
 
-//! @brief This function manages hit get repport request.
-//!
-void hid_get_report_descriptor(void)
-{
+/**
+ * @brief Manage HID get report request.
+ */
+void hid_get_report_descriptor( void )
+	{
 	U16 wLength;
 	U8 nb_byte;
 	bit zlp = FALSE;
@@ -287,90 +293,97 @@ void hid_get_report_descriptor(void)
 	LSB(wInterface) = Usb_read_byte();
 	MSB(wInterface) = Usb_read_byte();
 
-	data_to_transfer = sizeof(usb_hid_report_descriptor);
-	pbuffer = &(usb_hid_report_descriptor.report[0]);
+	data_to_transfer = sizeof( usb_hid_report_descriptor );
+	pbuffer = & ( usb_hid_report_descriptor.report[0] );
 
 	LSB(wLength) = Usb_read_byte();
 	MSB(wLength) = Usb_read_byte();
 	Usb_ack_receive_setup();
 
-	if (wLength > data_to_transfer)
-	{
-		if ((data_to_transfer % EP_CONTROL_LENGTH) == 0)
+	if( wLength > data_to_transfer )
 		{
+		if( ( data_to_transfer % EP_CONTROL_LENGTH ) == 0 )
+			{
 			zlp = TRUE;
-		}
+			}
 		else
-		{
+			{
 			zlp = FALSE;
+			}
 		}
-	}
 	else
-	{
-		data_to_transfer = (U8) wLength; // send only requested number of data
-	}
+		{
+		data_to_transfer = ( U8 )wLength; // send only requested number of data
+		}
 
-	while ((data_to_transfer != 0) && (!Is_usb_receive_out()))
-	{
-		while (!Is_usb_read_control_enabled())
+	while( ( data_to_transfer != 0 ) && ( ! Is_usb_receive_out() ) )
+		{
+		while( ! Is_usb_read_control_enabled() )
 			;
 
 		nb_byte = 0;
-		while (data_to_transfer != 0) // Send data until necessary
-		{
-			if (nb_byte++ == EP_CONTROL_LENGTH) // Check endpoint 0 size
+		while( data_to_transfer != 0 ) // Send data until necessary
 			{
+			if( nb_byte++ == EP_CONTROL_LENGTH ) // Check endpoint 0 size
+				{
 				break;
-			}
+				}
 #ifndef __GNUC__
 			Usb_write_byte(*pbuffer++);
 #else    // AVRGCC does not support point to PGM space
 			//warning with AVRGCC assumes devices descriptors are stored in the lower 64Kbytes of on-chip flash memory
 			Usb_write_byte(pgm_read_byte_near((unsigned int)pbuffer++));
 #endif
-			data_to_transfer--;
-		}
+			data_to_transfer-- ;
+			}
 		Usb_send_control_in();
-	}
+		}
 
-	if (Is_usb_receive_out())
-	{
+	if( Is_usb_receive_out() )
+		{
 		// abort from Host
 		Usb_ack_receive_out();
 		return;
-	}
-	if (zlp == TRUE)
-	{
-		while (!Is_usb_read_control_enabled())
+		}
+	if( zlp == TRUE )
+		{
+		while( ! Is_usb_read_control_enabled() )
 			;
 		Usb_send_control_in();
-	}
+		}
 
-	while (!Is_usb_receive_out())
+	while( ! Is_usb_receive_out() )
 		;
 	Usb_ack_receive_out();
-}
+	}
 
-//! @brief This function manages hit set report request.
-//!
-void usb_hid_set_report_ouput(void)
-{
+/**
+ * @brief Manage HID set report request.
+ */
+void usb_hid_set_report_ouput( void )
+	{
 	Usb_ack_receive_setup();
 	Usb_send_control_in();
 
-	while (!Is_usb_receive_out())
+	while( ! Is_usb_receive_out() )
 		;
 	Usb_ack_receive_out();
 	Usb_send_control_in();
-}
+	}
 
-//! @brief This function manages hid set idle request.
-//!
-//! @param u8_duration  When the upper byte of wValue is 0 (zero), the duration is indefinite else from 0.004 to 1.020 seconds
-//! @param u8_report_id 0 the idle rate applies to all input reports, else only applies to the Report ID
-//!
-void usb_hid_set_idle(U8 u8_report_id, U8 u8_duration)
-{
+/**
+ * @brief Manages HID set idle request.
+ *
+ * @param u8_duration
+ * 			When the upper byte of wValue is 0 (zero), the duration is
+ * 			indefinite else from 0.004 to 1.020 seconds
+ *
+ * @param u8_report_id
+ * 			0 the idle rate applies to all input reports,
+ * 			else only applies to the Report ID
+ */
+void usb_hid_set_idle( U8 u8_report_id, U8 u8_duration )
+	{
 	U16 wInterface;
 
 	// Get interface number to put in idle mode
@@ -381,16 +394,19 @@ void usb_hid_set_idle(U8 u8_report_id, U8 u8_duration)
 	g_u8_report_rate = u8_duration;
 
 	Usb_send_control_in();
-	while (!Is_usb_in_ready())
+	while( ! Is_usb_in_ready() )
 		;
-}
+	}
 
-//! @brief This function manages hid get idle request.
-//!
-//! @param u8_report_id 0 the idle rate applies to all input reports, else only applies to the Report ID
-//!
-void usb_hid_get_idle(U8 u8_report_id)
-{
+/**
+ * @brief Manage HID get idle request.
+ *
+ * @param u8_report_id
+ * 			0 the idle rate applies to all input reports,
+ * 			else only applies to the Report ID
+ */
+void usb_hid_get_idle( U8 u8_report_id )
+	{
 	U16 wLength;
 	U16 wInterface;
 
@@ -401,43 +417,44 @@ void usb_hid_get_idle(U8 u8_report_id)
 	MSB(wLength) = Usb_read_byte();
 	Usb_ack_receive_setup();
 
-	if (wLength != 0)
-	{
+	if( wLength != 0 )
+		{
 		Usb_write_byte(g_u8_report_rate);
 		Usb_send_control_in();
-	}
+		}
 
-	while (!Is_usb_receive_out())
+	while( ! Is_usb_receive_out() )
 		;
 	Usb_ack_receive_out();
-}
+	}
 
-void usb_hid_set_report_feature(void)
-{
+void usb_hid_set_report_feature( void )
+	{
 
 	Usb_ack_receive_setup();
 	Usb_send_control_in();
 
-	while (!Is_usb_receive_out())
+	while( ! Is_usb_receive_out() )
 		;
 
-	if (Usb_read_byte() == 0x55)
-		if (Usb_read_byte() == 0xAA)
-			if (Usb_read_byte() == 0x55)
-				if (Usb_read_byte() == 0xAA)
-				{
+	if( Usb_read_byte() == 0x55 )
+		if( Usb_read_byte() == 0xAA )
+			if( Usb_read_byte() == 0x55 )
+				if( Usb_read_byte() == 0xAA )
+					{
 					jump_bootloader = 1;
-				}
+					}
 	Usb_ack_receive_out();
 	Usb_send_control_in();
-	while (!Is_usb_in_ready())
+	while( ! Is_usb_in_ready() )
 		;
-}
+	}
 
-//! @brief This function manages hid get hid descriptor request.
-//!
-void hid_get_hid_descriptor(void)
-{
+/**
+ * @brief Manage HID get hid descriptor request.
+ */
+void hid_get_hid_descriptor( void )
+	{
 	U16 wLength;
 	U8 nb_byte;
 	bit zlp = FALSE;
@@ -446,67 +463,67 @@ void hid_get_hid_descriptor(void)
 	LSB(wInterface) = Usb_read_byte();
 	MSB(wInterface) = Usb_read_byte();
 
-	data_to_transfer = sizeof(usb_conf_desc.hid);
-	pbuffer = &(usb_conf_desc.hid.bLength);
+	data_to_transfer = sizeof( usb_conf_desc.hid );
+	pbuffer = & ( usb_conf_desc.hid.bLength );
 
 	LSB(wLength) = Usb_read_byte();
 	MSB(wLength) = Usb_read_byte();
 	Usb_ack_receive_setup();
 
-	if (wLength > data_to_transfer)
-	{
-		if ((data_to_transfer % EP_CONTROL_LENGTH) == 0)
+	if( wLength > data_to_transfer )
 		{
+		if( ( data_to_transfer % EP_CONTROL_LENGTH ) == 0 )
+			{
 			zlp = TRUE;
-		}
+			}
 		else
-		{
+			{
 			zlp = FALSE;
-		} // no need of zero length packet
-	}
+			} // no need of zero length packet
+		}
 	else
-	{
-		data_to_transfer = (U8) wLength; // send only requested number of data
-	}
+		{
+		data_to_transfer = ( U8 )wLength; // send only requested number of data
+		}
 
-	while ((data_to_transfer != 0) && (!Is_usb_receive_out()))
-	{
-		while (!Is_usb_read_control_enabled())
+	while( ( data_to_transfer != 0 ) && ( ! Is_usb_receive_out() ) )
+		{
+		while( ! Is_usb_read_control_enabled() )
 			;
 
 		nb_byte = 0;
-		while (data_to_transfer != 0) // Send data until necessary
-		{
-			if (nb_byte++ == EP_CONTROL_LENGTH) // Check endpoint 0 size
+		while( data_to_transfer != 0 ) // Send data until necessary
 			{
+			if( nb_byte++ == EP_CONTROL_LENGTH ) // Check endpoint 0 size
+				{
 				break;
-			}
+				}
 #ifndef __GNUC__
 			Usb_write_byte(*pbuffer++);
 #else    // AVRGCC does not support point to PGM space
 			//warning with AVRGCC assumes devices descriptors are stored in the lower 64Kbytes of on-chip flash memory
 			Usb_write_byte(pgm_read_byte_near((unsigned int)pbuffer++));
 #endif
-			data_to_transfer--;
-		}
+			data_to_transfer-- ;
+			}
 		Usb_send_control_in();
-	}
+		}
 
-	if (Is_usb_receive_out())
-	{
+	if( Is_usb_receive_out() )
+		{
 		// abort from Host
 		Usb_ack_receive_out();
 		return;
-	}
-	if (zlp == TRUE)
-	{
-		while (!Is_usb_read_control_enabled())
+		}
+	if( zlp == TRUE )
+		{
+		while( ! Is_usb_read_control_enabled() )
 			;
 		Usb_send_control_in();
-	}
+		}
 
-	while (!Is_usb_receive_out())
+	while( ! Is_usb_receive_out() )
 		;
 	Usb_ack_receive_out();
-}
+	}
 

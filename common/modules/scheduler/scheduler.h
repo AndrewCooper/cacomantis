@@ -1,20 +1,20 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file is the definition of the scheduler
-//!
-//!  This file contains the scheduler definition and the task function to be
-//!  executed by the scheduler
-//!  NOTE:
-//!    SCHEDULER_TICK & FPER are defined in config.h
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file is the definition of the scheduler
+ *
+ * This file contains the scheduler definition and the task function to be
+ * executed by the scheduler
+ * NOTE:
+ *    SCHEDULER_TICK & FPER are defined in config.h
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -46,7 +46,7 @@
 #ifndef _SCHEDULER_H_
 #define _SCHEDULER_H_
 
-//!_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ____________________________________________________
 #ifdef KEIL
 #include <intrins.h>
 #define Wait_semaphore(a) while(!_testbit_(a))
@@ -54,12 +54,14 @@
 #define Wait_semaphore(a) while(!(a)) (a) = FALSE
 #endif
 
-//!_____ M A C R O S ________________________________________________________
-//! Definition of Task ID. This ID is used to properly send the event to a
-//! specific task.
-//! Mind, it will be possible to send an event to many task by TASK_1 | TASK_0.
-//! The name of the define can be changed by another define. That customization
-//! should be done in the file mail_evt.h
+//_____ M A C R O S ________________________________________________________
+/**
+ * Definition of Task ID. This ID is used to properly send the event to a
+ * specific task.
+ * Mind, it will be possible to send an event to many task by TASK_1 | TASK_0.
+ * The name of the define can be changed by another define. That customization
+ * should be done in the file mail_evt.h
+ */
 #define TASK_DUMMY   0x00           // This define is mandatory
 #define TASK_0       0x01
 #define TASK_1       0x02
@@ -72,9 +74,8 @@
 
 // This define is mandatory
 #define ALL_TASK     (TASK_0|TASK_1|TASK_2|TASK_3|TASK_4|TASK_5|TASK_6|TASK_7)
-//! End Task ID
 
-//!----- Scheduler Types -----
+//----- Scheduler Types -----
 #define SCHEDULER_CUSTOM      0
 #define SCHEDULER_TIMED       1
 #define SCHEDULER_TASK        2
@@ -160,7 +161,7 @@ extern void Scheduler_task_10 (void);
 extern void Scheduler_task_11 (void);
 #endif
 
-//!_____ D E F I N I T I O N ________________________________________________
+//_____ D E F I N I T I O N ________________________________________________
 #if SCHEDULER_TYPE != SCHEDULER_FREE
 extern bit scheduler_tick_flag;
 #endif
@@ -170,7 +171,7 @@ extern Uchar token;
 #define TOKEN_FREE      0
 #endif
 
-//!_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N ______________________________________________
 void scheduler_init(void);
 void scheduler_tasks(void);
 void scheduler(void);
@@ -205,4 +206,4 @@ void scheduler_empty_fct(void);
 #define Scheduler_call_next_init()
 #endif
 
-#endif //! _SCHEDULER_H_
+#endif /// _SCHEDULER_H_

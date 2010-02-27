@@ -1,15 +1,15 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the Watchdog low level driver definition
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * This file contains the Watchdog low level driver definition
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -50,8 +50,10 @@
 
 //_____ M A C R O S ________________________________________________________
 
-//! @defgroup wdt_drv Watchdog and reset sytem drivers
-//! @{
+/**
+ * @defgroup wdt_drv Watchdog and reset sytem drivers
+ * @{
+ */
 
 #define  Is_ext_reset()                ((MCUSR&(1<<EXTRF)) ? TRUE:FALSE)
 #define  Ack_ext_reset()               (MCUSR= ~(1<<EXTRF))
@@ -79,30 +81,16 @@
 #define  WDTO_4S     8
 #define  WDTO_8S     9
 
-//! This functions stops the hardware watchdog timer.
-//!
-void wdtdrv_disable(void);
+void wdtdrv_disable( void );
 
-//! This functions activates the hardware watchdog timer
-//!
-//! @param timeout (WDTO_x)
-//!
-void wdtdrv_enable(U8 timeout);
+void wdtdrv_enable( U8 timeout );
 
-//! This functions activates the hardware watchdog timer Interrupt Mode only
-//!
-//! @param timeout (WDTO_x)
-//!
-void wdtdrv_interrupt_enable(U8 timeout);
+void wdtdrv_interrupt_enable( U8 timeout );
 
-//! This functions activates the hardware watchdog timer Interrupt & System Reset Mode
-//!
-//! @param timeout (WDTO_x)
-//!
-void wdtdrv_interrupt_reset_enable(U8 timeout);
+void wdtdrv_interrupt_reset_enable( U8 timeout );
 
 #define Soft_reset()             {asm("jmp 0000");}
 
-//! @}
+///@}
 
 #endif  // _WDT_DRV_H_

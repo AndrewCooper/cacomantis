@@ -1,19 +1,19 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the scheduler routines
-//!
-//! Configuration:
-//!   - SCHEDULER_TYPE in scheduler.h header file
-//!   - Task & init for at least task number 1 must be defined
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file contains the scheduler routines
+ *
+ * Configuration:
+ * - SCHEDULER_TYPE in scheduler.h header file
+ * - Task & init for at least task number 1 must be defined
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -42,35 +42,36 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//!_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ____________________________________________________
 #define _SCHEDULER_C_
 #include "config.h"                         // system definition
 #include "conf/conf_scheduler.h"            // Configuration for the scheduler
 #include "scheduler.h"                      // scheduler definition
 
-//!_____ M A C R O S ________________________________________________________
-//!_____ D E F I N I T I O N ________________________________________________
+//_____ M A C R O S ________________________________________________________
+//_____ D E F I N I T I O N ________________________________________________
 #if SCHEDULER_TYPE != SCHEDULER_FREE
-//! When SCHEDULER_TYPE != SCHEDULER_FREE, this flag control task calls.
+ * When SCHEDULER_TYPE != SCHEDULER_FREE, this flag control task calls.
 bit scheduler_tick_flag;
 #endif
 
 #ifdef TOKEN_MODE
-//! Can be used to avoid that some tasks executes at same time.
-//! The tasks check if the token is free before executing.
-//! If the token is free, the tasks reserve it at the begin of the execution
-//! and release it at the end of the execution to enable next waiting tasks to
-//! run.
+ * Can be used to avoid that some tasks executes at same time.
+ * The tasks check if the token is free before executing.
+ * If the token is free, the tasks reserve it at the begin of the execution
+ * and release it at the end of the execution to enable next waiting tasks to
+ * run.
 Uchar token;
 #endif
 
-//!_____ D E C L A R A T I O N ______________________________________________
-//! Scheduler initialization
-//!
-//! Task_x_init() and Task_x_fct() are defined in config.h
-//!
-//! @warning Code:XX bytes (function code length)
-//!
+//_____ D E C L A R A T I O N ______________________________________________
+/**
+ * @brief Scheduler initialization
+ *
+ * Task_x_init() and Task_x_fct() are defined in config.h
+ *
+ * @warning Code:XX bytes (function code length)
+ */
 void scheduler_init(void)
 {
 #ifdef Scheduler_time_init
@@ -126,10 +127,11 @@ void scheduler_init(void)
 	Scheduler_reset_tick_flag();
 }
 
-//! Task execution scheduler
-//!
-//! @warning Code:XX bytes (function code length)
-//!
+/**
+ * @brief Task execution scheduler
+ *
+ * @warning Code:XX bytes (function code length)
+ */
 void scheduler_tasks(void)
 {
 	// To avoid uncalled segment warning if the empty function is not used
@@ -185,21 +187,24 @@ void scheduler_tasks(void)
 	}
 }
 
-//! Init & run the scheduler
-//!
-//! @warning Code:XX bytes (function code length)
-//!
+/**
+ * @brief Init & run the scheduler
+ *
+ * @warning Code:XX bytes (function code length)
+ */
 void scheduler(void)
 {
 	scheduler_init();
 	scheduler_tasks();
 }
 
-//! Do nothing
-//! Avoid uncalled segment warning if the empty function is not used
-//!
-//! @warning Code:XX bytes (function code length)
-//!
+/**
+ * @brief Do nothing
+ *
+ * Avoid uncalled segment warning if the empty function is not used
+ *
+ * @warning Code:XX bytes (function code length)
+ */
 void scheduler_empty_fct(void)
 {
 }

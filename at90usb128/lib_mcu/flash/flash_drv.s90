@@ -1,16 +1,16 @@
 /*This file has been prepared for Doxygen automatic documentation generation.*/
-/*! \file *********************************************************************
+/*! @file 
  *
- * \brief Driver routines to read (no write) datas stored in AVRMega flash
+ * @brief Driver routines to read (no write) datas stored in AVRMega flash
  * These routines can be stored and executed in all flash space.
  *
  * - Compiler:           IAR EWAVR for AVR
  * - Supported devices:  All AVRMega devices
  *
- * \author               Atmel Corporation: http://www.atmel.com \n
+ * @author               Atmel Corporation: http://www.atmel.com \n
  *                       Support and FAQ: http://support.atmel.no/
  *
- *****************************************************************************/
+ **/
 
 /* Copyright (c) 2007, Atmel Corporation All rights reserved.
  *
@@ -57,17 +57,17 @@
    PUBLIC   flash_read_fuse
    
 
-//! @{
-//! \verbatim
+ * @{
+ * \verbatim
 
    RSEG     CODE
 
-//! @brief This macro function allows to read device IDs of the product.
-//!
-//! @param  add   Address of device ID to read.
-//!
-//! @return byte  Read value (R16)
-//!
+ * @brief This macro function allows to read device IDs of the product.
+ *
+ * @param  add   Address of device ID to read.
+ *
+ * @return byte  Read value (R16)
+ *
 flash_read_sig:
    RCALL    WAIT_SPMEN                       // Wait for SPMEN flag cleared
    MOV      R31,R17                         
@@ -79,12 +79,12 @@ flash_read_sig:
    RJMP     WAIT_SPMEN                       // Wait for SPMEN flag cleared
 
 
-//! @brief This macro function allows to read a fuse byte of the product.
-//!
-//! @param  add   Address of fuse to read.
-//! 
-//! @return byte  Read value (R16)
-//!
+ * @brief This macro function allows to read a fuse byte of the product.
+ *
+ * @param  add   Address of fuse to read.
+ * 
+ * @return byte  Read value (R16)
+ *
 flash_read_fuse:
    RCALL    WAIT_SPMEN                       // Wait for SPMEN flag cleared
    MOV      R31,R17                         
@@ -96,8 +96,8 @@ flash_read_fuse:
    RJMP     WAIT_SPMEN                       // Wait for SPMEN flag cleared
 
 
-//! @brief Performs an active wait on SPME flag
-//!
+ * @brief Performs an active wait on SPME flag
+ *
 WAIT_SPMEN:
    MOV      R0, R18
    IN       R18,SPMCSR                       // get SPMCR into r18
@@ -108,5 +108,5 @@ WAIT_SPMEN:
 
    END
 
-//! \endverbatim
-//! @}
+ * \endverbatim
+ * @}

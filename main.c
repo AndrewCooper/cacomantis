@@ -1,49 +1,49 @@
-/*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief Main for USB application.
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
-//!
-//! @mainpage AT90USBxxx USB device HID generic demonstration
-//!
-//! @section intro License
-//! Use of this program is subject to Atmel's End User License Agreement.
-//!
-//! @section install Description
-//! This embedded application code illustrates how to implement a USB application
-//! with the AT90USBxxx controller using the generic HID class implementation.
-//!
-//! A pc side applications allow to communicate with the embedded firmware.
-//!
-//! This sample application can be configured for both STK525 or AT90USBKey hardware, see #TARGET_BOARD
-//! define value in config.h file.
-//!
-//! @section arch Architecture
-//! As illustrated in the figure bellow, the application entry point is located is the main.c file.
-//! The main function first performs the initialization of a scheduler module and then runs it in an infinite loop.
-//! The scheduler is a simple infinite loop calling all its tasks defined in the conf_scheduler.h file.
-//! No real time schedule is performed, when a task ends, the scheduler calls the next task defined in
-//! the configuration file (conf_scheduler.h).
-//!
-//! The sample usb application is based on two different tasks:
-//! - The usb_task  (usb_task.c associated source file), is the task performing the USB low level
-//! enumeration process in device mode.
-//! Once this task has detected that the usb connection is fully operationnal, it updates different status flags
-//! that can be check within the high level application tasks.
-//! - The hid task performs the high level device application operation.
-//! Once the device is fully enumerated (DEVICE SETUP_SET_CONFIGURATION request received), the task
-//! checks for received data on its OUT endpoint and transmit  data on its IN endpoint.
-//!
-//! \image html arch_full.gif
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief Main for USB application.
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ *
+ *
+ * @mainpage AT90USBxxx USB device HID generic demonstration
+ *
+ * @section intro License
+ * Use of this program is subject to Atmel's End User License Agreement.
+ *
+ * @section install Description
+ * This embedded application code illustrates how to implement a USB application
+ * with the AT90USBxxx controller using the generic HID class implementation.
+ *
+ * A pc side applications allow to communicate with the embedded firmware.
+ *
+ * This sample application can be configured for both STK525 or AT90USBKey hardware, see #TARGET_BOARD
+ * define value in config.h file.
+ *
+ * @section arch Architecture
+ * As illustrated in the figure bellow, the application entry point is located is the main.c file.
+ * The main function first performs the initialization of a scheduler module and then runs it in an infinite loop.
+ * The scheduler is a simple infinite loop calling all its tasks defined in the conf_scheduler.h file.
+ * No real time schedule is performed, when a task ends, the scheduler calls the next task defined in
+ * the configuration file (conf_scheduler.h).
+ *
+ * The sample usb application is based on two different tasks:
+ * - The usb_task  (usb_task.c associated source file), is the task performing the USB low level
+ * enumeration process in device mode.
+ * Once this task has detected that the usb connection is fully operationnal, it updates different status flags
+ * that can be check within the high level application tasks.
+ * - The hid task performs the high level device application operation.
+ * Once the device is fully enumerated (DEVICE SETUP_SET_CONFIGURATION request received), the task
+ * checks for received data on its OUT endpoint and transmit  data on its IN endpoint.
+ *
+ * \image html arch_full.gif
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -88,17 +88,19 @@
 //_____ D E F I N I T I O N S ______________________________________________
 
 int main(void)
-{
-	start_boot_if_required();
-	wdtdrv_disable();
-	Clear_prescaler();
-	scheduler();
-	return 0;
-}
+    {
+    start_boot_if_required();
+    wdtdrv_disable();
+    Clear_prescaler();
+    scheduler();
+    return 0;
+    }
 
-//! \name Procedure to speed up the startup code
-//! This one increment the CPU clock before RAM initialisation
-//! @{
+/**
+ * @name Procedure to speed up the startup code
+ * This one increment the CPU clock before RAM initialisation
+ */
+///@{
 #ifdef  __GNUC__
 // Locate low level init function before RAM init (init3 section)
 // and remove std prologue/epilogue
@@ -107,14 +109,14 @@ char __low_level_init(void) __attribute__ ((section (".init3"),naked));
 
 #ifdef __cplusplus
 extern "C"
-{
+    {
 #endif
 char __low_level_init()
-{
-	Clear_prescaler();
-	return 1;
-}
+    {
+    Clear_prescaler();
+    return 1;
+    }
 #ifdef __cplusplus
 }
 #endif
-//! @}
+///@}

@@ -1,15 +1,16 @@
 /*This file is prepared for Doxygen automatic documentation generation.*/
-//! \file *********************************************************************
-//!
-//! \brief This file contains the system configuration definition.
-//!
-//! - Compiler:           IAR EWAVR and GNU GCC for AVR
-//! - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
-//!
-//! \author               Atmel Corporation: http://www.atmel.com \n
-//!                       Support and FAQ: http://support.atmel.no/
-//!
-//! ***************************************************************************
+/**
+ * @file
+ *
+ * @brief This file contains the system configuration definition.
+ *
+ * - Compiler:           IAR EWAVR and GNU GCC for AVR
+ * - Supported devices:  AT90USB1287, AT90USB1286, AT90USB647, AT90USB646
+ *
+ * @author               Atmel Corporation: http://www.atmel.com \n
+ *                       Support and FAQ: http://support.atmel.no/
+ *
+ */
 
 /* Copyright (c) 2009 Atmel Corporation. All rights reserved.
  *
@@ -55,23 +56,32 @@
 #error Current COMPILER not supported
 #endif
 
-//! @defgroup global_config Application configuration
-//! @{
+/**
+ * @defgroup global_config Application configuration
+ * @{
+ */
 
-#include "conf/conf_scheduler.h" //!< Scheduler tasks declaration
+#include "conf/conf_scheduler.h" ///< Scheduler tasks declaration
 // Board defines (do not change these settings)
 #define  STK525   1
 #define  USBKEY   2
 
-//! Enable or not the ADC usage
+/**
+ * Enable or not the ADC usage
+ */
 #undef USE_ADC
-//! To include proper target hardware definitions, select
-//! target board (USBKEY or STK525)
+
+/**
+ * To include proper target hardware definitions, select
+ * target board (USBKEY or STK525)
+ */
 #define TARGET_BOARD USBKEY
 
 #if (TARGET_BOARD==USBKEY)
-//! @warning for USBKEY_HAS_321_DF, only first prototypes versions have AT45DB321C memories
-//! should be undefined for std series
+/**
+ * @warning for USBKEY_HAS_321_DF, only first prototypes versions have AT45DB321C memories
+ * should be undefined for std series
+ */
 #define USBKEY_HAS_321_DF
 #include "lib_board/usb_key/usb_key.h"
 #elif (TARGET_BOARD==STK525)
@@ -80,7 +90,7 @@
 #error TARGET_BOARD must be defined somewhere
 #endif
 
-//! CPU core frequency in kHz
+/// CPU core frequency in kHz
 #define FOSC 8000
 
 // -------- END Generic Configuration -------------------------------------
@@ -95,13 +105,13 @@
 
 // ADC Sample configuration, if we have one ... ___________________________
 
-//! ADC Prescaler value
+/// ADC Prescaler value
 #define ADC_PRESCALER 64
-//! Right adjust
+/// Right adjust
 #define ADC_RIGHT_ADJUST_RESULT 1
-//! AVCC As reference voltage (See adc_drv.h)
+/// AVCC As reference voltage (See adc_drv.h)
 #define ADC_INTERNAL_VREF  2
 
-//! @}
+/// @}
 
 #endif // _CONFIG_H_
