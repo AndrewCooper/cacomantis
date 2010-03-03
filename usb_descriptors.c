@@ -170,6 +170,7 @@ code S_usb_language_id usb_user_language_id =
 	};
 code S_usb_hid_report_descriptor usb_hid_report_descriptor =
 	{
+	.report =
 		{
 		0x06,
 		0xFF,

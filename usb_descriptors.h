@@ -51,6 +51,7 @@
 
 #include "config.h"
 #include "modules/usb/device_chap9/usb_standard_request.h"
+#include "modules/usb/device_chap9/usb_standard_descriptors.h"
 #include "conf_usb.h"
 
 //_____ M A C R O S ________________________________________________________
@@ -155,126 +156,6 @@
 
 #define LANGUAGE_ID           0x0409
 
-/// Usb Request
-typedef struct
-	{
-		/// Characteristics of the request
-		U8 bmRequestType;
-		/// Specific request
-		U8 bRequest;
-		/// field that varies according to request
-		U16 wValue;
-		/// field that varies according to request
-		U16 wIndex;
-		/// Number of bytes to transfer if Data
-		U16 wLength;
-	} S_UsbRequest;
-
-/// Usb Device Descriptor
-typedef struct
-	{
-		/// Size of this descriptor in bytes
-		U8 bLength;
-		/// DEVICE descriptor type
-		U8 bDescriptorType;
-		/// Binay Coded Decimal Spec. release
-		U16 bscUSB;
-		/// Class code assigned by the USB
-		U8 bDeviceClass;
-		/// Sub-class code assigned by the USB
-		U8 bDeviceSubClass;
-		/// Protocol code assigned by the USB
-		U8 bDeviceProtocol;
-		/// Max packet size for EP0
-		U8 bMaxPacketSize0;
-		/// Vendor ID. ATMEL = 0x03EB
-		U16 idVendor;
-		/// Product ID assigned by the manufacturer
-		U16 idProduct;
-		/// Device release number
-		U16 bcdDevice;
-		/// Index of manu. string descriptor
-		U8 iManufacturer;
-		/// Index of prod. string descriptor
-		U8 iProduct;
-		/// Index of S.N.  string descriptor
-		U8 iSerialNumber;
-		/// Number of possible configurations
-		U8 bNumConfigurations;
-	} S_usb_device_descriptor;
-
-/// Usb Configuration Descriptor
-typedef struct
-	{
-		/// size of this descriptor in bytes
-		U8 bLength;
-		/// CONFIGURATION descriptor type
-		U8 bDescriptorType;
-		/// total length of data returned
-		U16 wTotalLength;
-		/// number of interfaces for this conf.
-		U8 bNumInterfaces;
-		/// value for SetConfiguration resquest
-		U8 bConfigurationValue;
-		/// index of string descriptor
-		U8 iConfiguration;
-		/// Configuration characteristics
-		U8 bmAttributes;
-		/// maximum power consumption
-		U8 MaxPower;
-	} S_usb_configuration_descriptor;
-
-/// Usb Interface Descriptor
-typedef struct
-	{
-		/// size of this descriptor in bytes
-		U8 bLength;
-		/// INTERFACE descriptor type
-		U8 bDescriptorType;
-		/// Number of interface
-		U8 bInterfaceNumber;
-		/// value to select alternate setting
-		U8 bAlternateSetting;
-		/// Number of EP except EP 0
-		U8 bNumEndpoints;
-		/// Class code assigned by the USB
-		U8 bInterfaceClass;
-		/// Sub-class code assigned by the USB
-		U8 bInterfaceSubClass;
-		/// Protocol code assigned by the USB
-		U8 bInterfaceProtocol;
-		/// Index of string descriptor
-		U8 iInterface;
-	} S_usb_interface_descriptor;
-
-/// Usb Endpoint Descriptor
-typedef struct
-	{
-		/// Size of this descriptor in bytes
-		U8 bLength;
-		/// ENDPOINT descriptor type
-		U8 bDescriptorType;
-		/// Address of the endpoint
-		U8 bEndpointAddress;
-		/// Endpoint's attributes
-		U8 bmAttributes;
-		/// Maximum packet size for this EP
-		U16 wMaxPacketSize;
-		/// Interval for polling EP in ms
-		U8 bInterval;
-	} S_usb_endpoint_descriptor;
-
-/// Usb Language Descriptor
-typedef struct
-	{
-		/// size of this descriptor in bytes
-		U8 bLength;
-		/// STRING descriptor type
-		U8 bDescriptorType;
-		/// language id
-		U16 wLangId;
-	} S_usb_language_id;
-
 //_____ U S B   M A N U F A C T U R E R   D E S C R I P T O R _______________
 
 
@@ -324,25 +205,6 @@ typedef struct
 #endif
 
 /*_____ U S B   H I D   D E S C R I P T O R __________________________________*/
-
-/// HID descriptor
-typedef struct
-	{
-		/// Size of this descriptor in bytes
-		U8 bLength;
-		/// HID descriptor type
-		U8 bDescriptorType;
-		/// Binay Coded Decimal Spec. release
-		U16 bcdHIDVer;
-		/// Hardware target country
-		U8 bCountryCode;
-		/// Number of HID class descriptors to follow
-		U8 bNumDescriptors;
-		/// Report descriptor type
-		U8 bRDescriptorType;
-		/// Total length of Report descriptor
-		U16 wDescriptorLength;
-	} S_usb_hid_descriptor;
 
 /// USB configuration descriptor
 typedef struct

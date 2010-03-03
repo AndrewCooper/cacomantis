@@ -66,19 +66,327 @@
 #define SETUP_HID_SET_PROTOCOL               0x0B
 ///		@}
 
-//! \name HID Descriptor types
-//! @{
+/**
+ * @name HID Report type (used by SETUP_HID_GET_REPORT & SETUP_HID_SET_REPORT)
+ * 			@{
+ */
+#define REPORT_TYPE_INPUT                    0x01
+#define REPORT_TYPE_OUTPUT                   0x02
+#define REPORT_TYPE_FEATURE                  0x03
+///			@}
+
+/**
+ * @name HID Report Item Size Constants
+ * 			@{
+ */
+#define REPORT_ITEM_SIZE0 0x0
+#define REPORT_ITEM_SIZE1 0x1
+#define REPORT_ITEM_SIZE2 0x2
+#define REPORT_ITEM_SIZE4 0x3
+///			@}
+
+#define REPORT_ITEM_SHORT0( bType ) bType | REPORT_ITEM_SIZE0
+
+#define REPORT_ITEM_SHORT1( bType, data1 ) \
+	bType | REPORT_ITEM_SIZE1, \
+		0xff & ( data1 )
+
+#define REPORT_ITEM_SHORT2( bType, data2 ) \
+	bType | REPORT_ITEM_SIZE2, \
+		0xff & ( data2 ), \
+		0xff & ( ( data2 ) >> 8)
+
+#define REPORT_ITEM_SHORT4( bType, data4 ) \
+	bType | REPORT_ITEM_SIZE4, \
+		0xff & ( data4 ), \
+		0xff & ( ( data4 ) >> 8) \
+		0xff & ( ( data4 ) >> 16) \
+		0xff & ( ( data4 ) >> 24)
+
+#define REPORT_LONG( )
+
+/**
+ * @name HID Report Global Items
+ * 			@{
+ */
+#define GLOBAL_USAGE_PAGE					0x04
+#define GLOBAL_LOGICAL_MIN					0x14
+#define GLOBAL_LOGICAL_MAX					0x24
+#define GLOBAL_PHYSICAL_MIN					0x34
+#define GLOBAL_PHYSICAL_MAX					0x44
+#define GLOBAL_UNIT_EXP						0x54
+#define GLOBAL_UNIT							0x64
+#define GLOBAL_REPORT_SIZE					0x74
+#define GLOBAL_REPORT_ID					0x84
+#define GLOBAL_REPORT_COUNT					0x94
+#define GLOBAL_PUSH							0xA4
+#define GLOBAL_POP							0xB4
+///			@}
+
+/**
+ * @name HID Report Main Items
+ * 			@{
+ */
+#define	MAIN_INPUT							0x80
+#define MAIN_OUTPUT							0x90
+#define MAIN_COLLECTION						0xA0
+#define MAIN_FEATURE						0xB0
+#define MAIN_ENDCOLLECTION					0xC0
+///			@}
+
+/**
+ * @name HID Report Local Items
+ * 			@{
+ */
+#define LOCAL_USAGE							0x08
+#define LOCAL_USAGE_MIN						0x18
+#define LOCAL_USAGE_MAX						0x28
+#define LOCAL_DESIGNATOR_IDX				0x38
+#define LOCAL_DESIGNATOR_MIN				0x48
+#define LOCAL_DESIGNATOR_MAX				0x58
+#define LOCAL_STRING_IDX					0x78
+#define LOCAL_STRING_MIN					0x88
+#define LOCAL_STRING_MAX					0x98
+#define LOCAL_DELIMITER						0xA8
+///			@}
+
+/**
+ * @name HID Report Usage Page Tags
+ * 			@{
+ */
+#define USAGE_PAGE_UNDEFINED				0x00
+#define USAGE_PAGE_GENERIC_DESKTOP			0x01
+#define USAGE_PAGE_SIMULATION				0x02
+#define USAGE_PAGE_VR						0x03
+#define USAGE_PAGE_SPORT					0x04
+#define USAGE_PAGE_GAME						0x05
+#define USAGE_PAGE_GENERIC_DEVICE			0x06
+#define USAGE_PAGE_KEYBOARD					0x07
+#define USAGE_PAGE_LEDS						0x08
+#define USAGE_PAGE_BUTTON					0x09
+#define USAGE_PAGE_ORDINAL					0x0A
+#define USAGE_PAGE_TELEPHONY				0x0B
+#define USAGE_PAGE_CONSUMER					0x0C
+#define USAGE_PAGE_DIGITIZER				0x0D
+//		RESERVED							0x0E
+#define USAGE_PAGE_PID_PAGE					0x0F
+#define USAGE_PAGE_UNICODE					0x10
+//		RESERVED							0x11
+//		RESERVED							0x12
+//		RESERVED							0x13
+#define USAGE_PAGE_ALPHANUMERIC_DISPLAY		0x14
+//		RESERVED							0x15
+//		...									...
+//		RESERVED							0x3F
+#define USAGE_PAGE_MEDICAL_INSTRUMENTS		0x40
+//		RESERVED							0x41
+//		...									...
+//		RESERVED							0x7F
+#define USAGE_PAGE_MONITOR_PAGE0			0x80
+#define USAGE_PAGE_MONITOR_PAGE1			0x81
+#define USAGE_PAGE_MONITOR_PAGE2			0x82
+#define USAGE_PAGE_MONITOR_PAGE3			0x83
+#define USAGE_PAGE_POWER_PAGE0				0x84
+#define USAGE_PAGE_POWER_PAGE1				0x85
+#define USAGE_PAGE_POWER_PAGE2				0x06
+#define USAGE_PAGE_POWER_PAGE3				0x07
+//		RESERVED							0x88
+//		...									...
+//		RESERVED							0x8B
+#define USAGE_PAGE_BARCODE_SCANNER			0x8C
+#define USAGE_PAGE_SCALE					0x8D
+#define USAGE_PAGE_MAGNETIC_STRIPE			0x8E
+#define USAGE_PAGE_POINT_OF_SALE			0x8F
+#define USAGE_PAGE_CAMERA_CONTROL			0x90
+#define USAGE_PAGE_ARCADE					0x91
+//		RESERVED							0x92
+//		...									...
+//		RESERVED							0xFEFF
+//		VENDOR-DEFINED						0xFF00
+//		...									...
+//		VENDOR-DEFINED						0xFFFF
+///			@}
+
+/**
+ * @name HID Report Usage - Generic Desktop
+ * 			@{
+ */
+#define GENERIC_DESKTOP_UNDEFINED			0x00
+#define GENERIC_DESKTOP_POINTER				0x01
+#define GENERIC_DESKTOP_MOUSE				0x02
+//		RESERVED							0x03
+#define GENERIC_DESKTOP_JOYSTICK			0x04
+#define GENERIC_DESKTOP_GAMEPAD				0x05
+#define GENERIC_DESKTOP_KEYBOARD			0x06
+#define GENERIC_DESKTOP_KEYPAD				0x07
+#define GENERIC_DESKTOP_MULTIAXIS			0x08
+#define GENERIC_DESKTOP_TABLETPC			0x09
+//		RESERVED							0x0A
+//		...									...
+//		RESERVED							0x2F
+#define GENERIC_DESKTOP_X					0x30
+#define GENERIC_DESKTOP_Y					0x31
+#define GENERIC_DESKTOP_Z					0x32
+#define GENERIC_DESKTOP_RX					0x33
+#define GENERIC_DESKTOP_RY					0x34
+#define GENERIC_DESKTOP_RZ					0x35
+#define GENERIC_DESKTOP_SLIDER				0x36
+#define GENERIC_DESKTOP_DIAL				0x37
+#define GENERIC_DESKTOP_WHEEL				0x38
+#define GENERIC_DESKTOP_HATSWITCH			0x39
+#define GENERIC_DESKTOP_COUNTED_BUFFER		0x3A
+#define GENERIC_DESKTOP_BYTE_COUNT			0x3B
+#define GENERIC_DESKTOP_MOTION_WAKEUP		0x3C
+#define GENERIC_DESKTOP_START				0x3D
+#define GENERIC_DESKTOP_SELECT				0x3E
+//		RESERVED							0x3F
+#define GENERIC_DESKTOP_VX					0x40
+#define GENERIC_DESKTOP_VY					0x41
+#define GENERIC_DESKTOP_VZ					0x42
+#define GENERIC_DESKTOP_VBRX				0x43
+#define GENERIC_DESKTOP_VBRY				0x44
+#define GENERIC_DESKTOP_VBRZ				0x45
+#define GENERIC_DESKTOP_VNO								0x46
+#define GENERIC_DESKTOP_FEATURE_NOTIFICATION			0x47
+#define GENERIC_DESKTOP_RESOLUTION_MULTIPLIER			0x48
+//		RESERVED										0x49
+//		...												...
+//		RESERVED										0x7F
+#define GENERIC_DESKTOP_SYSTEM_CONTROL					0x80
+#define GENERIC_DESKTOP_SYSTEM_POWERDOWN				0x81
+#define GENERIC_DESKTOP_SYSTEM_SLEEP					0x82
+#define GENERIC_DESKTOP_SYSTEM_WAKEUP					0x83
+#define GENERIC_DESKTOP_SYSTEM_CONTEXT_MENU				0x84
+#define GENERIC_DESKTOP_SYSTEM_MAIN_MENU				0x85
+#define GENERIC_DESKTOP_SYSTEM_APP_MENU					0x86
+#define GENERIC_DESKTOP_SYSTEM_MENU_HELP				0x87
+#define GENERIC_DESKTOP_SYSTEM_MENU_EXIT				0x88
+#define GENERIC_DESKTOP_SYSTEM_MENU_SELECT				0x89
+#define GENERIC_DESKTOP_SYSTEM_MENU_RIGHT				0x8A
+#define GENERIC_DESKTOP_SYSTEM_MENU_LEFT				0x8B
+#define GENERIC_DESKTOP_SYSTEM_MENU_UP					0x8C
+#define GENERIC_DESKTOP_SYSTEM_MENU_DOWN				0x8D
+#define GENERIC_DESKTOP_SYSTEM_COLD_RESTART				0x8E
+#define GENERIC_DESKTOP_SYSTEM_WARM_RESTART				0x8F
+#define GENERIC_DESKTOP_DPAD_UP							0x90
+#define GENERIC_DESKTOP_DPAD_DOWN						0x91
+#define GENERIC_DESKTOP_DPAD_RIGHT						0x92
+#define GENERIC_DESKTOP_DPAD_LEFT						0x93
+//		RESERVED										0x94
+//		...												...
+//		RESERVED										0x9F
+#define GENERIC_DESKTOP_SYSTEM_DOCK						0xA0
+#define GENERIC_DESKTOP_SYSTEM_UNDOCK					0xA1
+#define GENERIC_DESKTOP_SYSTEM_SETUP					0xA2
+#define GENERIC_DESKTOP_SYSTEM_BREAK					0xA3
+#define GENERIC_DESKTOP_SYSTEM_DEBUGGER_BREAK			0xA4
+#define GENERIC_DESKTOP_APPLICATION_BREAK				0xA5
+#define GENERIC_DESKTOP_APPLICATION_DEBUGGER_BREAK		0xA6
+#define GENERIC_DESKTOP_SYSTEM_SPEAKER_MUTE				0xA7
+#define GENERIC_DESKTOP_SYSTEM_HIBERNATE				0xA8
+//		RESERVED										0xA9
+//		...												...
+//		RESERVED										0xAF
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_INVERT			0xB0
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_INTERNAL			0xB1
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_EXTERNAL			0xB2
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_BOTH				0xB3
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_DUAL				0xB4
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_TOGGLE			0xB5
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_SWAP				0xB6
+#define GENERIC_DESKTOP_SYSTEM_DISPLAY_LCD_AUTOSCALE	0xB7
+//		RESERVED							0xB8
+//		...									...
+//		RESERVED							0xFFFF
+
+/**
+ * @name HID Report Input, Output, and Feature Items
+ * 			@{
+ */
+#define INPUT_DATA							0<<0
+#define INPUT_CONSTANT						1<<0
+#define INPUT_ARRAY							0<<1
+#define INPUT_VARIABLE						1<<1
+#define INPUT_ABSOLUTE						0<<2
+#define INPUT_RELATIVE						1<<2
+#define INPUT_NO_WRAP						0<<3
+#define INPUT_WRAP							1<<3
+#define INPUT_LINEAR						0<<4
+#define INPUT_NONLINEAR						1<<4
+#define INPUT_PREFERRED_STATE				0<<5
+#define INPUT_NO_PREFERRED_STATE			1<<5
+#define INPUT_NO_NULL_POSITION				0<<6
+#define INPUT_NULL_STATE					1<<6
+#define INPUT_RESERVED						0<<7
+#define INPUT_BITFIELD						0<<8
+#define INPUT_BUFFERED						1<<8
+
+#define OUTPUT_DATA							0<<0
+#define OUTPUT_CONSTANT						1<<0
+#define OUTPUT_ARRAY						0<<1
+#define OUTPUT_VARIABLE						1<<1
+#define OUTPUT_ABSOLUTE						0<<2
+#define OUTPUT_RELATIVE						1<<2
+#define OUTPUT_NO_WRAP						0<<3
+#define OUTPUT_WRAP							1<<3
+#define OUTPUT_LINEAR						0<<4
+#define OUTPUT_NONLINEAR					1<<4
+#define OUTPUT_PREFERRED_STATE				0<<5
+#define OUTPUT_NO_PREFERRED_STATE			1<<5
+#define OUTPUT_NO_NULL_POSITION				0<<6
+#define OUTPUT_NULL_STATE					1<<6
+#define OUTPUT_NONVOLATILE					0<<7
+#define OUTPUT_VOLATILE						1<<7
+#define OUTPUT_BITFIELD						0<<8
+#define OUTPUT_BUFFERED						1<<8
+
+#define FEATURE_DATA						0<<0
+#define FEATURE_CONSTANT					1<<0
+#define FEATURE_ARRAY						0<<1
+#define FEATURE_VARIABLE					1<<1
+#define FEATURE_ABSOLUTE					0<<2
+#define FEATURE_RELATIVE					1<<2
+#define FEATURE_NO_WRAP						0<<3
+#define FEATURE_WRAP						1<<3
+#define FEATURE_LINEAR						0<<4
+#define FEATURE_NONLINEAR					1<<4
+#define FEATURE_PREFERRED_STATE				0<<5
+#define FEATURE_NO_PREFERRED_STATE			1<<5
+#define FEATURE_NO_NULL_POSITION			0<<6
+#define FEATURE_NULL_STATE					1<<6
+#define FEATURE_NONVOLATILE					0<<7
+#define FEATURE_VOLATILE					1<<7
+#define FEATURE_BITFIELD					0<<8
+#define FEATURE_BUFFERED					1<<8
+///			@}
+
+/**
+ * @name HID Report Input, Output, and Feature Items
+ * 			@{
+ */
+#define COLLECTION_PHYSICAL					0x00
+#define COLLECTION_APPLICATION				0x01
+#define COLLECTION_LOGICAL					0x02
+#define COLLECTION_REPORT					0x03
+#define COLLECTION_NAMED_ARRAY				0x04
+#define COLLECTION_USAGE_SWITCH				0x05
+#define COLLECTION_USAGE_MODIFIER			0x06
+///			@}
+
+/**
+ * @name Constants for descriptor S_usb_hid_descriptor
+ * 		@{
+ */
+
+/**
+ * @name HID Descriptor types
+ * 			@{
+ */
 #define DESCRIPTOR_HID                       0x21
 #define DESCRIPTOR_REPORT                    0x22
 #define DESCRIPTOR_PHYSICAL                  0x23
 ///			@}
 
-//! \name HID Report type (used by SETUP_HID_GET_REPORT & SETUP_HID_SET_REPORT)
-//! @{
-#define  REPORT_TYPE_INPUT                    0x01
-#define  REPORT_TYPE_OUTPUT                   0x02
-#define  REPORT_TYPE_FEATURE                  0x03
-//! @}
 /**
  * Constant value for bcdHIDVer
  *
@@ -87,7 +395,7 @@
 #define HID_BCD                              0x0111
 
 /**
- * Minimum value for bNumDescriptors
+ * @brief Minimum value for bNumDescriptors
  *
  * Numeric expression specifying the number of class descriptors
  * (always at least one i.e. Report descriptor.)
@@ -260,5 +568,17 @@
 ///		@}
 
 ///	@}
+
+/// USB HID Descriptor
+typedef struct
+	{
+		U8 bLength; ///< Size of this descriptor in bytes
+		U8 bDescriptorType; ///< HID descriptor type
+		U16 bscHID; ///< Binay Coded Decimal Spec. release
+		U8 bCountryCode; ///< Hardware target country
+		U8 bNumDescriptors; ///< Number of HID class descriptors to follow
+		U8 bRDescriptorType; ///< Report descriptor type
+		U16 wDescriptorLength; ///< Total length of Report descriptor
+	} S_usb_hid_descriptor;
 
 #endif   // _USB_COMMUN_HID_H_
