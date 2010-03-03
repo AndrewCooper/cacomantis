@@ -574,7 +574,7 @@ typedef struct
 	{
 		U8 bLength; ///< Size of this descriptor in bytes
 		U8 bDescriptorType; ///< HID descriptor type
-		U16 bscHID; ///< Binay Coded Decimal Spec. release
+		U16 bcdHIDVer; ///< Binay Coded Decimal Spec. release
 		U8 bCountryCode; ///< Hardware target country
 		U8 bNumDescriptors; ///< Number of HID class descriptors to follow
 		U8 bRDescriptorType; ///< Report descriptor type
