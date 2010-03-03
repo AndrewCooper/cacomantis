@@ -1,0 +1,22 @@
+Green					#2
+Red						#3
+Yellow					#4
+Blue					#1
+Orange					#5
+Solo Green				#2 + #7
+Solo Red				#3 + #7
+Solo Yellow				#4 + #7
+Solo Blue				#1 + #7
+Solo Orange				#5 + #7
+Select					#9
+Start					#10
+Playstation				#13
+Strum up				Hat 0
+Strum Down				Hat 4
+Whammy					Y-Axis
+Tone					Z-Rotation
+D-Down					Hat 0
+D-Up					Hat 4
+D-Left					Hat 2
+D-right					Hat 6
+

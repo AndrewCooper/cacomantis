@@ -69,9 +69,9 @@
 #define DEVICE_SUB_CLASS      0      // each configuration has its own sub-class
 #define DEVICE_PROTOCOL       0      // each configuration has its own protocol
 #define EP_CONTROL_LENGTH     64
-#define VENDOR_ID             VID_ATMEL
-#define PRODUCT_ID            PID_MegaHIDGeneric
-#define RELEASE_NUMBER        0x1000
+#define VENDOR_ID             0x12BA // (Sony Computer Entertainment America)
+#define PRODUCT_ID            0x0200 // "Harmonix Guitar for PlayStation\2563"
+#define RELEASE_NUMBER        0x0200
 #define MAN_INDEX             0x01
 #define PROD_INDEX            0x02
 #if (USB_DEVICE_SN_USE==ENABLE)
@@ -99,50 +99,111 @@
 // USB Endpoint 1 descriptor FS
 #define ENDPOINT_NB_1       (EP_HID_IN | USB_ENDPOINT_IN)
 #define EP_ATTRIBUTES_1     0x03          // BULK = 0x02, INTERUPT = 0x03
-#define EP_IN_LENGTH        8
-#define EP_SIZE_1           EP_IN_LENGTH
-#define EP_INTERVAL_1       20 //interrupt pooling from host
-// USB Endpoint 1 descriptor FS
+#define EP_SIZE_1           64
+#define EP_INTERVAL_1       10 //interrupt pooling from host
+
+// USB Endpoint 2 descriptor FS
 #define ENDPOINT_NB_2       (EP_HID_OUT)
 #define EP_ATTRIBUTES_2     0x03          // BULK = 0x02, INTERUPT = 0x03
-#define EP_OUT_LENGTH       8
-#define EP_SIZE_2           EP_OUT_LENGTH
-#define EP_INTERVAL_2       20 //interrupt pooling from host
-#define SIZE_OF_REPORT        0x35
-#define LENGTH_OF_REPORT_IN   0x08
-#define LENGTH_OF_REPORT_OUT  0x08
+#define EP_SIZE_2           64
+#define EP_INTERVAL_2       1 //interrupt pooling from host
+#define SIZE_OF_REPORT        156
 
 #define DEVICE_STATUS         USB_DEVICE_STATUS_BUS_POWERED
 
 #define LANG_ID               0x00
 
-#define USB_MN_LENGTH         5
+// "Licensed by Sony Computer Entertainment America"
+#define USB_MN_LENGTH         47
 #define USB_MANUFACTURER_NAME \
-{ Usb_unicode('A') \
-, Usb_unicode('T') \
-, Usb_unicode('M') \
+{ Usb_unicode('L') \
+, Usb_unicode('i') \
+, Usb_unicode('c') \
+, Usb_unicode('e') \
+, Usb_unicode('n') \
+, Usb_unicode('s') \
+, Usb_unicode('e') \
+, Usb_unicode('d') \
+, Usb_unicode(' ') \
+, Usb_unicode('b') \
+, Usb_unicode('y') \
+, Usb_unicode(' ') \
+, Usb_unicode('S') \
+, Usb_unicode('o') \
+, Usb_unicode('n') \
+, Usb_unicode('y') \
+, Usb_unicode(' ') \
+, Usb_unicode('C') \
+, Usb_unicode('o') \
+, Usb_unicode('m') \
+, Usb_unicode('p') \
+, Usb_unicode('u') \
+, Usb_unicode('t') \
+, Usb_unicode('e') \
+, Usb_unicode('r') \
+, Usb_unicode(' ') \
 , Usb_unicode('E') \
-, Usb_unicode('L') \
+, Usb_unicode('n') \
+, Usb_unicode('t') \
+, Usb_unicode('e') \
+, Usb_unicode('r') \
+, Usb_unicode('t') \
+, Usb_unicode('a') \
+, Usb_unicode('i') \
+, Usb_unicode('n') \
+, Usb_unicode('m') \
+, Usb_unicode('e') \
+, Usb_unicode('n') \
+, Usb_unicode('t') \
+, Usb_unicode(' ') \
+, Usb_unicode('A') \
+, Usb_unicode('m') \
+, Usb_unicode('e') \
+, Usb_unicode('r') \
+, Usb_unicode('i') \
+, Usb_unicode('c') \
+, Usb_unicode('a') \
 }
 
-#define USB_PN_LENGTH         16
+//"Harmonix Guitar for PlayStation\2563"
+#define USB_PN_LENGTH         36
 #define USB_PRODUCT_NAME \
-{ Usb_unicode('A') \
- ,Usb_unicode('V') \
- ,Usb_unicode('R') \
+{ Usb_unicode('H') \
+ ,Usb_unicode('a') \
+ ,Usb_unicode('r') \
+ ,Usb_unicode('m') \
+ ,Usb_unicode('o') \
+ ,Usb_unicode('n') \
+ ,Usb_unicode('i') \
+ ,Usb_unicode('x') \
  ,Usb_unicode(' ') \
- ,Usb_unicode('U') \
- ,Usb_unicode('S') \
- ,Usb_unicode('B') \
+ ,Usb_unicode('G') \
+ ,Usb_unicode('u') \
+ ,Usb_unicode('i') \
+ ,Usb_unicode('t') \
+ ,Usb_unicode('a') \
+ ,Usb_unicode('r') \
  ,Usb_unicode(' ') \
- ,Usb_unicode('H') \
- ,Usb_unicode('I') \
- ,Usb_unicode('D') \
+ ,Usb_unicode('f') \
+ ,Usb_unicode('o') \
+ ,Usb_unicode('r') \
  ,Usb_unicode(' ') \
- ,Usb_unicode('D') \
- ,Usb_unicode('E') \
- ,Usb_unicode('M') \
- ,Usb_unicode('O') \
+ ,Usb_unicode('P') \
+ ,Usb_unicode('l') \
+ ,Usb_unicode('a') \
+ ,Usb_unicode('y') \
+ ,Usb_unicode('s') \
+ ,Usb_unicode('t') \
+ ,Usb_unicode('a') \
+ ,Usb_unicode('t') \
+ ,Usb_unicode('i') \
+ ,Usb_unicode('o') \
+ ,Usb_unicode('n') \
+ ,Usb_unicode('\\') \
+ ,Usb_unicode('2') \
+ ,Usb_unicode('5') \
+ ,Usb_unicode('6') \
+ ,Usb_unicode('3') \
 }
 
 #define USB_SN_LENGTH         0x05

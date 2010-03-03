@@ -1,0 +1,125 @@
+Full Speed device @ 5 (0x06210000): .............................................   Composite device: "Harmonix Guitar for PlayStation\2563"
+    Port Information:   0x0019
+           Captive
+           External Device
+           Connected
+           Enabled
+    Device Descriptor   
+        Descriptor Version Number:   0x0110
+        Device Class:   0   (Composite)
+        Device Subclass:   0
+        Device Protocol:   0
+        Device MaxPacketSize:   8
+        Device VendorID/ProductID:   0x12BA/0x0200   (Sony Computer Entertainment America)
+        Device Version Number:   0x0200
+        Number of Configurations:   1
+        Manufacturer String:   1 "Licensed by Sony Computer Entertainment America"
+        Product String:   2 "Harmonix Guitar for PlayStation\2563"
+        Serial Number String:   0 (none)
+    Configuration Descriptor   
+        Length (and contents):   41
+            Raw Descriptor (hex)    0000: 09 02 29 00 01 01 00 80  32 09 04 00 00 02 03 00  
+            Raw Descriptor (hex)    0010: 00 00 09 21 01 01 00 01  22 89 00 07 05 81 03 40  
+            Raw Descriptor (hex)    0020: 00 0A 07 05 02 03 40 00  01 
+        Number of Interfaces:   1
+        Configuration Value:   1
+        Attributes:   0x80 (bus-powered)
+        MaxPower:   100 ma
+        Interface #0 - HID   
+            Alternate Setting   0
+            Number of Endpoints   2
+            Interface Class:   3   (HID)
+            Interface Subclass;   0
+            Interface Protocol:   0
+            HID Descriptor   
+                Descriptor Version Number:   0x0101
+                Country Code:   0
+                Descriptor Count:   1
+                Descriptor 1   
+                    Type:   0x22  (Report Descriptor)
+                    Length (and contents):   137
+                        Raw Descriptor (hex)    0000: 05 01 09 05 A1 01 15 00  25 01 35 00 45 01 75 01  
+                        Raw Descriptor (hex)    0010: 95 0D 05 09 19 01 29 0D  81 02 95 03 81 01 05 01  
+                        Raw Descriptor (hex)    0020: 25 07 46 3B 01 75 04 95  01 65 14 09 39 81 42 65  
+                        Raw Descriptor (hex)    0030: 00 95 01 81 01 26 FF 00  46 FF 00 09 30 09 31 09  
+                        Raw Descriptor (hex)    0040: 32 09 35 75 08 95 04 81  02 06 00 FF 09 20 09 21  
+                        Raw Descriptor (hex)    0050: 09 22 09 23 09 24 09 25  09 26 09 27 09 28 09 29  
+                        Raw Descriptor (hex)    0060: 09 2A 09 2B 95 0C 81 02  0A 21 26 95 08 B1 02 0A  
+                        Raw Descriptor (hex)    0070: 21 26 91 02 26 FF 03 46  FF 03 09 2C 09 2D 09 2E  
+                        Raw Descriptor (hex)    0080: 09 2F 75 10 95 04 81 02  C0 
+                    Parsed Report Descriptor:   
+                          Usage Page    (Generic Desktop) 
+                          Usage (GamePad)    
+                              Collection (Application)    
+                                Logical Minimum.........    (0)  
+                                Logical Maximum.........    (1)  
+                                Physical Minimum........    (0)  
+                                Physical Maximum........    (1)  
+                                Report Size.............    (1)  
+                                Report Count............    (13)  
+                                Usage Page    (Button) 
+                                Usage Minimum...........    (1)  
+                                Usage Maximum...........    (13)  
+                                Input...................   (Data, Variable, Absolute, No Wrap, Linear, Preferred State, No Null Position, Bitfield) 
+                                Report Count............    (3)  
+                                Input...................   (Constant, Array, Absolute) 
+                                Usage Page    (Generic Desktop) 
+                                Logical Maximum.........    (7)  
+                                Physical Maximum........    (315)  
+                                Report Size.............    (4)  
+                                Report Count............    (1)  
+                                Unit....................    (20)  
+                                Usage (Hat Switch)    
+                                Input...................   (Data, Variable, Absolute, No Wrap, Linear, Preferred State, Null State, Bitfield) 
+                                Unit....................    (0)  
+                                Report Count............    (1)  
+                                Input...................   (Constant, Array, Absolute) 
+                                Logical Maximum.........    (255)  
+                                Physical Maximum........    (255)  
+                                Usage (X)    
+                                Usage (Y)    
+                                Usage (Z)    
+                                Usage (Rz)    
+                                Report Size.............    (8)  
+                                Report Count............    (4)  
+                                Input...................   (Data, Variable, Absolute, No Wrap, Linear, Preferred State, No Null Position, Bitfield) 
+                                Usage Page    (65280) 
+                                Usage 32 (0x20)    
+                                Usage 33 (0x21)    
+                                Usage 34 (0x22)    
+                                Usage 35 (0x23)    
+                                Usage 36 (0x24)    
+                                Usage 37 (0x25)    
+                                Usage 38 (0x26)    
+                                Usage 39 (0x27)    
+                                Usage 40 (0x28)    
+                                Usage 41 (0x29)    
+                                Usage 42 (0x2a)    
+                                Usage 43 (0x2b)    
+                                Report Count............    (12)  
+                                Input...................   (Data, Variable, Absolute, No Wrap, Linear, Preferred State, No Null Position, Bitfield) 
+                                Usage 9761 (0x2621)    
+                                Report Count............    (8)  
+                                Feature.................   (Data, Variable, Absolute, No Wrap, Linear, Preferred State, No Null Position, Nonvolatile, Bitfield) 
+                                Usage 9761 (0x2621)    
+                                Output..................   (Data, Variable, Absolute, No Wrap, Linear, Preferred State, No Null Position, Nonvolatile, Bitfield) 
+                                Logical Maximum.........    (1023)  
+                                Physical Maximum........    (1023)  
+                                Usage 44 (0x2c)    
+                                Usage 45 (0x2d)    
+                                Usage 46 (0x2e)    
+                                Usage 47 (0x2f)    
+                                Report Size.............    (16)  
+                                Report Count............    (4)  
+                                Input...................   (Data, Variable, Absolute, No Wrap, Linear, Preferred State, No Null Position, Bitfield) 
+                              End Collection     
+            Endpoint 0x81 - Interrupt Input   
+                Address:   0x81  (IN)
+                Attributes:   0x03  (Interrupt no synchronization data endpoint)
+                Max Packet Size:   64
+                Polling Interval:   10 ms
+            Endpoint 0x02 - Interrupt Output   
+                Address:   0x02  (OUT)
+                Attributes:   0x03  (Interrupt no synchronization data endpoint)
+                Max Packet Size:   64
+                Polling Interval:   1 ms
