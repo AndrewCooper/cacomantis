@@ -1,0 +1,5 @@
+
+syntax: regexp
+^build$
+relre:^.*\.o$
+glob:doc/html
