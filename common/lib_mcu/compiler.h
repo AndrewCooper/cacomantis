@@ -327,7 +327,7 @@ typedef char r_uart_ptchar;
  * @param PORT     defined value in include file for sfr register
  * @param POSITION defined value in include file for particular bit of sfr register
  */
-#define bit_is_clear(PORT,POSITION) ((PORT & (1<<POSITION)) == 0 )
+//#define bit_is_clear(PORT,POSITION) ((PORT & (1<<POSITION)) == 0 )
 
 /**
  * example : if (bit_is_set(PORTB,PORTB3)) ...
@@ -335,7 +335,7 @@ typedef char r_uart_ptchar;
  * @param PORT     defined value in include file for sfr register
  * @param POSITION defined value in include file for particular bit of sfr register
  */
-#define bit_is_set(PORT,POSITION) ((PORT & (1<<POSITION)) != 0 )
+//#define bit_is_set(PORT,POSITION) ((PORT & (1<<POSITION)) != 0 )
 
 #define TID_GUARD(proc) ((__TID__ & 0x7FF0) != ((90 << 8) | ((proc) << 4)))
 
