@@ -55,11 +55,15 @@
 //_____ M A C R O S ________________________________________________________
 
 
-//_____ D E C L A R A T I O N S ____________________________________________
+//_____ V A R I A B L E S __________________________________________________
 
 volatile U8 cpt_sof = 0;
 extern U8 jump_bootloader;
 U8 g_last_joy = 0;
+
+struct hid_report report;
+
+//_____ P R O C E D U R E S ________________________________________________
 
 void hid_report_out( void );
 void hid_report_in( void );
@@ -95,67 +99,19 @@ void hid_report_out( void )
 	Usb_select_endpoint(EP_HID_OUT);
 	if( Is_usb_receive_out() )
 		{
-		//* Read report from HID Generic Demo
-		U8 led_state;
-		U8 led_number;
-		led_state = Usb_read_byte() & 0x0F; // RepportOUT[0] is LEDS value
-		led_number = Usb_read_byte() & 0x0F;
-		switch( led_number )
-			{
-		case 1 :
-			if( led_state )
-				{
-				Led0_on();
-				}
-			else
-				{
-				Led0_off();
-				}
-			break;
-		case 2 :
-			if( led_state )
-				{
-				Led1_on();
-				}
-			else
-				{
-				Led1_off();
-				}
-			break;
-		case 3 :
-			if( led_state )
-				{
-				Led2_on();
-				}
-			else
-				{
-				Led2_off();
-				}
-			break;
-		case 4 :
-			if( led_state )
-				{
-				Led3_on();
-				}
-			else
-				{
-				Led3_off();
-				}
-			break;
-			}
 		Usb_ack_receive_out();
 		}
 
 	// Check if we received DFU mode command from host
-	if( jump_bootloader )
-		{
-		U32 volatile tempo;
-		Leds_off();
-		Usb_detach(); // Detach actual generic HID application
-		for( tempo = 0; tempo < 70000; tempo++ )
-			; // Wait some time before
-		start_boot(); // Jumping to booltoader
-		}
+//	if( jump_bootloader )
+//		{
+//		U32 volatile tempo;
+//		Leds_off();
+//		Usb_detach(); // Detach actual generic HID application
+//		for( tempo = 0; tempo < 70000; tempo++ )
+//			; // Wait some time before
+//		start_boot(); // Jumping to booltoader
+//		}
 	}
 
 /**
@@ -163,21 +119,17 @@ void hid_report_out( void )
  */
 void hid_report_in( void )
 	{
-	U8 joy = 0;
+	U8 *report_p = (U8*)&report;
+	int i;
 
 	Usb_select_endpoint(EP_HID_IN);
 	if( ! Is_usb_write_enabled() )
 		return; // Not ready to send report
 
-	// Build the Joytick report
-	if( Is_joy_up() || Is_joy_down() || Is_joy_right() || Is_joy_left() ) //! Check for UP event
+	for( i = 0; i < sizeof(report); ++i)
 		{
-		joy = 0x01;
-		}
-	if( joy == g_last_joy )
-		return; // Same report then no send report
-	g_last_joy = joy;
 
+		}
 	// Send report
 	Usb_write_byte(g_last_joy); // Joystick
 	Usb_write_byte(GPIOR1); // Dummy (not used)
@@ -187,6 +139,7 @@ void hid_report_in( void )
 	Usb_write_byte(GPIOR1); // Dummy (not used)
 	Usb_write_byte(GPIOR1); // Dummy (not used)
 	Usb_write_byte(GPIOR1); // Dummy (not used)
+
 	Usb_ack_in_ready(); // Send data over the USB
 	}
 
@@ -195,7 +148,7 @@ void hid_report_in( void )
  *
  * Runs each time the USB Start Of Frame interrupt subroutine is executed (1ms)
  *
- * Usefull to manage time delays.
+ * Useful to manage time delays.
  */
 void sof_action()
 	{

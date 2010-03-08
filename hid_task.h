@@ -53,7 +53,135 @@
 //_____ M A C R O S ________________________________________________________
 
 
-//_____ D E C L A R A T I O N S ____________________________________________
+//_____ T Y P E S __________________________________________________________
+
+struct hid_report
+	{
+	/*
+	 * Inputs, 1bit * 13
+	 * Usage: Generic Desktop / Gamepad / Button
+	 */
+	U8		b1:1;
+	U8		b2:1;
+	U8		b3:1;
+	U8		b4:1;
+	U8		b5:1;
+	U8		b6:1;
+	U8		b7:1;
+	U8		b8:1;
+	U8		b9:1;
+	U8		b10:1;
+	U8		b11:1;
+	U8		b12:1;
+	U8		b13:1;
+
+	/*
+	 * Padding, 1bit * 3
+	 */
+	U8		pad1:3;
+
+	/*
+	 * Inputs: 4bit * 1
+	 * Usage: Generic Desktop / Gamepad
+	 * Logical: 0..7
+	 * Physical: 0..315
+	 */
+	/// hatswitch
+	U8		hat:4;
+
+	/*
+	 * Padding 4bit * 1
+	 */
+	U8		pad2:4;
+
+	/*
+	 * Inputs: 8bit * 4
+	 * Usage: Generic Desktop / Gamepad
+	 * Logical: 0..255
+	 * Physical: 0..255
+	 */
+	/// X axis
+	U8		x;
+	/// Y axis
+	U8		y;
+	/// Z axis
+	U8		z;
+	/// Rz axis
+	U8		Rz;
+
+	/*
+	 * Inputs: 8bit * 12
+	 * Usage: Generic Desktop / 65280 (Vendor)
+	 */
+	/// Usage 0x20
+	U8		iVendorX20;
+	/// Usage 0x21
+	U8		iVendorX21;
+	/// Usage 0x22
+	U8		iVendorX22;
+	/// Usage 0x23
+	U8		iVendorX23;
+	/// Usage 0x24
+	U8		iVendorX24;
+	/// Usage 0x25
+	U8		iVendorX25;
+	/// Usage 0x26
+	U8		iVendorX26;
+	/// Usage 0x27
+	U8		iVendorX27;
+	/// Usage 0x28
+	U8		iVendorX28;
+	/// Usage 0x29
+	U8		iVendorX29;
+	/// Usage 0x2A
+	U8		iVendorX2A;
+	/// Usage 0x2B
+	U8		iVendorX2B;
+
+	/*
+	 * Features: 8bit * 8
+	 * Usage: Generic Desktop / 65280 (Vendor)
+	 */
+	/// Usage 0x2621
+	U8		iFeatureD2621_1;
+	U8		iFeatureD2621_2;
+	U8		iFeatureD2621_3;
+	U8		iFeatureD2621_4;
+	U8		iFeatureD2621_5;
+	U8		iFeatureD2621_6;
+	U8		iFeatureD2621_7;
+	U8		iFeatureD2621_8;
+
+	/*
+	 * Outputs: 8bit * 8
+	 * Usage: Generic Desktop / 65280 (Vendor)
+	 */
+	/// Usage 0x2621
+	U8		iOutputD2621_1;
+	U8		iOutputD2621_2;
+	U8		iOutputD2621_3;
+	U8		iOutputD2621_4;
+	U8		iOutputD2621_5;
+	U8		iOutputD2621_6;
+	U8		iOutputD2621_7;
+	U8		iOutputD2621_8;
+
+	/*
+	 * Inputs: 16bit * 4
+	 * Usage: Generic Destop / 65280 (Vendor)
+	 * Logical: 0..1023
+	 * Physical: 0..1023
+	 */
+	/// Usage 0x2C
+	U16		iInputX2C;
+	/// Usage 0x2D
+	U16		iInputX2D;
+	/// Usage 0x2E
+	U16		iInputX2E;
+	/// Usage 0x2F
+	U16		iInputx2F;
+	};
+
 
 
 #endif /* _HID_TASK_H_ */
