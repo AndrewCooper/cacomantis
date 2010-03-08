@@ -3,3 +3,7 @@ syntax: regexp
 ^build$
 relre:^.*\.o$
 glob:doc/html
+glob:.DS_Store
+glob:cacomantis.elf
+glob:cacomantis.map
+glob:cacomantis.hex
