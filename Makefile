@@ -57,6 +57,8 @@ clean:
 .PHONY: rebuild
 rebuild: clean all
 
+## Prerequisites
+-include $(OUTPUT)/dep/*
 
 ## Compile
 
