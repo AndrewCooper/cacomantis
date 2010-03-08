@@ -96,12 +96,14 @@
 // -------- END Generic Configuration -------------------------------------
 
 // UART Sample configuration, if we have one ... __________________________
-#define BAUDRATE        57600
-#define USE_UART2
+#define USART_BAUDRATE        57600
 
 #define uart_putchar putchar
 #define r_uart_ptchar int
 #define p_uart_ptchar int
+
+#define USART_RX_BUFFER_SIZE 128     /* 2,4,8,16,32,64,128 or 256 bytes */
+#define USART_TX_BUFFER_SIZE 128     /* 2,4,8,16,32,64,128 or 256 bytes */
 
 // ADC Sample configuration, if we have one ... ___________________________
 

@@ -10,9 +10,11 @@ MCU = at90usb1286
 CSRCS = \
     main.c\
     hid_task.c\
+    uart_task.c\
     usb_descriptors.c\
     usb_specific_request.c\
     at90usb128/lib_board/usb_key/usb_key.c\
+    at90usb128/lib_mcu/usart/usart.c\
     at90usb128/lib_mcu/usb/usb_drv.c\
     at90usb128/lib_mcu/util/start_boot.c\
     at90usb128/modules/usb/device_chap9/usb_device_task.c\
