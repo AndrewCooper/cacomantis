@@ -85,18 +85,18 @@
  * Returns true when device connected and correctly enumerated with an host.
  * The device high level application should tests this before performing any applicative requests
  */
-#define Is_device_enumerated()            ((usb_configuration_nb!=0)   ? TRUE : FALSE)
-#define Is_device_not_enumerated()        ((usb_configuration_nb!=0)   ? FALSE : TRUE)
+#define Is_device_enumerated()            ((usb_configuration_nb!=0)   ? true : false)
+#define Is_device_not_enumerated()        ((usb_configuration_nb!=0)   ? false : true)
 
 void usb_process_request( void );
 
 void usb_generate_remote_wakeup( void );
 
-extern U8 usb_configuration_nb;
-extern U8 remote_wakeup_feature;
+extern uint8_t usb_configuration_nb;
+extern uint8_t remote_wakeup_feature;
 
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
-extern U8 f_get_serial_string;
+#if (USE_DEVICE_SN_UNIQUE==true)
+extern uint8_t f_get_serial_string;
 #endif
 
 /// @}

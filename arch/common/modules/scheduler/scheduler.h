@@ -51,7 +51,7 @@
 #include <intrins.h>
 #define Wait_semaphore(a) while(!_testbit_(a))
 #else
-#define Wait_semaphore(a) while(!(a)) (a) = FALSE
+#define Wait_semaphore(a) while(!(a)) (a) = false
 #endif
 
 //_____ M A C R O S ________________________________________________________
@@ -167,11 +167,11 @@ extern bit scheduler_tick_flag;
 #endif
 
 #ifdef TOKEN_MODE
-extern Uchar token;
+extern unsigned char token;
 #define TOKEN_FREE      0
 #endif
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 void scheduler_init(void);
 void scheduler_tasks(void);
 void scheduler(void);
@@ -184,16 +184,16 @@ void scheduler_empty_fct(void);
 #define Scheduler_reset_tick_flag()
 #elif SCHEDULER_TYPE == SCHEDULER_TIMED
 #define Scheduler_new_schedule()      Wait_semaphore(scheduler_tick_flag)
-#define Scheduler_set_tick_flag()     (scheduler_tick_flag = TRUE)
-#define Scheduler_reset_tick_flag()   (scheduler_tick_flag = FALSE)
+#define Scheduler_set_tick_flag()     (scheduler_tick_flag = true)
+#define Scheduler_reset_tick_flag()   (scheduler_tick_flag = false)
 #elif SCHEDULER_TYPE == SCHEDULER_TASK
 #define Scheduler_call_next_task()    Wait_semaphore(scheduler_tick_flag)
-#define Scheduler_set_tick_flag()     (scheduler_tick_flag = TRUE)
-#define Scheduler_reset_tick_flag()   (scheduler_tick_flag = FALSE)
+#define Scheduler_set_tick_flag()     (scheduler_tick_flag = true)
+#define Scheduler_reset_tick_flag()   (scheduler_tick_flag = false)
 #elif SCHEDULER_TYPE == SCHEDULER_CUSTOM
 #error Make sure you have setup macro/fct Scheduler_new_schedule & Scheduler_call_next_task
-#define Scheduler_set_tick_flag()     (scheduler_tick_flag = TRUE)
-#define Scheduler_reset_tick_flag()   (scheduler_tick_flag = FALSE)
+#define Scheduler_set_tick_flag()     (scheduler_tick_flag = true)
+#define Scheduler_reset_tick_flag()   (scheduler_tick_flag = false)
 #endif
 
 #ifndef Scheduler_call_next_task

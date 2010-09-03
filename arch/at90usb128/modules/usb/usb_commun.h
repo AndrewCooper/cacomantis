@@ -286,5 +286,8 @@
 #define  SRP_SUPPORT                         0x01
 /// @}
 
+//_____ M A C R O S ____________________________________________________________
+
+#define BYTEn(lvalue,n)                     ( ( (uint8_t*) &lvalue)[n] )
 
 #endif   // _USB_COMMUN_H_

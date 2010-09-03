@@ -94,10 +94,10 @@
 #define  Led1_toggle()        (LED_PIN  |=  (1<<LED1_BIT))
 #define  Led2_toggle()        (LED_PIN  |=  (1<<LED2_BIT))
 #define  Led3_toggle()        (LED_PIN  |=  (1<<LED3_BIT))
-#define  Is_led0_on()         (LED_PIN  &   (1<<LED0_BIT) ? TRUE : FALSE)
-#define  Is_led1_on()         (LED_PIN  &   (1<<LED1_BIT) ? TRUE : FALSE)
-#define  Is_led2_on()         (LED_PIN  &   (1<<LED2_BIT) ? TRUE : FALSE)
-#define  Is_led3_on()         (LED_PIN  &   (1<<LED3_BIT) ? TRUE : FALSE)
+#define  Is_led0_on()         (LED_PIN  &   (1<<LED0_BIT) ? true : false)
+#define  Is_led1_on()         (LED_PIN  &   (1<<LED1_BIT) ? true : false)
+#define  Is_led2_on()         (LED_PIN  &   (1<<LED2_BIT) ? true : false)
+#define  Is_led3_on()         (LED_PIN  &   (1<<LED3_BIT) ? true : false)
 /// @}
 
 /**
@@ -108,22 +108,22 @@
 #define  Joy_init()           (DDRB &= ~((1<<PINB7)|(1<<PINB6)|(1<<PINB5)), PORTB |= ((1<<PINB7)|(1<<PINB6)|(1<<PINB5)), DDRE &= ~((1<<PINE5)|(1<<PINE4)), PORTE |= ((1<<PINE5)|(1<<PINE4)))
 
 #define  Is_btn_left()        Is_hwb()
-#define  Is_btn_middle()      ((PINB & (1<<PINB5)) ?  FALSE : TRUE)
-#define  Is_btn_right()       FALSE
+#define  Is_btn_middle()      ((PINB & (1<<PINB5)) ?  false : true)
+#define  Is_btn_right()       false
 
-#define  Is_joy_up()          ((PINB & (1<<PINB7)) ?  FALSE : TRUE)
-#define  Is_joy_left()        ((PINB & (1<<PINB6)) ?  FALSE : TRUE)
-#define  Is_joy_down()        ((PINE & (1<<PINE5)) ?  FALSE : TRUE)
-#define  Is_joy_right()       ((PINE & (1<<PINE4)) ?  FALSE : TRUE)
+#define  Is_joy_up()          ((PINB & (1<<PINB7)) ?  false : true)
+#define  Is_joy_left()        ((PINB & (1<<PINB6)) ?  false : true)
+#define  Is_joy_down()        ((PINE & (1<<PINE5)) ?  false : true)
+#define  Is_joy_right()       ((PINE & (1<<PINE4)) ?  false : true)
 
 #define  Is_btn_not_left()    Is_not_hwb()
-#define  Is_btn_not_middle()  ((PINB & (1<<PINB5)) ?  TRUE : FALSE)
-#define  Is_btn_not_right()   TRUE
+#define  Is_btn_not_middle()  ((PINB & (1<<PINB5)) ?  true : false)
+#define  Is_btn_not_right()   true
 
-#define  Is_joy_not_up()      ((PINB & (1<<PINB7)) ?  TRUE  : FALSE)
-#define  Is_joy_not_left()    ((PINB & (1<<PINB6)) ?  TRUE : FALSE)
-#define  Is_joy_not_down()    ((PINE & (1<<PINE5)) ?  TRUE : FALSE)
-#define  Is_joy_not_right()   ((PINE & (1<<PINE4)) ?  TRUE : FALSE)
+#define  Is_joy_not_up()      ((PINB & (1<<PINB7)) ?  true  : false)
+#define  Is_joy_not_left()    ((PINB & (1<<PINB6)) ?  true : false)
+#define  Is_joy_not_down()    ((PINE & (1<<PINE5)) ?  true : false)
+#define  Is_joy_not_right()   ((PINE & (1<<PINE4)) ?  true : false)
 
 /**
  * Enable interrupts for switches (PINB5 to PINB7)
@@ -156,8 +156,8 @@
  * @{
  */
 #define Hwb_button_init()      (DDRE  &= ~(1<<PINE2), PORTE |= (1<<PINE2))
-#define Is_hwb()               ((PINE &   (1<<PINE2)) ?  FALSE : TRUE)
-#define Is_not_hwb()           ((PINE &   (1<<PINE2)) ?  TRUE : FALSE)
+#define Is_hwb()               ((PINE &   (1<<PINE2)) ?  false : true)
+#define Is_not_hwb()           ((PINE &   (1<<PINE2)) ?  true : false)
 /// @}
 
 
@@ -198,27 +198,27 @@
 #ifdef USE_ADC       ///< this define is set in config.h file
 /**
  * @brief This function performs an ADC conversion from the USB KEY TEMP channel
- * an returns the 10 bits result in an U16 value.
+ * an returns the 10 bits result in an uint16_t value.
  *
  * @warning USE_ADC should be defined in config.h
  *
  * @param none
  *
- * @return U16 analog sensor temperature value.
+ * @return uint16_t analog sensor temperature value.
  */
-U16 Get_adc_temp_val(void);
+uint16_t Get_adc_temp_val(void);
 
 /**
  * @brief This function performs an ADC conversion from the USB KEY TEMP channel
- * an returns the 10 bits result of the temperature (in °C) in an S16 value.
+ * an returns the 10 bits result of the temperature (in °C) in an int16_t value.
  *
  * @warning USE_ADC should be defined in config.h
  *
  * @param none
  *
- * @return S16 temperature value in °C.
+ * @return int16_t temperature value in °C.
  */
-S16 Read_temperature(void);
+int16_t Read_temperature(void);
 
 #endif   // USE_ADC
 #endif   // TARGET_BOARD==USBKEY

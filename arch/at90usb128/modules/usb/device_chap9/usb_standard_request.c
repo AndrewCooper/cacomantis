@@ -59,27 +59,27 @@
 #include "modules/usb/device_chap9/usb_standard_request.h"
 #include "usb_specific_request.h"
 
-#if ((USB_DEVICE_SN_USE==ENABLE) && (USE_DEVICE_SN_UNIQUE==ENABLE))
+#if ((USB_DEVICE_SN_USE==true) && (USE_DEVICE_SN_UNIQUE==true))
 #include "lib_mcu/flash/flash_drv.h"
-static U8 bin_to_ascii (U8 b);
+static uint8_t bin_to_ascii (uint8_t b);
 #endif
 
 //_____ D E F I N I T I O N ________________________________________________
 
-static Bool usb_get_descriptor( void );
+static bool usb_get_descriptor( void );
 static void usb_set_address( void );
-static Bool usb_set_configuration( void );
+static bool usb_set_configuration( void );
 static void usb_get_configuration( void );
-static Bool usb_get_status( U8 bmRequestType );
-static Bool usb_set_feature( U8 bmRequestType );
-static Bool usb_clear_feature( U8 bmRequestType );
-static Bool usb_get_interface( void );
-static Bool usb_set_interface( void );
+static bool usb_get_status( uint8_t bmRequestType );
+static bool usb_set_feature( uint8_t bmRequestType );
+static bool usb_clear_feature( uint8_t bmRequestType );
+static bool usb_get_interface( void );
+static bool usb_set_interface( void );
 #ifndef USB_REMOTE_WAKEUP_FEATURE
-#error USB_REMOTE_WAKEUP_FEATURE should be defined as ENABLE or DISABLE in conf_usb.h
+#error USB_REMOTE_WAKEUP_FEATURE should be defined as true or false in conf_usb.h
 #endif
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
-U8 f_get_serial_string=FALSE;
+#if (USE_DEVICE_SN_UNIQUE==true)
+uint8_t f_get_serial_string=false;
 #endif
 
 //_____ D E C L A R A T I O N ______________________________________________
@@ -92,11 +92,11 @@ U8 code *pbuffer;
 #define Usb_write_PGM_byte(byte) (Usb_write_byte(*byte))
 #endif
 
-U8 endpoint_status[MAX_EP_NB];
-U8 data_to_transfer;
-U8 usb_configuration_nb;
-U8 remote_wakeup_feature = DISABLE;
-static U8 device_status = DEVICE_STATUS;
+uint8_t endpoint_status[MAX_EP_NB];
+uint8_t data_to_transfer;
+uint8_t usb_configuration_nb;
+uint8_t remote_wakeup_feature = false;
+static uint8_t device_status = DEVICE_STATUS;
 
 /**
  * @brief Read the SETUP request sent to the default control endpoint.
@@ -117,94 +117,94 @@ static U8 device_status = DEVICE_STATUS;
  * SETUP_GET_STATUS
  */
 void usb_process_request( void )
-	{
-	U8 bmRequestType;
-	U8 bmRequest;
+    {
+    uint8_t bmRequestType;
+    uint8_t bmRequest;
 
-	Usb_ack_control_out();
-	bmRequestType = Usb_read_byte();
-	bmRequest = Usb_read_byte();
+    Usb_ack_control_out();
+    bmRequestType = Usb_read_byte();
+    bmRequest = Usb_read_byte();
 
-	switch( bmRequest )
-		{
-	case SETUP_GET_DESCRIPTOR :
-		if( USB_SETUP_GET_STAND_DEVICE == bmRequestType )
-			{
-			if( usb_get_descriptor() )
-				return;
-			}
-		break;
+    switch( bmRequest )
+        {
+    case SETUP_GET_DESCRIPTOR :
+        if( USB_SETUP_GET_STAND_DEVICE == bmRequestType )
+            {
+            if( usb_get_descriptor() )
+                return;
+            }
+        break;
 
-	case SETUP_GET_CONFIGURATION :
-		if( USB_SETUP_GET_STAND_DEVICE == bmRequestType )
-			{
-			usb_get_configuration();
-			return;
-			}
-		break;
+    case SETUP_GET_CONFIGURATION :
+        if( USB_SETUP_GET_STAND_DEVICE == bmRequestType )
+            {
+            usb_get_configuration();
+            return;
+            }
+        break;
 
-	case SETUP_SET_ADDRESS :
-		if( USB_SETUP_SET_STAND_DEVICE == bmRequestType )
-			{
-			usb_set_address();
-			return;
-			}
-		break;
+    case SETUP_SET_ADDRESS :
+        if( USB_SETUP_SET_STAND_DEVICE == bmRequestType )
+            {
+            usb_set_address();
+            return;
+            }
+        break;
 
-	case SETUP_SET_CONFIGURATION :
-		if( USB_SETUP_SET_STAND_DEVICE == bmRequestType )
-			{
-			if( usb_set_configuration() )
-				return;
-			}
-		break;
+    case SETUP_SET_CONFIGURATION :
+        if( USB_SETUP_SET_STAND_DEVICE == bmRequestType )
+            {
+            if( usb_set_configuration() )
+                return;
+            }
+        break;
 
-	case SETUP_CLEAR_FEATURE :
-		if( usb_clear_feature( bmRequestType ) )
-			return;
-		break;
+    case SETUP_CLEAR_FEATURE :
+        if( usb_clear_feature( bmRequestType ) )
+            return;
+        break;
 
-	case SETUP_SET_FEATURE :
-		if( usb_set_feature( bmRequestType ) )
-			return;
-		break;
+    case SETUP_SET_FEATURE :
+        if( usb_set_feature( bmRequestType ) )
+            return;
+        break;
 
-	case SETUP_GET_STATUS :
-		if( usb_get_status( bmRequestType ) )
-			return;
-		break;
+    case SETUP_GET_STATUS :
+        if( usb_get_status( bmRequestType ) )
+            return;
+        break;
 
-	case SETUP_GET_INTERFACE :
-		if( USB_SETUP_GET_STAND_INTERFACE == bmRequestType )
-			{
-			if( usb_get_interface() )
-				return;
-			}
-		break;
+    case SETUP_GET_INTERFACE :
+        if( USB_SETUP_GET_STAND_INTERFACE == bmRequestType )
+            {
+            if( usb_get_interface() )
+                return;
+            }
+        break;
 
-	case SETUP_SET_INTERFACE :
-		if( bmRequestType == USB_SETUP_SET_STAND_INTERFACE )
-			{
-			if( usb_set_interface() )
-				return;
-			}
-		break;
+    case SETUP_SET_INTERFACE :
+        if( bmRequestType == USB_SETUP_SET_STAND_INTERFACE )
+            {
+            if( usb_set_interface() )
+                return;
+            }
+        break;
 
-	default :
-		break;
-		}
+    default :
+        break;
+        }
 
-	// un-supported like standard request => call to user read request
-	if( ! usb_user_read_request( bmRequestType, bmRequest ) )
-		{
-		// Request unknow in the specific request list from interface
-		// keep that order (set StallRq/clear RxSetup) or a
-		// OUT request following the SETUP may be acknowledged
-		Usb_enable_stall_handshake();
-		Usb_ack_receive_setup();
-		endpoint_status[( EP_CONTROL & MSK_EP_DIR )] = 0x01;
-		}
-	}
+    // un-supported like standard request => call to user read request
+    if( ! usb_user_read_request( bmRequestType, bmRequest ) )
+        {
+        // Request unknow in the specific request list from interface
+        // keep that order (set StallRq/clear RxSetup) or a
+        // OUT request following the SETUP may be acknowledged
+        Usb_enable_stall_handshake();
+        Usb_ack_receive_setup();
+        endpoint_status[( EP_CONTROL & MSK_EP_DIR )] = 0x01;
+        }
+    }
 
 /**
  * @brief Manage the SET ADDRESS request.
@@ -212,21 +212,21 @@ void usb_process_request( void )
  * When complete, the device will filter the requests using the new address.
  */
 void usb_set_address( void )
-	{
-	U8 addr = Usb_read_byte();
-	Usb_configure_address(addr);
+    {
+    uint8_t addr = Usb_read_byte();
+    Usb_configure_address(addr);
 
-	Usb_ack_receive_setup();
+    Usb_ack_receive_setup();
 
-	Usb_send_control_in(); // send a ZLP for STATUS phase
-	while( ! Is_usb_in_ready() )
-		{
-		if( Is_usb_vbus_low() )
-			break;
-		} // waits for status phase done
-	// before using the new address
-	Usb_enable_address();
-	}
+    Usb_send_control_in(); // send a ZLP for STATUS phase
+    while( ! Is_usb_in_ready() )
+        {
+        if( Is_usb_vbus_low() )
+            break;
+        } // waits for status phase done
+    // before using the new address
+    Usb_enable_address();
+    }
 
 /**
  * @brief Manage the SET CONFIGURATION request.
@@ -235,22 +235,22 @@ void usb_set_address( void )
  * usb_user_endpoint_init() function that will configure the endpoints
  * following the configuration number.
  */
-Bool usb_set_configuration( void )
-	{
-	U8 configuration_number;
+bool usb_set_configuration( void )
+    {
+    uint8_t configuration_number;
 
-	// Get/Check new configuration
-	configuration_number = Usb_read_byte();
-	if( configuration_number > NB_CONFIGURATION )
-		return FALSE; //  Bad configuration number then stall request
-	Usb_ack_receive_setup();
-	usb_configuration_nb = configuration_number;
+    // Get/Check new configuration
+    configuration_number = Usb_read_byte();
+    if( configuration_number > NB_CONFIGURATION )
+        return false; //  Bad configuration number then stall request
+    Usb_ack_receive_setup();
+    usb_configuration_nb = configuration_number;
 
-	Usb_send_control_in(); // send a ZLP for STATUS phase
-	usb_user_endpoint_init( usb_configuration_nb ); // endpoint configuration
-	Usb_set_configuration_action();
-	return TRUE;
-	}
+    Usb_send_control_in(); // send a ZLP for STATUS phase
+    usb_user_endpoint_init( usb_configuration_nb ); // endpoint configuration
+    Usb_set_configuration_action();
+    return true;
+    }
 
 /**
  * @brief Manage the GET DESCRIPTOR request.
@@ -261,155 +261,155 @@ Bool usb_set_configuration( void )
  *
  * Only 1 configuration is supported.
  */
-Bool usb_get_descriptor( void )
-	{
-	Bool zlp;
-	U16 wLength;
-	U8 descriptor_type;
-	U8 string_type;
-	U8 dummy;
-	U8 nb_byte;
-	U8 byte_to_send;
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
-	U16 sn_index=0;
-	U8 initial_data_to_transfer;
+bool usb_get_descriptor( void )
+    {
+    bool zlp;
+    uint16_t wLength;
+    uint8_t descriptor_type;
+    uint8_t string_type;
+    uint8_t dummy;
+    uint8_t nb_byte;
+    uint8_t byte_to_send;
+#if (USE_DEVICE_SN_UNIQUE==true)
+    uint16_t sn_index=0;
+    uint8_t initial_data_to_transfer;
 #endif
 
-	zlp = FALSE; /* no zero length packet */
-	string_type = Usb_read_byte(); /* read LSB of wValue    */
-	descriptor_type = Usb_read_byte(); /* read MSB of wValue    */
+    zlp = false; /* no zero length packet */
+    string_type = Usb_read_byte(); /* read LSB of wValue    */
+    descriptor_type = Usb_read_byte(); /* read MSB of wValue    */
 
-	switch( descriptor_type )
-		{
-	case DESCRIPTOR_DEVICE :
-		data_to_transfer = Usb_get_dev_desc_length(); ///< sizeof (usb_user_device_descriptor);
-		pbuffer = Usb_get_dev_desc_pointer();
-		break;
+    switch( descriptor_type )
+        {
+    case DESCRIPTOR_DEVICE :
+        data_to_transfer = Usb_get_dev_desc_length(); ///< sizeof (usb_user_device_descriptor);
+        pbuffer = Usb_get_dev_desc_pointer();
+        break;
 
-	case DESCRIPTOR_CONFIGURATION :
-		data_to_transfer = Usb_get_conf_desc_length(); ///< sizeof (usb_user_configuration_descriptor);
-		pbuffer = Usb_get_conf_desc_pointer();
-		break;
+    case DESCRIPTOR_CONFIGURATION :
+        data_to_transfer = Usb_get_conf_desc_length(); ///< sizeof (usb_user_configuration_descriptor);
+        pbuffer = Usb_get_conf_desc_pointer();
+        break;
 
-	default :
-		if( ! usb_user_get_descriptor( descriptor_type, string_type ) )
-			return FALSE; // Unknow descriptor then stall request
-		break;
-		}
+    default :
+        if( ! usb_user_get_descriptor( descriptor_type, string_type ) )
+            return false; // Unknow descriptor then stall request
+        break;
+        }
 
-	dummy = Usb_read_byte(); ///< don't care of wIndex field
-	dummy = Usb_read_byte();
-	LSB(wLength) = Usb_read_byte(); ///< read wLength
-	MSB(wLength) = Usb_read_byte();
-	Usb_ack_receive_setup(); ///< clear the receive setup flag
+    dummy = Usb_read_byte(); ///< don't care of wIndex field
+    dummy = Usb_read_byte();
+    BYTEn( wLength, 0 ) = Usb_read_byte(); ///< read wLength
+    BYTEn( wLength, 1 ) = Usb_read_byte();
+    Usb_ack_receive_setup(); ///< clear the receive setup flag
 
-	if( wLength > data_to_transfer )
-		{
-		if( ( data_to_transfer % EP_CONTROL_LENGTH ) == 0 )
-			{
-			zlp = TRUE;
-			}
-		else
-			{
-			zlp = FALSE;
-			} ///< no need of zero length packet
-		}
-	else
-		{
-		data_to_transfer = ( U8 )wLength; ///< send only requested number of data
-		}
+    if( wLength > data_to_transfer )
+        {
+        if( ( data_to_transfer % EP_CONTROL_LENGTH ) == 0 )
+            {
+            zlp = true;
+            }
+        else
+            {
+            zlp = false;
+            } ///< no need of zero length packet
+        }
+    else
+        {
+        data_to_transfer = ( uint8_t )wLength; ///< send only requested number of data
+        }
 
-	Usb_ack_nak_out();
+    Usb_ack_nak_out();
 
-	byte_to_send = 0;
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
-	initial_data_to_transfer = data_to_transfer;
+    byte_to_send = 0;
+#if (USE_DEVICE_SN_UNIQUE==true)
+    initial_data_to_transfer = data_to_transfer;
 #endif
-	while( ( data_to_transfer != 0 ) && ( ! Is_usb_nak_out_sent() ) )
-		{
-		while( ! Is_usb_read_control_enabled() )
-			{
-			if( Is_usb_nak_out_sent() )
-				break; // don't clear the flag now, it will be cleared after
-			if( Is_usb_vbus_low() )
-				break;
-			}
+    while( ( data_to_transfer != 0 ) && ( ! Is_usb_nak_out_sent() ) )
+        {
+        while( ! Is_usb_read_control_enabled() )
+            {
+            if( Is_usb_nak_out_sent() )
+                break; // don't clear the flag now, it will be cleared after
+            if( Is_usb_vbus_low() )
+                break;
+            }
 
-		nb_byte = 0;
-		// Send data until necessary
-		while( data_to_transfer != 0 )
-			{
-			// Check endpoint 0 size
-			if( nb_byte++ == EP_CONTROL_LENGTH )
-				break;
+        nb_byte = 0;
+        // Send data until necessary
+        while( data_to_transfer != 0 )
+            {
+            // Check endpoint 0 size
+            if( nb_byte++ == EP_CONTROL_LENGTH )
+                break;
 
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
+#if (USE_DEVICE_SN_UNIQUE==true)
 
-			if(f_get_serial_string && (data_to_transfer < (initial_data_to_transfer-1))) //if we are sending the signature characters (third byte and more...)
+            if(f_get_serial_string && (data_to_transfer < (initial_data_to_transfer-1))) //if we are sending the signature characters (third byte and more...)
 
-				{ //(The first two bytes are the length and the descriptor)
+                { //(The first two bytes are the length and the descriptor)
 
-				switch (byte_to_send)
-					{
-					case 0:
-					Usb_write_byte(bin_to_ascii((Flash_read_sn(sn_index)>>4) & 0x0F)); //sends the fist part (MSB) of the signature hex number, converted in ascii
-					break;
+                switch (byte_to_send)
+                    {
+                    case 0:
+                    Usb_write_byte(bin_to_ascii((Flash_read_sn(sn_index)>>4) & 0x0F)); //sends the fist part (MSB) of the signature hex number, converted in ascii
+                    break;
 
-					case 1:
-					Usb_write_byte(0); //then, sends a null character (Usb_unicode)
-					break;
+                    case 1:
+                    Usb_write_byte(0); //then, sends a null character (Usb_unicode)
+                    break;
 
-					case 2:
-					Usb_write_byte(bin_to_ascii(Flash_read_sn(sn_index) & 0x0F)); //sends the second part (LSB) of the signature hex number, converted in ascii
-					break;
+                    case 2:
+                    Usb_write_byte(bin_to_ascii(Flash_read_sn(sn_index) & 0x0F)); //sends the second part (LSB) of the signature hex number, converted in ascii
+                    break;
 
-					case 3:
-					Usb_write_byte(0); //then, sends a null character (Usb_unicode)
-					sn_index++; //increments the signature address pointer.
-					break;
-					}
-				byte_to_send = (byte_to_send+1)%4;
-				}
-			else
-				{
-				Usb_write_PGM_byte(pbuffer++); //Write a flash byte to USB
-				}
+                    case 3:
+                    Usb_write_byte(0); //then, sends a null character (Usb_unicode)
+                    sn_index++; //increments the signature address pointer.
+                    break;
+                    }
+                byte_to_send = (byte_to_send+1)%4;
+                }
+            else
+                {
+                Usb_write_PGM_byte(pbuffer++); //Write a flash byte to USB
+                }
 #else
-			Usb_write_PGM_byte(pbuffer++);
+            Usb_write_PGM_byte(pbuffer++);
 #endif
-			data_to_transfer-- ; //decrements the number of bytes to transmit.
-			}
+            data_to_transfer-- ; //decrements the number of bytes to transmit.
+            }
 
-		if( Is_usb_nak_out_sent() )
-			break;
-		if( Is_usb_vbus_low() )
-			break;
-		Usb_send_control_in();
-		}
+        if( Is_usb_nak_out_sent() )
+            break;
+        if( Is_usb_vbus_low() )
+            break;
+        Usb_send_control_in();
+        }
 
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
-	f_get_serial_string=FALSE; //end of signature transmission
+#if (USE_DEVICE_SN_UNIQUE==true)
+    f_get_serial_string=false; //end of signature transmission
 #endif
 
-	if( ( zlp == TRUE ) && ( ! Is_usb_nak_out_sent() ) )
-		{
-		while( ! Is_usb_read_control_enabled() )
-			{
-			if( Is_usb_vbus_low() )
-				break;
-			}
-		Usb_send_control_in();
-		}
+    if( ( zlp == true ) && ( ! Is_usb_nak_out_sent() ) )
+        {
+        while( ! Is_usb_read_control_enabled() )
+            {
+            if( Is_usb_vbus_low() )
+                break;
+            }
+        Usb_send_control_in();
+        }
 
-	while( ! ( Is_usb_nak_out_sent() ) )
-		{
-		if( Is_usb_vbus_low() )
-			break;
-		}
-	Usb_ack_nak_out();
-	Usb_ack_control_out();
-	return TRUE;
-	}
+    while( ! ( Is_usb_nak_out_sent() ) )
+        {
+        if( Is_usb_vbus_low() )
+            break;
+        }
+    Usb_ack_nak_out();
+    Usb_ack_control_out();
+    return true;
+    }
 
 /**
  * @brief Manage the GET CONFIGURATION request.
@@ -417,280 +417,280 @@ Bool usb_get_descriptor( void )
  * The current configuration number is returned.
  */
 void usb_get_configuration( void )
-	{
-	Usb_ack_receive_setup();
+    {
+    Usb_ack_receive_setup();
 
-	Usb_write_byte(usb_configuration_nb);
-	Usb_ack_in_ready();
+    Usb_write_byte(usb_configuration_nb);
+    Usb_ack_in_ready();
 
-	while( ! Is_usb_receive_out() )
-		{
-		if( Is_usb_vbus_low() )
-			break;
-		}
-	Usb_ack_receive_out();
-	}
+    while( ! Is_usb_receive_out() )
+        {
+        if( Is_usb_vbus_low() )
+            break;
+        }
+    Usb_ack_receive_out();
+    }
 
 /**
  * @brief Manage the GET STATUS request.
  *
  * The device interface or endpoint status is returned.
  */
-Bool usb_get_status( U8 bmRequestType )
-	{
-	U8 wIndex;
-	U8 dummy;
+bool usb_get_status( uint8_t bmRequestType )
+    {
+    uint8_t wIndex;
+    uint8_t dummy;
 
-	dummy = Usb_read_byte(); ///< dummy read
-	dummy = Usb_read_byte(); ///< dummy read
-	wIndex = Usb_read_byte();
+    dummy = Usb_read_byte(); ///< dummy read
+    dummy = Usb_read_byte(); ///< dummy read
+    wIndex = Usb_read_byte();
 
-	switch( bmRequestType )
-		{
-	case USB_SETUP_GET_STAND_DEVICE :
-		Usb_ack_receive_setup();
-		Usb_write_byte(device_status);
-		break;
+    switch( bmRequestType )
+        {
+    case USB_SETUP_GET_STAND_DEVICE :
+        Usb_ack_receive_setup();
+        Usb_write_byte(device_status);
+        break;
 
-	case USB_SETUP_GET_STAND_INTERFACE :
-		Usb_ack_receive_setup();
-		Usb_write_byte(0); // Reserved - always 0
-		break;
+    case USB_SETUP_GET_STAND_INTERFACE :
+        Usb_ack_receive_setup();
+        Usb_write_byte(0); // Reserved - always 0
+        break;
 
-	case USB_SETUP_GET_STAND_ENDPOINT :
-		Usb_ack_receive_setup();
-		wIndex = wIndex & MSK_EP_DIR;
-		Usb_write_byte( endpoint_status[wIndex] );
-		break;
+    case USB_SETUP_GET_STAND_ENDPOINT :
+        Usb_ack_receive_setup();
+        wIndex = wIndex & MSK_EP_DIR;
+        Usb_write_byte( endpoint_status[wIndex] );
+        break;
 
-	default :
-		return FALSE;
-		}
-	Usb_write_byte(0);
+    default :
+        return false;
+        }
+    Usb_write_byte(0);
 
-	Usb_send_control_in();
-	while( ! Is_usb_receive_out() )
-		{
-		if( Is_usb_vbus_low() )
-			break;
-		}
-	Usb_ack_receive_out();
-	return TRUE;
-	}
+    Usb_send_control_in();
+    while( ! Is_usb_receive_out() )
+        {
+        if( Is_usb_vbus_low() )
+            break;
+        }
+    Usb_ack_receive_out();
+    return true;
+    }
 
 /**
  * @brief Manage the SET FEATURE request.
  *
  * The USB test modes are supported by this function.
  */
-Bool usb_set_feature( U8 bmRequestType )
-	{
-	U8 wValue;
-	U8 wIndex;
-	U8 dummy;
+bool usb_set_feature( uint8_t bmRequestType )
+    {
+    uint8_t wValue;
+    uint8_t wIndex;
+    uint8_t dummy;
 
-	switch( bmRequestType )
-		{
-	case USB_SETUP_SET_STAND_DEVICE :
-		wValue = Usb_read_byte();
-		switch( wValue )
-			{
-		case USB_REMOTE_WAKEUP :
-			if( ( wValue != FEATURE_DEVICE_REMOTE_WAKEUP ) || ( USB_REMOTE_WAKEUP_FEATURE != ENABLED ) )
-				return FALSE; // Invalid request
-			device_status |= USB_DEVICE_STATUS_REMOTEWAKEUP;
-			remote_wakeup_feature = ENABLED;
-			Usb_ack_receive_setup();
-			Usb_send_control_in();
-			break;
+    switch( bmRequestType )
+        {
+    case USB_SETUP_SET_STAND_DEVICE :
+        wValue = Usb_read_byte();
+        switch( wValue )
+            {
+        case USB_REMOTE_WAKEUP :
+            if( ( wValue != FEATURE_DEVICE_REMOTE_WAKEUP ) || ( USB_REMOTE_WAKEUP_FEATURE != true ) )
+                return false; // Invalid request
+            device_status |= USB_DEVICE_STATUS_REMOTEWAKEUP;
+            remote_wakeup_feature = true;
+            Usb_ack_receive_setup();
+            Usb_send_control_in();
+            break;
 
-#if (USB_OTG_FEATURE == ENABLED)
-			case OTG_B_HNP_ENABLE:
-			if (((OTG_BMATTRIBUTES&HNP_SUPPORT) == 0) || (USB_OTG_FEATURE == DISABLED)) // see usb_descriptors.h
-			return FALSE; // Invalid request
-			otg_features_supported |= OTG_B_HNP_ENABLE;
-			otg_device_nb_hnp_retry = BDEV_HNP_NB_RETRY;
-			Usb_ack_receive_setup();
-			Usb_send_control_in();
-			break;
+#if (USB_OTG_FEATURE == true)
+            case OTG_B_HNP_ENABLE:
+            if (((OTG_BMATTRIBUTES&HNP_SUPPORT) == 0) || (USB_OTG_FEATURE == false)) // see usb_descriptors.h
+            return false; // Invalid request
+            otg_features_supported |= OTG_B_HNP_ENABLE;
+            otg_device_nb_hnp_retry = BDEV_HNP_NB_RETRY;
+            Usb_ack_receive_setup();
+            Usb_send_control_in();
+            break;
 
-			case OTG_A_HNP_SUPPORT:
-			if (((OTG_BMATTRIBUTES&HNP_SUPPORT) == 0) || (USB_OTG_FEATURE == DISABLED))
-			return FALSE; // Invalid request
-			otg_features_supported |= OTG_A_HNP_SUPPORT;
-			Usb_ack_receive_setup();
-			Usb_send_control_in();
-			break;
+            case OTG_A_HNP_SUPPORT:
+            if (((OTG_BMATTRIBUTES&HNP_SUPPORT) == 0) || (USB_OTG_FEATURE == false))
+            return false; // Invalid request
+            otg_features_supported |= OTG_A_HNP_SUPPORT;
+            Usb_ack_receive_setup();
+            Usb_send_control_in();
+            break;
 
-			case OTG_A_ALT_HNP_SUPPORT:
-			if (((OTG_BMATTRIBUTES&HNP_SUPPORT) == 0) || (USB_OTG_FEATURE == DISABLED))
-			return FALSE; // Invalid request
-			otg_features_supported |= OTG_A_ALT_HNP_SUPPORT;
-			Usb_ack_receive_setup();
-			Usb_send_control_in();
-			break;
+            case OTG_A_ALT_HNP_SUPPORT:
+            if (((OTG_BMATTRIBUTES&HNP_SUPPORT) == 0) || (USB_OTG_FEATURE == false))
+            return false; // Invalid request
+            otg_features_supported |= OTG_A_ALT_HNP_SUPPORT;
+            Usb_ack_receive_setup();
+            Usb_send_control_in();
+            break;
 #endif
 
-		default :
-			return FALSE; // Unknow request
-			break;
-			}
-		break;
+        default :
+            return false; // Unknow request
+            break;
+            }
+        break;
 
-	case USB_SETUP_SET_STAND_INTERFACE :
-		return FALSE; // Unknow request
-		break;
+    case USB_SETUP_SET_STAND_INTERFACE :
+        return false; // Unknow request
+        break;
 
-	case USB_SETUP_SET_STAND_ENDPOINT :
-		wValue = Usb_read_byte();
-		dummy = Usb_read_byte(); ///< dummy read
-		if( wValue != FEATURE_ENDPOINT_HALT )
-			return FALSE; // Unknow request
-		wIndex = ( Usb_read_byte() & MSK_EP_DIR );
-		if( wIndex == EP_CONTROL )
-			{
-			Usb_enable_stall_handshake();
-			Usb_ack_receive_setup();
-			}
-		Usb_select_endpoint(wIndex);
-		if( ! Is_usb_endpoint_enabled() )
-			{
-			Usb_select_endpoint(EP_CONTROL);
-			return FALSE; // Invalid request
-			}
-		Usb_enable_stall_handshake();
-		Usb_select_endpoint(EP_CONTROL);
-		endpoint_status[wIndex] = 0x01;
-		Usb_ack_receive_setup();
-		Usb_send_control_in();
-		break;
+    case USB_SETUP_SET_STAND_ENDPOINT :
+        wValue = Usb_read_byte();
+        dummy = Usb_read_byte(); ///< dummy read
+        if( wValue != FEATURE_ENDPOINT_HALT )
+            return false; // Unknow request
+        wIndex = ( Usb_read_byte() & MSK_EP_DIR );
+        if( wIndex == EP_CONTROL )
+            {
+            Usb_enable_stall_handshake();
+            Usb_ack_receive_setup();
+            }
+        Usb_select_endpoint(wIndex);
+        if( ! Is_usb_endpoint_enabled() )
+            {
+            Usb_select_endpoint(EP_CONTROL);
+            return false; // Invalid request
+            }
+        Usb_enable_stall_handshake();
+        Usb_select_endpoint(EP_CONTROL);
+        endpoint_status[wIndex] = 0x01;
+        Usb_ack_receive_setup();
+        Usb_send_control_in();
+        break;
 
-	default :
-		return FALSE; // Unknow request
-		break;
-		}
-	return TRUE;
-	}
+    default :
+        return false; // Unknow request
+        break;
+        }
+    return true;
+    }
 
 /**
  * @brief Manage the SET FEATURE request.
  */
-Bool usb_clear_feature( U8 bmRequestType )
-	{
-	U8 wValue;
-	U8 wIndex;
-	U8 dummy;
+bool usb_clear_feature( uint8_t bmRequestType )
+    {
+    uint8_t wValue;
+    uint8_t wIndex;
+    uint8_t dummy;
 
-	switch( bmRequestType )
-		{
-	case USB_SETUP_SET_STAND_DEVICE :
-		wValue = Usb_read_byte();
-		if( ( wValue != FEATURE_DEVICE_REMOTE_WAKEUP ) || ( USB_REMOTE_WAKEUP_FEATURE != ENABLED ) )
-			return FALSE; // Invalid request
-		device_status &= ~ USB_DEVICE_STATUS_REMOTEWAKEUP;
-		remote_wakeup_feature = DISABLED;
-		Usb_ack_receive_setup();
-		Usb_send_control_in();
-		break;
+    switch( bmRequestType )
+        {
+    case USB_SETUP_SET_STAND_DEVICE :
+        wValue = Usb_read_byte();
+        if( ( wValue != FEATURE_DEVICE_REMOTE_WAKEUP ) || ( USB_REMOTE_WAKEUP_FEATURE != true ) )
+            return false; // Invalid request
+        device_status &= ~ USB_DEVICE_STATUS_REMOTEWAKEUP;
+        remote_wakeup_feature = false;
+        Usb_ack_receive_setup();
+        Usb_send_control_in();
+        break;
 
-	case USB_SETUP_SET_STAND_INTERFACE :
-		return FALSE; // Unknow request
-		break;
+    case USB_SETUP_SET_STAND_INTERFACE :
+        return false; // Unknow request
+        break;
 
-	case USB_SETUP_SET_STAND_ENDPOINT :
-		wValue = Usb_read_byte();
-		dummy = Usb_read_byte();
-		if( wValue != FEATURE_ENDPOINT_HALT )
-			return FALSE; // Unknow request
-		wIndex = ( Usb_read_byte() & MSK_EP_DIR );
-		Usb_select_endpoint(wIndex);
-		if( ! Is_usb_endpoint_enabled() )
-			{
-			Usb_select_endpoint(EP_CONTROL);
-			return FALSE; // Invalid request
-			}
-		if( wIndex != EP_CONTROL )
-			{
-			Usb_disable_stall_handshake();
-			Usb_reset_endpoint(wIndex);
-			Usb_reset_data_toggle();
-			}
-		Usb_select_endpoint(EP_CONTROL);
-		endpoint_status[wIndex] = 0x00;
-		Usb_ack_receive_setup();
-		Usb_send_control_in();
-		break;
+    case USB_SETUP_SET_STAND_ENDPOINT :
+        wValue = Usb_read_byte();
+        dummy = Usb_read_byte();
+        if( wValue != FEATURE_ENDPOINT_HALT )
+            return false; // Unknow request
+        wIndex = ( Usb_read_byte() & MSK_EP_DIR );
+        Usb_select_endpoint(wIndex);
+        if( ! Is_usb_endpoint_enabled() )
+            {
+            Usb_select_endpoint(EP_CONTROL);
+            return false; // Invalid request
+            }
+        if( wIndex != EP_CONTROL )
+            {
+            Usb_disable_stall_handshake();
+            Usb_reset_endpoint(wIndex);
+            Usb_reset_data_toggle();
+            }
+        Usb_select_endpoint(EP_CONTROL);
+        endpoint_status[wIndex] = 0x00;
+        Usb_ack_receive_setup();
+        Usb_send_control_in();
+        break;
 
-	default :
-		return FALSE; // Unknow request
-		break;
-		}
-	return TRUE;
-	}
+    default :
+        return false; // Unknow request
+        break;
+        }
+    return true;
+    }
 
 /**
  * @brief Manage the SETUP_GET_INTERFACE request.
  */
-Bool usb_get_interface( void )
-	{
-	U16 wInterface;
-	U8 wValue_msb;
-	U8 wValue_lsb;
+bool usb_get_interface( void )
+    {
+    uint16_t wInterface;
+    uint8_t wValue_msb;
+    uint8_t wValue_lsb;
 
-	// Read wValue
-	wValue_lsb = Usb_read_byte();
-	wValue_msb = Usb_read_byte();
-	// wValue = Alternate Setting
-	// wIndex = Interface
-	LSB(wInterface) = Usb_read_byte();
-	MSB(wInterface) = Usb_read_byte();
-	if( ( 0 != wValue_msb ) || ( 0 != wValue_msb ) )
-		return FALSE;
-	Usb_ack_receive_setup();
+    // Read wValue
+    wValue_lsb = Usb_read_byte();
+    wValue_msb = Usb_read_byte();
+    // wValue = Alternate Setting
+    // wIndex = Interface
+    BYTEn( wInterface, 0 ) = Usb_read_byte();
+    BYTEn( wInterface, 1 ) = Usb_read_byte();
+    if( ( 0 != wValue_msb ) || ( 0 != wValue_msb ) )
+        return false;
+    Usb_ack_receive_setup();
 
-	Usb_write_byte( usb_user_interface_get(wInterface) );
-	Usb_send_control_in();
+    Usb_write_byte( usb_user_interface_get(wInterface) );
+    Usb_send_control_in();
 
-	while( ! Is_usb_receive_out() )
-		{
-		if( Is_usb_vbus_low() )
-			break;
-		}
-	Usb_ack_receive_out();
-	return TRUE;
-	}
+    while( ! Is_usb_receive_out() )
+        {
+        if( Is_usb_vbus_low() )
+            break;
+        }
+    Usb_ack_receive_out();
+    return true;
+    }
 
 /**
  * @brief Manage the SETUP_SET_INTERFACE request.
  */
-Bool usb_set_interface( void )
-	{
-	U16 wInterface;
-	U8 wValue_msb;
-	U8 wValue_lsb;
+bool usb_set_interface( void )
+    {
+    uint16_t wInterface;
+    uint8_t wValue_msb;
+    uint8_t wValue_lsb;
 
-	// Read wValue
-	wValue_lsb = Usb_read_byte();
-	wValue_msb = Usb_read_byte();
-	// wValue = Alternate Setting
-	// wIndex = Interface
-	LSB(wInterface) = Usb_read_byte();
-	MSB(wInterface) = Usb_read_byte();
-	if( 0 != wValue_msb )
-		return FALSE;
-	Usb_ack_receive_setup();
+    // Read wValue
+    wValue_lsb = Usb_read_byte();
+    wValue_msb = Usb_read_byte();
+    // wValue = Alternate Setting
+    // wIndex = Interface
+    BYTEn( wInterface, 0 ) = Usb_read_byte();
+    BYTEn( wInterface, 1 ) = Usb_read_byte();
+    if( 0 != wValue_msb )
+        return false;
+    Usb_ack_receive_setup();
 
-	usb_user_interface_reset( wInterface, wValue_lsb );
-	Usb_select_endpoint(EP_CONTROL);
+    usb_user_interface_reset( wInterface, wValue_lsb );
+    Usb_select_endpoint(EP_CONTROL);
 
-	Usb_send_control_in();
-	while( ! Is_usb_in_ready() )
-		{
-		if( Is_usb_vbus_low() )
-			break;
-		}
-	return TRUE;
-	}
+    Usb_send_control_in();
+    while( ! Is_usb_in_ready() )
+        {
+        if( Is_usb_vbus_low() )
+            break;
+        }
+    return true;
+    }
 
 /**
  * @brief Manages the remote wakeup generation to wake up the host controller.
@@ -699,22 +699,22 @@ Bool usb_set_interface( void )
  * will call for custom decoding function in usb_specific_request module.
  */
 void usb_generate_remote_wakeup( void )
-	{
-	if( Is_pll_ready() == FALSE )
-		{
-		Pll_start_auto();
-		Wait_pll_ready()
-			;
-		}
-	Usb_unfreeze_clock();
-	if( remote_wakeup_feature == ENABLED )
-		{
-		Usb_initiate_remote_wake_up();
-		remote_wakeup_feature = DISABLED;
-		}
-	}
+    {
+    if( Is_pll_ready() == false )
+        {
+        Pll_start_auto();
+        Wait_pll_ready()
+            ;
+        }
+    Usb_unfreeze_clock();
+    if( remote_wakeup_feature == true )
+        {
+        Usb_initiate_remote_wake_up();
+        remote_wakeup_feature = false;
+        }
+    }
 
-#if ((USB_DEVICE_SN_USE==ENABLE) && (USE_DEVICE_SN_UNIQUE==ENABLE))
+#if ((USB_DEVICE_SN_USE==true) && (USE_DEVICE_SN_UNIQUE==true))
 /**
  * This function is used to convert a 4 bit number into an ascii character
  * 5 => '5'       10 => 'A'
@@ -723,9 +723,9 @@ void usb_generate_remote_wakeup( void )
  *
  * @return converted character
  */
-U8 bin_to_ascii (U8 b)
-	{
-	return ( (b <= 0x09) ? (b+'0') : (b+'A'-10) );
-	}
+uint8_t bin_to_ascii (uint8_t b)
+    {
+    return ( (b <= 0x09) ? (b+'0') : (b+'A'-10) );
+    }
 #endif
 

@@ -158,7 +158,7 @@ typedef enum endpoint_parameter
 #define TOKEN_IN                 1
 #define TOKEN_OUT                2
 
-#define Is_ep_addr_in(x)         (  (x&USB_ENDPOINT_DIR_MASK)?   TRUE : FALSE)
+#define Is_ep_addr_in(x)         (  (x&USB_ENDPOINT_DIR_MASK)?   true : false)
 
 // OTG Timers customizing
 #define VBUSRISE_20MS            0x00   // HOST : Minimum delay after Vbus requested to get it > Va_vbus_valid (otherwise => error)
@@ -212,7 +212,7 @@ typedef enum endpoint_parameter
 /// Disable internal USB pads regulator
 #define Usb_disable_regulator()         (UHWCON &= ~(1<<UVREGE))
 /// Check regulator enable bit
-#define Is_usb_regulator_enabled()      ((UHWCON &  (1<<UVREGE))  ? TRUE : FALSE)
+#define Is_usb_regulator_enabled()      ((UHWCON &  (1<<UVREGE))  ? true : false)
 ///@}
 
 /**
@@ -241,7 +241,7 @@ typedef enum endpoint_parameter
 #define Usb_enable()                  (USBCON |= ((1<<USBE) | (1<<OTGPADE)))
 /// Disable both USB interface and Vbus pad
 #define Usb_disable()                 (USBCON &= ~((1<<USBE) | (1<<OTGPADE)))
-#define Is_usb_enabled()              ((USBCON  &   (1<<USBE))   ? TRUE : FALSE)
+#define Is_usb_enabled()              ((USBCON  &   (1<<USBE))   ? true : false)
 
 /// Enable USB engine only
 #define Usb_engine_enable()            (USBCON |= (1<<USBE) )
@@ -255,29 +255,29 @@ typedef enum endpoint_parameter
 
 #define Usb_select_device()           (USBCON  &= ~(1<<HOST))
 #define Usb_select_host()             (USBCON  |=  (1<<HOST))
-#define Is_usb_host_enabled()         ((USBCON  &   (1<<HOST))   ? TRUE : FALSE)
-#define Is_usb_device_enabled()       ((USBCON & (1<<HOST)) ? FALSE : TRUE)
+#define Is_usb_host_enabled()         ((USBCON  &   (1<<HOST))   ? true : false)
+#define Is_usb_device_enabled()       ((USBCON & (1<<HOST)) ? false : true)
 
 /// Stop internal USB clock in interface (freeze the interface register)
 #define Usb_freeze_clock()            (USBCON  |=  (1<<FRZCLK))
 #define Usb_unfreeze_clock()          (USBCON  &= ~(1<<FRZCLK))
-#define Is_usb_clock_freezed()        ((USBCON  &   (1<<FRZCLK)) ? TRUE : FALSE)
+#define Is_usb_clock_freezed()        ((USBCON  &   (1<<FRZCLK)) ? true : false)
 
 #define Usb_enable_id_interrupt()     (USBCON  |=  (1<<IDTE))
 #define Usb_disable_id_interrupt()    (USBCON  &= ~(1<<IDTE))
-#define Is_usb_id_interrupt_enabled() ((USBCON &  (1<<IDTE))     ? TRUE : FALSE)
-#define Is_usb_id_device()            ((USBSTA &   (1<<ID))      ? TRUE : FALSE)
-#define Is_usb_id_host()              ((USBSTA & (1<<ID))        ? FALSE : TRUE)
+#define Is_usb_id_interrupt_enabled() ((USBCON &  (1<<IDTE))     ? true : false)
+#define Is_usb_id_device()            ((USBSTA &   (1<<ID))      ? true : false)
+#define Is_usb_id_host()              ((USBSTA & (1<<ID))        ? false : true)
 #define Usb_ack_id_transition()       (USBINT  = ~(1<<IDTI))
-#define Is_usb_id_transition()        ((USBINT &   (1<<IDTI))    ? TRUE : FALSE)
+#define Is_usb_id_transition()        ((USBINT &   (1<<IDTI))    ? true : false)
 
 #define Usb_enable_vbus_interrupt()   (USBCON  |=  (1<<VBUSTE))
 #define Usb_disable_vbus_interrupt()  (USBCON  &= ~(1<<VBUSTE))
-#define Is_usb_vbus_interrupt_enabled() ((USBCON &  (1<<VBUSTE))     ? TRUE : FALSE)
-#define Is_usb_vbus_high()            ((USBSTA &   (1<<VBUS))    ? TRUE : FALSE)
-#define Is_usb_vbus_low()             ((USBSTA &   (1<<VBUS))    ? FALSE : TRUE)
+#define Is_usb_vbus_interrupt_enabled() ((USBCON &  (1<<VBUSTE))     ? true : false)
+#define Is_usb_vbus_high()            ((USBSTA &   (1<<VBUS))    ? true : false)
+#define Is_usb_vbus_low()             ((USBSTA &   (1<<VBUS))    ? false : true)
 #define Usb_ack_vbus_transition()     (USBINT  = ~(1<<VBUSTI))
-#define Is_usb_vbus_transition()      ((USBINT &   (1<<VBUSTI))  ? TRUE : FALSE)
+#define Is_usb_vbus_transition()      ((USBINT &   (1<<VBUSTI))  ? true : false)
 
 #define MSK_IDTE_VBUSTE               ((1<<IDTE)|(1<<VBUSTE))
 /// returns the USB general interrupts (interrupt enabled)
@@ -297,8 +297,8 @@ typedef enum endpoint_parameter
 #define Usb_ack_cache_bconnection_error(x) ((x)  &= ~MSK_BCERRI)
 
 #define Usb_enter_dpram_mode()        (UDPADDH =  (1<<DPACC))
-#define Usb_exit_dpram_mode()         (UDPADDH =  (U8)~(1<<DPACC))
-#define Usb_set_dpram_address(addr)   (UDPADDH =  (1<<DPACC) + ((Uint16)addr >> 8), UDPADDL = (Uchar)addr)
+#define Usb_exit_dpram_mode()         (UDPADDH =  (uint8_t)~(1<<DPACC))
+#define Usb_set_dpram_address(addr)   (UDPADDH =  (1<<DPACC) + ((uint16_t)addr >> 8), UDPADDL = (unsigned char)addr)
 #define Usb_write_dpram_byte(val)     (UEDATX=val)
 #define Usb_read_dpram_byte()         (UEDATX)
 
@@ -311,7 +311,7 @@ typedef enum endpoint_parameter
 /// Manually request VBUS OFF without UVCON signal from USB interface
 #define Usb_disable_manual_vbus()     (PORTE&=~0x80,DDRE|=0x80,Usb_enable_uvcon_pin())
 /// is vbus manually activated ?
-#define Is_usb_vbus_manual_on()       (((PINE&0x80) != 0) ? TRUE : FALSE)
+#define Is_usb_vbus_manual_on()       (((PINE&0x80) != 0) ? true : false)
 
 /// initiates a Host Negociation Protocol
 #define Usb_device_initiate_hnp()     (OTGCON  |=  (1<<HNPREQ))
@@ -332,13 +332,13 @@ typedef enum endpoint_parameter
 /// disables hardware control on VBus
 #define Usb_disable_vbus_hw_control() (OTGCON  |=  (1<<VBUSHWC))
 /// tests if VBus has been requested
-#define Is_usb_vbus_enabled()         ((OTGCON &   (1<<VBUSREQ)) ? TRUE : FALSE)
+#define Is_usb_vbus_enabled()         ((OTGCON &   (1<<VBUSREQ)) ? true : false)
 /// tests if a HNP occurs
-#define Is_usb_hnp()                  ((OTGCON &   (1<<HNPREQ))  ? TRUE : FALSE)
+#define Is_usb_hnp()                  ((OTGCON &   (1<<HNPREQ))  ? true : false)
 /// tests if a SRP from device occurs
-#define Is_usb_device_srp()           ((OTGCON &   (1<<SRPREQ))  ? TRUE : FALSE)
+#define Is_usb_device_srp()           ((OTGCON &   (1<<SRPREQ))  ? true : false)
 /// tests if device is initiating SRP
-#define Is_usb_device_initiating_srp()           ((OTGCON &   (1<<SRPREQ))  ? TRUE : FALSE)
+#define Is_usb_device_initiating_srp()           ((OTGCON &   (1<<SRPREQ))  ? true : false)
 
 /// selects one of the four OTG timers and sets up the specified delay
 #define Set_otg_custom_timer(sel)                 (OTGTCON = sel)
@@ -347,61 +347,61 @@ typedef enum endpoint_parameter
 #define Usb_enable_suspend_time_out_interrupt()   (OTGIEN  |=  (1<<STOE))
 /// disables suspend time out interrupt
 #define Usb_disable_suspend_time_out_interrupt()  (OTGIEN  &= ~(1<<STOE))
-#define Is_suspend_time_out_interrupt_enabled()   ((OTGIEN &  (1<<STOE))   ? TRUE : FALSE)
+#define Is_suspend_time_out_interrupt_enabled()   ((OTGIEN &  (1<<STOE))   ? true : false)
 /// acks suspend time out interrupt
 #define Usb_ack_suspend_time_out_interrupt()      (OTGINT  &= ~(1<<STOI))
 /// tests if a suspend time out occurs
-#define Is_usb_suspend_time_out_interrupt()       ((OTGINT &   (1<<STOI))    ? TRUE : FALSE)
+#define Is_usb_suspend_time_out_interrupt()       ((OTGINT &   (1<<STOI))    ? true : false)
 
 /// enables HNP error interrupt
 #define Usb_enable_hnp_error_interrupt()          (OTGIEN  |=  (1<<HNPERRE))
 /// disables HNP error interrupt
 #define Usb_disable_hnp_error_interrupt()         (OTGIEN  &= ~(1<<HNPERRE))
-#define Is_hnp_error_interrupt_enabled()          ((OTGIEN &  (1<<HNPERRE))   ? TRUE : FALSE)
+#define Is_hnp_error_interrupt_enabled()          ((OTGIEN &  (1<<HNPERRE))   ? true : false)
 /// acks HNP error interrupt
 #define Usb_ack_hnp_error_interrupt()             (OTGINT  &= ~(1<<HNPERRI))
 /// tests if a HNP error occurs
-#define Is_usb_hnp_error_interrupt()              ((OTGINT &   (1<<HNPERRI)) ? TRUE : FALSE)
+#define Is_usb_hnp_error_interrupt()              ((OTGINT &   (1<<HNPERRI)) ? true : false)
 
 /// enables role exchange interrupt
 #define Usb_enable_role_exchange_interrupt()      (OTGIEN  |=  (1<<ROLEEXE))
 /// disables role exchange interrupt
 #define Usb_disable_role_exchange_interrupt()     (OTGIEN  &= ~(1<<ROLEEXE))
-#define Is_role_exchange_interrupt_enabled()      ((OTGIEN &  (1<<ROLEEXE))   ? TRUE : FALSE)
+#define Is_role_exchange_interrupt_enabled()      ((OTGIEN &  (1<<ROLEEXE))   ? true : false)
 /// acks role exchange interrupt
 #define Usb_ack_role_exchange_interrupt()         (OTGINT  &= ~(1<<ROLEEXI))
 /// tests if a role exchange occurs
-#define Is_usb_role_exchange_interrupt()          ((OTGINT &   (1<<ROLEEXI)) ? TRUE : FALSE)
+#define Is_usb_role_exchange_interrupt()          ((OTGINT &   (1<<ROLEEXI)) ? true : false)
 
 /// enables B device connection error interrupt
 #define Usb_enable_bconnection_error_interrupt()  (OTGIEN  |=  (1<<BCERRE))
 /// disables B device connection error interrupt
 #define Usb_disable_bconnection_error_interrupt() (OTGIEN  &= ~(1<<BCERRE))
-#define Is_bconnection_error_interrupt_enabled()  ((OTGIEN &  (1<<BCERRE))   ? TRUE : FALSE)
+#define Is_bconnection_error_interrupt_enabled()  ((OTGIEN &  (1<<BCERRE))   ? true : false)
 /// acks B device connection error interrupt
 #define Usb_ack_bconnection_error_interrupt()     (OTGINT  &= ~(1<<BCERRI))
 /// tests if a B device connection error occurs
-#define Is_usb_bconnection_error_interrupt()      ((OTGINT &   (1<<BCERRI))  ? TRUE : FALSE)
+#define Is_usb_bconnection_error_interrupt()      ((OTGINT &   (1<<BCERRI))  ? true : false)
 
 /// enables VBus error interrupt
 #define Usb_enable_vbus_error_interrupt()         (OTGIEN  |=  (1<<VBERRE))
 /// disables VBus error interrupt
 #define Usb_disable_vbus_error_interrupt()        (OTGIEN  &= ~(1<<VBERRE))
-#define Is_vbus_error_interrupt_enabled()         ((OTGIEN &  (1<<VBERRE))   ? TRUE : FALSE)
+#define Is_vbus_error_interrupt_enabled()         ((OTGIEN &  (1<<VBERRE))   ? true : false)
 /// acks VBus error interrupt
 #define Usb_ack_vbus_error_interrupt()            (OTGINT  &= ~(1<<VBERRI))
 /// tests if a VBus error occurs
-#define Is_usb_vbus_error_interrupt()             ((OTGINT &   (1<<VBERRI))  ? TRUE : FALSE)
+#define Is_usb_vbus_error_interrupt()             ((OTGINT &   (1<<VBERRI))  ? true : false)
 
 /// enables SRP interrupt
 #define Usb_enable_srp_interrupt()                (OTGIEN  |=  (1<<SRPE))
 /// disables SRP interrupt
 #define Usb_disable_srp_interrupt()               (OTGIEN  &= ~(1<<SRPE))
-#define Is_srp_interrupt_enabled()                ((OTGIEN &  (1<<SRPE))   ? TRUE : FALSE)
+#define Is_srp_interrupt_enabled()                ((OTGIEN &  (1<<SRPE))   ? true : false)
 /// acks SRP interrupt
 #define Usb_ack_srp_interrupt()                   (OTGINT  &= ~(1<<SRPI))
 /// tests if a SRP occurs
-#define Is_usb_srp_interrupt()                    ((OTGINT &   (1<<SRPI))    ? TRUE : FALSE)
+#define Is_usb_srp_interrupt()                    ((OTGINT &   (1<<SRPI))    ? true : false)
 ///@}
 
 
@@ -417,9 +417,9 @@ typedef enum endpoint_parameter
 /// attaches to USB bus
 #define Usb_attach()                              (UDCON   &= ~(1<<DETACH))
 /// test if remote wake-up still running
-#define Is_usb_pending_remote_wake_up()           ((UDCON & (1<<RMWKUP)) ? TRUE : FALSE)
+#define Is_usb_pending_remote_wake_up()           ((UDCON & (1<<RMWKUP)) ? true : false)
 /// test if the device is detached
-#define Is_usb_detached()                         ((UDCON & (1<<DETACH)) ? TRUE : FALSE)
+#define Is_usb_detached()                         ((UDCON & (1<<DETACH)) ? true : false)
 
 /// returns the USB device interrupts (interrupt enabled)
 #define Usb_get_device_interrupt()                (UDINT   &   (1<<UDIEN))
@@ -430,73 +430,73 @@ typedef enum endpoint_parameter
 #define Usb_enable_remote_wake_up_interrupt()     (UDIEN   |=  (1<<UPRSME))
 /// disables remote wake-up interrupt
 #define Usb_disable_remote_wake_up_interrupt()    (UDIEN   &= ~(1<<UPRSME))
-#define Is_remote_wake_up_interrupt_enabled()     ((UDIEN &  (1<<UPRSME))   ? TRUE : FALSE)
+#define Is_remote_wake_up_interrupt_enabled()     ((UDIEN &  (1<<UPRSME))   ? true : false)
 /// acks remote wake-up
 #define Usb_ack_remote_wake_up_start()            (UDINT   = ~(1<<UPRSMI))
 /// tests if remote wake-up still running
-#define Is_usb_remote_wake_up_start()             ((UDINT &   (1<<UPRSMI))  ? TRUE : FALSE)
+#define Is_usb_remote_wake_up_start()             ((UDINT &   (1<<UPRSMI))  ? true : false)
 
 /// enables resume interrupt
 #define Usb_enable_resume_interrupt()             (UDIEN   |=  (1<<EORSME))
 /// disables resume interrupt
 #define Usb_disable_resume_interrupt()            (UDIEN   &= ~(1<<EORSME))
-#define Is_resume_interrupt_enabled()             ((UDIEN &  (1<<EORSME))   ? TRUE : FALSE)
+#define Is_resume_interrupt_enabled()             ((UDIEN &  (1<<EORSME))   ? true : false)
 /// acks resume
 #define Usb_ack_resume()                          (UDINT   = ~(1<<EORSMI))
 /// tests if resume occurs
-#define Is_usb_resume()                           ((UDINT &   (1<<EORSMI))  ? TRUE : FALSE)
+#define Is_usb_resume()                           ((UDINT &   (1<<EORSMI))  ? true : false)
 
 /// enables wake-up interrupt
 #define Usb_enable_wake_up_interrupt()            (UDIEN   |=  (1<<WAKEUPE))
 /// disables wake-up interrupt
 #define Usb_disable_wake_up_interrupt()           (UDIEN   &= ~(1<<WAKEUPE))
-#define Is_wake_up_interrupt_enabled()            ((UDIEN &  (1<<WAKEUPE))   ? TRUE : FALSE)
+#define Is_wake_up_interrupt_enabled()            ((UDIEN &  (1<<WAKEUPE))   ? true : false)
 /// acks wake-up
 #define Usb_ack_wake_up()                         (UDINT   = ~(1<<WAKEUPI))
 /// tests if wake-up occurs
-#define Is_usb_wake_up()                          ((UDINT &   (1<<WAKEUPI)) ? TRUE : FALSE)
+#define Is_usb_wake_up()                          ((UDINT &   (1<<WAKEUPI)) ? true : false)
 
 /// enables USB reset interrupt
 #define Usb_enable_reset_interrupt()              (UDIEN   |=  (1<<EORSTE))
 /// disables USB reset interrupt
 #define Usb_disable_reset_interrupt()             (UDIEN   &= ~(1<<EORSTE))
-#define Is_reset_interrupt_enabled()              ((UDIEN &  (1<<EORSTE))   ? TRUE : FALSE)
+#define Is_reset_interrupt_enabled()              ((UDIEN &  (1<<EORSTE))   ? true : false)
 /// acks USB reset
 #define Usb_ack_reset()                           (UDINT   = ~(1<<EORSTI))
 /// tests if USB reset occurs
-#define Is_usb_reset()                            ((UDINT &   (1<<EORSTI))  ? TRUE : FALSE)
+#define Is_usb_reset()                            ((UDINT &   (1<<EORSTI))  ? true : false)
 
 /// enables Start Of Frame Interrupt
 #define Usb_enable_sof_interrupt()                (UDIEN   |=  (1<<SOFE))
 /// disables Start Of Frame Interrupt
 #define Usb_disable_sof_interrupt()               (UDIEN   &= ~(1<<SOFE))
-#define Is_sof_interrupt_enabled()                ((UDIEN &  (1<<SOFE))   ? TRUE : FALSE)
+#define Is_sof_interrupt_enabled()                ((UDIEN &  (1<<SOFE))   ? true : false)
 /// acks Start Of Frame
 #define Usb_ack_sof()                             (UDINT   = ~(1<<SOFI))
 /// tests if Start Of Frame occurs
-#define Is_usb_sof()                              ((UDINT &   (1<<SOFI))    ? TRUE : FALSE)
+#define Is_usb_sof()                              ((UDINT &   (1<<SOFI))    ? true : false)
 
 /// enables suspend state interrupt
 #define Usb_enable_suspend_interrupt()            (UDIEN   |=  (1<<SUSPE))
 /// disables suspend state interrupt
 #define Usb_disable_suspend_interrupt()           (UDIEN   &= ~(1<<SUSPE))
-#define Is_suspend_interrupt_enabled()            ((UDIEN &  (1<<SUSPE))   ? TRUE : FALSE)
+#define Is_suspend_interrupt_enabled()            ((UDIEN &  (1<<SUSPE))   ? true : false)
 /// acks Suspend
 #define Usb_ack_suspend()                         (UDINT   = ~(1<<SUSPI))
 /// tests if Suspend state detected
-#define Is_usb_suspend()                          ((UDINT &   (1<<SUSPI))   ? TRUE : FALSE)
+#define Is_usb_suspend()                          ((UDINT &   (1<<SUSPI))   ? true : false)
 
 /// enables USB device address
 #define Usb_enable_address()                      (UDADDR  |=  (1<<ADDEN))
 /// disables USB device address
 #define Usb_disable_address()                     (UDADDR  &= ~(1<<ADDEN))
 /// sets the USB device address
-#define Usb_configure_address(addr)               (UDADDR  =   (UDADDR & (1<<ADDEN)) | ((U8)addr & MSK_UADD))
+#define Usb_configure_address(addr)               (UDADDR  =   (UDADDR & (1<<ADDEN)) | ((uint8_t)addr & MSK_UADD))
 
 /// returns the last frame number
-#define Usb_frame_number()                        ((U16)((((U16)UDFNUMH) << 8) | ((U16)UDFNUML)))
+#define Usb_frame_number()                        ((uint16_t)((((uint16_t)UDFNUMH) << 8) | ((uint16_t)UDFNUML)))
 /// tests if a crc error occurs in frame number
-#define Is_usb_frame_number_crc_error()           ((UDMFN & (1<<FNCERR)) ? TRUE : FALSE)
+#define Is_usb_frame_number_crc_error()           ((UDMFN & (1<<FNCERR)) ? true : false)
 ///@}
 
 
@@ -506,13 +506,13 @@ typedef enum endpoint_parameter
  * @{
  */
 /// selects the endpoint number to interface with the CPU
-#define Usb_select_endpoint(ep)                   (UENUM = (U8)ep )
+#define Usb_select_endpoint(ep)                   (UENUM = (uint8_t)ep )
 
 /// get the currently selected endpoint number
 #define Usb_get_selected_endpoint()               (UENUM )
 
 /// resets the selected endpoint
-#define Usb_reset_endpoint(ep)                    (UERST   =   1 << (U8)ep, UERST  =  0)
+#define Usb_reset_endpoint(ep)                    (UERST   =   1 << (uint8_t)ep, UERST  =  0)
 
 /// enables the current endpoint
 #define Usb_enable_endpoint()                     (UECONX  |=  (1<<EPEN))
@@ -527,21 +527,21 @@ typedef enum endpoint_parameter
 /// selects endpoint interface on CPU
 #define Usb_select_epnum_for_cpu()                (UECONX  &= ~(1<<EPNUMS))
 /// tests if the current endpoint is enabled
-#define Is_usb_endpoint_enabled()                 ((UECONX & (1<<EPEN))    ? TRUE : FALSE)
+#define Is_usb_endpoint_enabled()                 ((UECONX & (1<<EPEN))    ? true : false)
 /// tests if the current endpoint is disabled
-#define Is_usb_endpoint_disabled()                ((UECONX & (1<<EPEN))    ? FALSE : TRUE)
+#define Is_usb_endpoint_disabled()                ((UECONX & (1<<EPEN))    ? false : true)
 /// tests if STALL handshake request is running
-#define Is_usb_endpoint_stall_requested()         ((UECONX & (1<<STALLRQ)) ? TRUE : FALSE)
+#define Is_usb_endpoint_stall_requested()         ((UECONX & (1<<STALLRQ)) ? true : false)
 
 /// configures the current endpoint
-#define Usb_configure_endpoint_type(type)         (UECFG0X =   (UECFG0X & ~(MSK_EPTYPE)) | ((U8)type << 6))
+#define Usb_configure_endpoint_type(type)         (UECFG0X =   (UECFG0X & ~(MSK_EPTYPE)) | ((uint8_t)type << 6))
 /// configures the current endpoint direction
-#define Usb_configure_endpoint_direction(dir)     (UECFG0X =   (UECFG0X & ~(1<<EPDIR))  | ((U8)dir))
+#define Usb_configure_endpoint_direction(dir)     (UECFG0X =   (UECFG0X & ~(1<<EPDIR))  | ((uint8_t)dir))
 
 /// configures the current endpoint size
-#define Usb_configure_endpoint_size(size)         (UECFG1X =   (UECFG1X & ~MSK_EPSIZE) | ((U8)size << 4))
+#define Usb_configure_endpoint_size(size)         (UECFG1X =   (UECFG1X & ~MSK_EPSIZE) | ((uint8_t)size << 4))
 /// configures the current endpoint number of banks
-#define Usb_configure_endpoint_bank(bank)         (UECFG1X =   (UECFG1X & ~MSK_EPBK)   | ((U8)bank << 2))
+#define Usb_configure_endpoint_bank(bank)         (UECFG1X =   (UECFG1X & ~MSK_EPBK)   | ((uint8_t)bank << 2))
 /// allocates the current configuration in DPRAM memory
 #define Usb_allocate_memory()                     (UECFG1X |=  (1<<ALLOC))
 /// un-allocates the current configuration in DPRAM memory
@@ -558,15 +558,15 @@ typedef enum endpoint_parameter
 /// returns the number of busy banks
 #define Usb_nb_busy_bank()                        (UESTA0X &   MSK_NBUSYBK)
 /// tests if at least one bank is busy
-#define Is_usb_one_bank_busy()                    ((UESTA0X &  MSK_NBUSYBK) == 0 ? FALSE : TRUE)
+#define Is_usb_one_bank_busy()                    ((UESTA0X &  MSK_NBUSYBK) == 0 ? false : true)
 /// tests if current endpoint is configured
-#define Is_endpoint_configured()                  ((UESTA0X &  (1<<CFGOK))   ? TRUE : FALSE)
+#define Is_endpoint_configured()                  ((UESTA0X &  (1<<CFGOK))   ? true : false)
 /// tests if an overflows occurs
-#define Is_usb_overflow()                         ((UESTA0X &  (1<<OVERFI))  ? TRUE : FALSE)
+#define Is_usb_overflow()                         ((UESTA0X &  (1<<OVERFI))  ? true : false)
 /// tests if an underflow occurs
-#define Is_usb_underflow()                        ((UESTA0X &  (1<<UNDERFI)) ? TRUE : FALSE)
+#define Is_usb_underflow()                        ((UESTA0X &  (1<<UNDERFI)) ? true : false)
 /// tests if a ZLP has been detected
-#define Is_usb_zlp()                              ((UESTA0X &  (1<<ZLPSEEN)) ? TRUE : FALSE)
+#define Is_usb_zlp()                              ((UESTA0X &  (1<<ZLPSEEN)) ? true : false)
 
 /// returns the control direction
 #define Usb_control_direction()                   ((UESTA1X &  (1<<CTRLDIR)) >> 2)
@@ -646,12 +646,12 @@ typedef enum endpoint_parameter
 /// returns FIFO byte for current endpoint
 #define Usb_read_byte()                           (UEDATX)
 /// writes byte in FIFO for current endpoint
-#define Usb_write_byte(byte)                      (UEDATX  =   (U8)byte)
+#define Usb_write_byte(byte)                      (UEDATX  =   (uint8_t)byte)
 
 /// returns number of bytes in FIFO current endpoint (16 bits)
-#define Usb_byte_counter()                        ((((U16)UEBCHX) << 8) | (UEBCLX))
+#define Usb_byte_counter()                        ((((uint16_t)UEBCHX) << 8) | (UEBCLX))
 /// returns number of bytes in FIFO current endpoint (8 bits)
-#define Usb_byte_counter_8()                      ((U8)UEBCLX)
+#define Usb_byte_counter_8()                      ((uint8_t)UEBCLX)
 
 /// tests the general endpoint interrupt flags
 #define Usb_interrupt_flags()                     (UEINT)
@@ -670,7 +670,7 @@ typedef enum endpoint_parameter
 /// un-allocates the current configuration in DPRAM memory
 #define Host_unallocate_memory()               (UPCFG1X &= ~(1<<ALLOC))
 /// Check if pipe memory is allocated
-#define Is_host_pipe_memory_allocated()        (UPCFG1X & (1<<ALLOC) ? TRUE : FALSE)
+#define Is_host_pipe_memory_allocated()        (UPCFG1X & (1<<ALLOC) ? true : false)
 
 /// enables USB Host function
 #define Host_enable()                          (USBCON |= (1<<HOST))
@@ -685,58 +685,58 @@ typedef enum endpoint_parameter
 /// sends a USB Reset to the device
 #define Host_send_reset()                      (UHCON |= (1<<RESET))
 /// tests if USB Reset running
-#define Host_is_reset()                        ((UHCON & (1<<RESET)) ? TRUE : FALSE)
+#define Host_is_reset()                        ((UHCON & (1<<RESET)) ? true : false)
 /// sends a USB Resume to the device
 #define Host_send_resume()                     (UHCON |= (1<<RESUME))
 /// tests if USB Resume running
-#define Host_is_resume()                       ((UHCON & (1<<RESUME)) ? TRUE : FALSE)
+#define Host_is_resume()                       ((UHCON & (1<<RESUME)) ? true : false)
 
 /// enables host start of frame interrupt
 #define Host_enable_sof_interrupt()            (UHIEN |= (1<<HSOFE))
 /// enables host start of frame interrupt
 #define Host_disable_sof_interrupt()           (UHIEN &= ~(1<<HSOFE))
-#define Is_host_sof_interrupt_enabled()        ((UHIEN &  (1<<HSOFE))   ? TRUE : FALSE)
+#define Is_host_sof_interrupt_enabled()        ((UHIEN &  (1<<HSOFE))   ? true : false)
 /// tests if SOF detected
-#define Host_is_sof()                          ((UHINT & (1<<HSOFI)) ? TRUE : FALSE)
-#define Is_host_sof()                          ((UHINT & (1<<HSOFI)) ? TRUE : FALSE)
+#define Host_is_sof()                          ((UHINT & (1<<HSOFI)) ? true : false)
+#define Is_host_sof()                          ((UHINT & (1<<HSOFI)) ? true : false)
 #define Host_ack_sof()                         (UHINT &= ~(1<<HSOFI))
 
 /// enables host wake up interrupt detection
 #define Host_enable_hwup_interrupt()            (UHIEN |= (1<<HWUPE))
 /// disables host wake up interrupt detection
 #define Host_disable_hwup_interrupt()           (UHIEN &= ~(1<<HWUPE))
-#define Is_host_hwup_interrupt_enabled()        ((UHIEN &  (1<<HWUPE))   ? TRUE : FALSE)
+#define Is_host_hwup_interrupt_enabled()        ((UHIEN &  (1<<HWUPE))   ? true : false)
 /// tests if host wake up detected
-#define Host_is_hwup()                          ((UHINT & (1<<HWUPI)) ? TRUE : FALSE)
+#define Host_is_hwup()                          ((UHINT & (1<<HWUPI)) ? true : false)
 /// Ack host wake up detection
-#define Is_host_hwup()                          ((UHINT & (1<<HWUPI)) ? TRUE : FALSE)
+#define Is_host_hwup()                          ((UHINT & (1<<HWUPI)) ? true : false)
 #define Host_ack_hwup()                         (UHINT &= ~(1<<HWUPI))
 
 /// enables host down stream rsm sent interrupt detection
 #define Host_enable_down_stream_resume_interrupt()            (UHIEN |= (1<<RSMEDE))
 /// disables host down stream rsm sent interrupt detection
 #define Host_disable_down_stream_resume_interrupt()           (UHIEN &= ~(1<<RSMEDE))
-#define Is_host_down_stream_resume_interrupt_enabled()        ((UHIEN &  (1<<RSMEDE))   ? TRUE : FALSE)
+#define Is_host_down_stream_resume_interrupt_enabled()        ((UHIEN &  (1<<RSMEDE))   ? true : false)
 /// Ack host down stream resume sent
-#define Is_host_down_stream_resume()                          ((UHINT & (1<<RSMEDI)) ? TRUE : FALSE)
+#define Is_host_down_stream_resume()                          ((UHINT & (1<<RSMEDI)) ? true : false)
 #define Host_ack_down_stream_resume()                         (UHINT &= ~(1<<RSMEDI))
 
 /// enables host remote wake up interrupt detection
 #define Host_enable_remote_wakeup_interrupt()         (UHIEN |= (1<<RXRSME))
 /// disables host remote wake up interrupt detection
 #define Host_disable_remote_wakeup_interrupt()        (UHIEN &= ~(1<<RXRSME))
-#define Is_host_remote_wakeup_interrupt_enabled()     ((UHIEN &  (1<<RXRSME))   ? TRUE : FALSE)
+#define Is_host_remote_wakeup_interrupt_enabled()     ((UHIEN &  (1<<RXRSME))   ? true : false)
 /// tests if host wake up detected
-#define Host_is_remote_wakeup()                       ((UHINT & (1<<RXRSMI)) ? TRUE : FALSE)
+#define Host_is_remote_wakeup()                       ((UHINT & (1<<RXRSMI)) ? true : false)
 /// Ack host wake up detection
-#define Is_host_remote_wakeup()                       ((UHINT & (1<<RXRSMI)) ? TRUE : FALSE)
+#define Is_host_remote_wakeup()                       ((UHINT & (1<<RXRSMI)) ? true : false)
 #define Host_ack_remote_wakeup()                      (UHINT &= ~(1<<RXRSMI))
 
 /// enables host device connection interrupt
 #define Host_enable_device_connection_interrupt()        (UHIEN |= (1<<DCONNE))
 /// disables USB device connection interrupt
 #define Host_disable_device_connection_interrupt()    (UHIEN &= ~(1<<DCONNE))
-#define Is_host_device_connection_interrupt_enabled()    ((UHIEN &  (1<<DCONNE))   ? TRUE : FALSE)
+#define Is_host_device_connection_interrupt_enabled()    ((UHIEN &  (1<<DCONNE))   ? true : false)
 /// tests if a USB device has been detected
 #define Is_device_connection()                 (UHINT & (1<<DCONNI))
 /// acks device connection
@@ -746,9 +746,9 @@ typedef enum endpoint_parameter
 #define Host_enable_device_disconnection_interrupt()     (UHIEN |= (1<<DDISCE))
 /// disables USB device connection interrupt
 #define Host_disable_device_disconnection_interrupt()    (UHIEN &= ~(1<<DDISCE))
-#define Is_host_device_disconnection_interrupt_enabled() ((UHIEN &  (1<<DDISCE))   ? TRUE : FALSE)
+#define Is_host_device_disconnection_interrupt_enabled() ((UHIEN &  (1<<DDISCE))   ? true : false)
 /// tests if a USB device has been removed
-#define Is_device_disconnection()              (UHINT & (1<<DDISCI)   ? TRUE : FALSE)
+#define Is_device_disconnection()              (UHINT & (1<<DDISCI)   ? true : false)
 /// acks device disconnection
 #define Host_ack_device_disconnection()        (UHINT = ~(1<<DDISCI))
 
@@ -756,7 +756,7 @@ typedef enum endpoint_parameter
 #define Host_enable_reset_interrupt()          (UHIEN   |=  (1<<RSTE))
 /// disables host USB reset interrupt
 #define Host_disable_reset_interrupt()         (UHIEN   &= ~(1<<RSTE))
-#define Is_host_reset_interrupt_enabled()      ((UHIEN &  (1<<RSTE))   ? TRUE : FALSE)
+#define Is_host_reset_interrupt_enabled()      ((UHIEN &  (1<<RSTE))   ? true : false)
 /// acks host USB reset sent
 #define Host_ack_reset()                       (UHINT   = ~(1<<RSTI))
 /// tests if USB reset has been sent
@@ -769,8 +769,8 @@ typedef enum endpoint_parameter
 /// configures the address to use for the device
 #define Host_configure_address(addr)           (UHADDR = addr & MSK_HADDR)
 
-/// Get connected device speed, returns TRUE when in full speed mode
-#define Is_host_full_speed()                   ((USBSTA &  (1<<SPEED))   ? TRUE : FALSE)
+/// Get connected device speed, returns true when in full speed mode
+#define Is_host_full_speed()                   ((USBSTA &  (1<<SPEED))   ? true : false)
 ///@}
 
 
@@ -780,7 +780,7 @@ typedef enum endpoint_parameter
  * @{
  */
 /// selects pipe for CPU interface
-#define Host_select_pipe(p)                    (UPNUM = (U8)p)
+#define Host_select_pipe(p)                    (UPNUM = (uint8_t)p)
 
 /// get the currently selected pipe number
 #define Host_get_selected_pipe()              (UPNUM )
@@ -804,7 +804,7 @@ typedef enum endpoint_parameter
 #define Host_get_pipe_interrupt()              (UPINT)
 
 /// sets the interrupt frequency
-#define Host_set_interrupt_frequency(frq)      (UPCFG2X = (U8)frq)
+#define Host_set_interrupt_frequency(frq)      (UPCFG2X = (uint8_t)frq)
 
 /// tests if current pipe is configured
 #define Is_pipe_configured()                   (UPSTAX  &  (1<<CFGOK))
@@ -832,15 +832,15 @@ typedef enum endpoint_parameter
 #define Host_reset_pipe_data_toggle()          (UPCONX |=  (1<<RSTDT)  )
 
 /// tests if SETUP has been sent
-#define Is_host_setup_sent()                   ((UPINTX & (1<<TXSTPI))    ? TRUE : FALSE)
+#define Is_host_setup_sent()                   ((UPINTX & (1<<TXSTPI))    ? true : false)
 /// tests if control IN has been received
-#define Is_host_control_in_received()          ((UPINTX & (1<<RXINI))    ? TRUE : FALSE)
+#define Is_host_control_in_received()          ((UPINTX & (1<<RXINI))    ? true : false)
 /// tests if control OUT has been sent
-#define Is_host_control_out_sent()             ((UPINTX & (1<<TXOUTI))    ? TRUE : FALSE)
+#define Is_host_control_out_sent()             ((UPINTX & (1<<TXOUTI))    ? true : false)
 /// tests if a STALL has been received
-#define Is_host_stall()                        ((UPINTX & (1<<RXSTALLI))    ? TRUE : FALSE)
+#define Is_host_stall()                        ((UPINTX & (1<<RXSTALLI))    ? true : false)
 /// tests if an error occurs on current pipe
-#define Is_host_pipe_error()                   ((UPINTX & (1<<PERRI))    ? TRUE : FALSE)
+#define Is_host_pipe_error()                   ((UPINTX & (1<<PERRI))    ? true : false)
 /// sends a setup
 #define Host_send_setup()                      (UPINTX  &= ~(1<<FIFOCON))
 /// sends a control IN
@@ -859,17 +859,17 @@ typedef enum endpoint_parameter
 /// sends a OUT
 #define Host_send_out()                        (UPINTX &= ~(1<<FIFOCON))
 /// tests if OUT has been sent
-#define Is_host_out_sent()                     ((UPINTX & (1<<TXOUTI))    ? TRUE : FALSE)
+#define Is_host_out_sent()                     ((UPINTX & (1<<TXOUTI))    ? true : false)
 /// acks OUT sent
 #define Host_ack_out_sent()                    (UPINTX &= ~(1<<TXOUTI))
 /// tests if IN received
-#define Is_host_in_received()                  ((UPINTX & (1<<RXINI))    ? TRUE : FALSE)
+#define Is_host_in_received()                  ((UPINTX & (1<<RXINI))    ? true : false)
 /// acks IN reception
 #define Host_ack_in_received()                 (UPINTX &= ~(1<<RXINI))
 /// sends a IN
 #define Host_send_in()                         (UPINTX &= ~(1<<FIFOCON))
 /// tests if nak handshake has been received
-#define Is_host_nak_received()                 ((UPINTX & (1<<NAKEDI))    ? TRUE : FALSE)
+#define Is_host_nak_received()                 ((UPINTX & (1<<NAKEDI))    ? true : false)
 /// acks NAk received sent
 #define Host_ack_nak_received()                (UPINTX &= ~(1<<NAKEDI))
 
@@ -884,21 +884,21 @@ typedef enum endpoint_parameter
 #define Host_continuous_in_mode()              (UPCONX |=  (1<<INMODE))
 
 /// sets number of IN requests to perform before freeze
-#define Host_in_request_number(in_num)         (UPINRQX = (U8)in_num)
+#define Host_in_request_number(in_num)         (UPINRQX = (uint8_t)in_num)
 /// returns number of remaining IN requests
 #define Host_get_in_request_number()           (UPINRQX)
 
 /// returns number of bytes (8 bits)
 #define Host_data_length_U8()                  (UPBCLX)
 /// returns number of bytes (16 bits)
-#define Host_data_length_U16()                 ((((U16)UPBCHX)<<8) | UPBCLX)
+#define Host_data_length_U16()                 ((((uint16_t)UPBCHX)<<8) | UPBCLX)
 /// for device compatibility
 #define Host_byte_counter()                    Host_data_length_U16()
 /// for device compatibility
 #define Host_byte_counter_8()                  Host_data_length_U8()
 
 /// returns the size of the current pipe
-#define Host_get_pipe_length()                 ((U16)0x08 << ((UPCFG1X & MSK_PSIZE)>>4))
+#define Host_get_pipe_length()                 ((uint16_t)0x08 << ((UPCFG1X & MSK_PSIZE)>>4))
 
 /// returns the type of the current pipe
 #define Host_get_pipe_type()                   (UPCFG0X>>6)
@@ -938,11 +938,11 @@ typedef enum endpoint_parameter
 ///@}
 
 /**
- * @brief This macro swaps the U8 order in words.
+ * @brief This macro swaps the uint8_t order in words.
  *
- * @param x        (U16) the 16 bit word to swap
+ * @param x        (uint16_t) the 16 bit word to swap
  *
- * @return         (U16) the 16 bit word x with the 2 bytes swaped
+ * @return         (uint16_t) the 16 bit word x with the 2 bytes swaped
  */
 #define wSWAP(x)        \
    (   (((x)>>8)&0x00FF) \
@@ -950,12 +950,12 @@ typedef enum endpoint_parameter
    )
 
 /**
- * @brief This macro help to fill the U16 fill in USB enumeration struct.
+ * @brief This macro help to fill the uint16_t fill in USB enumeration struct.
  * Depending on the CPU architecture, the macro swap or not the nibbles
  *
- * @param x        (U16) the 16 bit word to be written
+ * @param x        (uint16_t) the 16 bit word to be written
  *
- * @return         (U16) the 16 bit word written
+ * @return         (uint16_t) the 16 bit word written
  */
 #if !defined(BIG_ENDIAN) && !defined(LITTLE_ENDIAN)
 #error YOU MUST Define the Endian Type of target: LITTLE_ENDIAN or BIG_ENDIAN
@@ -970,18 +970,18 @@ typedef enum endpoint_parameter
 
 //_____ D E C L A R A T I O N ______________________________________________
 
-U8 usb_config_ep( U8, U8 );
-U8 usb_select_enpoint_interrupt( void );
-U16 usb_get_nb_byte_epw( void );
-U8 usb_send_packet( U8, U8*, U8 );
-U8 usb_read_packet( U8, U8*, U8 );
-void usb_halt_endpoint( U8 );
-void usb_reset_endpoint( U8 );
-U8 usb_init_device( void );
+uint8_t usb_config_ep( uint8_t, uint8_t );
+uint8_t usb_select_enpoint_interrupt( void );
+uint16_t usb_get_nb_byte_epw( void );
+uint8_t usb_send_packet( uint8_t, uint8_t*, uint8_t );
+uint8_t usb_read_packet( uint8_t, uint8_t*, uint8_t );
+void usb_halt_endpoint( uint8_t );
+void usb_reset_endpoint( uint8_t );
+uint8_t usb_init_device( void );
 
-U8 host_config_pipe( U8, U8 );
-U8 host_determine_pipe_size( U16 );
+uint8_t host_config_pipe( uint8_t, uint8_t );
+uint8_t host_determine_pipe_size( uint16_t );
 void host_disable_all_pipe( void );
-U8 usb_get_nb_pipe_interrupt( void );
+uint8_t usb_get_nb_pipe_interrupt( void );
 
 #endif  // _USB_DRV_H_

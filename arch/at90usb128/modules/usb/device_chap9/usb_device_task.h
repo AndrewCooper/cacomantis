@@ -60,10 +60,10 @@
 
 /**
  * Public : (bit) usb_suspended
- * usb_suspended is set to TRUE when USB is in suspend mode
- * usb_suspended is set to FALSE otherwise
+ * usb_suspended is set to true when USB is in suspend mode
+ * usb_suspended is set to false otherwise
  */
-extern bit usb_suspended;
+extern bool usb_suspended;
 
 /**
  * @brief Definitions of B-Device states
@@ -78,19 +78,19 @@ extern bit usb_suspended;
 /**
  * @brief OTG B-Device SRP protocole specific states or events
  */
-extern U8 otg_device_sessions;
-extern U8 otg_b_device_state;
-extern U8 sof_seen_in_session;
+extern uint8_t otg_device_sessions;
+extern uint8_t otg_b_device_state;
+extern uint8_t sof_seen_in_session;
 
 /// Is the current session a result of a SRP ?
 #define Start_session_with_srp()          (otg_device_sessions |= 0x01)
 #define End_session_with_srp()            (otg_device_sessions &= ~0x01)
-#define Is_session_started_with_srp()     (((otg_device_sessions&0x01) != 0) ? TRUE : FALSE)
+#define Is_session_started_with_srp()     (((otg_device_sessions&0x01) != 0) ? true : false)
 
 /// Has a SRP been sent, and waiting for an answer
 #define Srp_sent_and_waiting_answer()     (otg_device_sessions |= 0x02)
 #define Ack_srp_sent_and_answer()         (otg_device_sessions &= ~0x02)
-#define Is_srp_sent_and_waiting_answer()  (((otg_device_sessions&0x02) != 0) ? TRUE : FALSE)
+#define Is_srp_sent_and_waiting_answer()  (((otg_device_sessions&0x02) != 0) ? true : false)
 
 /**
  * Is the Tb_Srp counter enabled ? Cleared by timer if Tb_Srp_Fail elapsed
@@ -98,9 +98,9 @@ extern U8 sof_seen_in_session;
  * each 2ms, its value becomes 2500 (used:5.2sec)
  */
 #define TB_SRP_FAIL_MIN       0x0A28
-extern U16 otg_tb_srp_cpt;
+extern uint16_t otg_tb_srp_cpt;
 #define Init_tb_srp_counter()             (otg_tb_srp_cpt = 0)
-#define Is_tb_srp_counter_overflow()      ((otg_tb_srp_cpt > TB_SRP_FAIL_MIN) ? TRUE : FALSE)
+#define Is_tb_srp_counter_overflow()      ((otg_tb_srp_cpt > TB_SRP_FAIL_MIN) ? true : false)
 
 void usb_device_task_init( void );
 

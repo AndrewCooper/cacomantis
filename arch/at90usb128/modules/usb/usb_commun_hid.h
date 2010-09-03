@@ -572,13 +572,13 @@
 /// USB HID Descriptor
 typedef struct
 	{
-		U8 bLength; ///< Size of this descriptor in bytes
-		U8 bDescriptorType; ///< HID descriptor type
-		U16 bcdHIDVer; ///< Binay Coded Decimal Spec. release
-		U8 bCountryCode; ///< Hardware target country
-		U8 bNumDescriptors; ///< Number of HID class descriptors to follow
-		U8 bRDescriptorType; ///< Report descriptor type
-		U16 wDescriptorLength; ///< Total length of Report descriptor
+		uint8_t bLength; ///< Size of this descriptor in bytes
+		uint8_t bDescriptorType; ///< HID descriptor type
+		uint16_t bcdHIDVer; ///< Binay Coded Decimal Spec. release
+		uint8_t bCountryCode; ///< Hardware target country
+		uint8_t bNumDescriptors; ///< Number of HID class descriptors to follow
+		uint8_t bRDescriptorType; ///< Report descriptor type
+		uint16_t wDescriptorLength; ///< Total length of Report descriptor
 	} S_usb_hid_descriptor;
 
 #endif   // _USB_COMMUN_HID_H_

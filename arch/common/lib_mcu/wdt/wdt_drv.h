@@ -43,32 +43,30 @@
 
 //_____ I N C L U D E S ____________________________________________________
 
-#ifdef __GNUC__
 #include <avr/io.h>
 #include <avr/wdt.h>
-#endif
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 /**
  * @defgroup wdt_drv Watchdog and reset sytem drivers
  * @{
  */
 
-#define  Is_ext_reset()                ((MCUSR&(1<<EXTRF)) ? TRUE:FALSE)
+#define  Is_ext_reset()                ((MCUSR&(1<<EXTRF)) ? true:false)
 #define  Ack_ext_reset()               (MCUSR= ~(1<<EXTRF))
-#define  Is_POR_reset()                ((MCUSR&(1<<(MCUSR= ~(1<<PORF)))) ? TRUE:FALSE)
+#define  Is_POR_reset()                ((MCUSR&(1<<(MCUSR= ~(1<<PORF)))) ? true:false)
 #define  Ack_POR_reset()               (MCUSR= ~(1<<PORF))
-#define  Is_BOD_reset()                ((MCUSR&(1<<BORF)) ? TRUE:FALSE)
+#define  Is_BOD_reset()                ((MCUSR&(1<<BORF)) ? true:false)
 #define  Ack_BOD_reset()               (MCUSR= ~(1<<BORF))
-#define  Is_wdt_reset()                ((MCUSR&(1<<WDRF)) ? TRUE:FALSE)
+#define  Is_wdt_reset()                ((MCUSR&(1<<WDRF)) ? true:false)
 #define  Ack_wdt_reset()               (MCUSR= ~(1<<WDRF))
 
-#define  Wdt_ack_interrupt()           (WDTCSR = (U8)(1<<WDIF))
-#define  Is_wdt_interrupt()            (WDTCSR&(1<<WDIF) ? TRUE:FALSE)
-#define  Is_not_wdt_interrupt()        (WDTCSR&(1<<WDIF) ? FALSE:TRUE)
-#define  Is_wdt_early_warning()        (WDTCKD&(1<<WDEWIF) ? TRUE:FALSE)
-#define  Is_not_wdt_early_warning()    (WDTCKD&(1<<WDEWIF) ? FALSE:TRUE)
+#define  Wdt_ack_interrupt()           (WDTCSR = (uint8_t)(1<<WDIF))
+#define  Is_wdt_interrupt()            (WDTCSR&(1<<WDIF) ? true:false)
+#define  Is_not_wdt_interrupt()        (WDTCSR&(1<<WDIF) ? false:true)
+#define  Is_wdt_early_warning()        (WDTCKD&(1<<WDEWIF) ? true:false)
+#define  Is_not_wdt_early_warning()    (WDTCKD&(1<<WDEWIF) ? false:true)
 
 #define  WDTO_16MS   0
 #define  WDTO_32MS   1
@@ -83,11 +81,11 @@
 
 void wdtdrv_disable( void );
 
-void wdtdrv_enable( U8 timeout );
+void wdtdrv_enable( uint8_t timeout );
 
-void wdtdrv_interrupt_enable( U8 timeout );
+void wdtdrv_interrupt_enable( uint8_t timeout );
 
-void wdtdrv_interrupt_reset_enable( U8 timeout );
+void wdtdrv_interrupt_reset_enable( uint8_t timeout );
 
 #define Soft_reset()             {asm("jmp 0000");}
 

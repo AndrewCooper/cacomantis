@@ -38,153 +38,86 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____ I N C L U D E S ____________________________________________________
-
+//_____ I N C L U D E S ________________________________________________________
+#include <avr/interrupt.h>
 #include "config.h"
 #include "wdt_drv.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
-#ifdef __GNUC__
 #define  Wdt_reset_instruction()    wdt_reset()
-#else
-#define  Wdt_reset_instruction()    __watchdog_reset()
-#endif
 
 /**
  * @brief Stop the hardware watchdog timer.
  */
-#ifndef __GNUC__
-// Ignored if IAR compiler optimization option "Always do cross call optimization" is enabled
-#pragma optimize=none
-#endif
 void wdtdrv_disable( void )
-	{
-	U8 save_int = Get_interrupt_state();
-	Disable_interrupt();
-#ifdef  __GNUC__
-	Ack_wdt_reset();
-	wdt_disable();
-#else
-	Ack_wdt_reset();
-	Wdt_reset_instruction();
-	WDTCSR = (1<<WDCE) | (1<<WDE);
-	WDTCSR = 0x00;
-#endif
-	if( save_int )
-		{
-		Enable_interrupt();
-		}
-	}
+    {
+    cli();
+    Ack_wdt_reset();
+    wdt_disable();
+    sei();
+    }
 
 /**
  * @brief Activate the hardware watchdog timer System Reset Mode only
  *
  * @param timeout (WDTO_x)
  */
-#ifndef __GNUC__
-// Ignored if IAR compiler optimization option "Always do cross call optimization" is enabled
-#pragma optimize=none
-#endif
-void wdtdrv_enable( U8 timeout )
-	{
-	U8 save_int = Get_interrupt_state();
-	Disable_interrupt();
-#ifdef  __GNUC__
-	Ack_wdt_reset();
-	wdt_enable(timeout);
-#else
-	timeout = (1<<WDE)| (timeout & 0x08 ? (1<<WDP3) : 0x00) | (timeout & 0x07);
-	Disable_interrupt();
-	Wdt_reset_instruction();
-	WDTCSR = (1<<WDCE) | (1<<WDE);
-	WDTCSR = timeout;
-#endif
-	if( save_int )
-		{
-		Enable_interrupt();
-		}
-	}
+void wdtdrv_enable( uint8_t timeout )
+    {
+    cli();
+    Ack_wdt_reset();
+    wdt_enable(timeout);
+    sei();
+    }
 
 /**
  * @brief Activate the hardware watchdog timer Interrupt Mode only
  *
  * @param timeout (WDTO_x)
  */
-#ifndef __GNUC__
-// Ignored if IAR compiler optimization option "Always do cross call optimization" is enabled
-#pragma optimize=none
-#endif
-void wdtdrv_interrupt_enable( U8 timeout )
-	{
-	U8 save_int = Get_interrupt_state();
-#ifdef  __GNUC__
-	Ack_wdt_reset();
-	__asm__ __volatile__ (
-		"in __tmp_reg__,__SREG__" "\n\t"
-		"cli" "\n\t"
-		"wdr" "\n\t"
-		"sts %0,%1" "\n\t"
-		"out __SREG__,__tmp_reg__" "\n\t"
-		"sts %0,%2"
-		: /* no outputs */
-		: "M" (_SFR_MEM_ADDR(_WD_CONTROL_REG)),
-		"r" (_BV(_WD_CHANGE_BIT) | _BV(WDE)),
-		"r" ((uint8_t) ((timeout & 0x08 ? _WD_PS3_MASK : 0x00) |
-				_BV(WDIE) | (timeout & 0x07)) )
-		: "r0"
-	);
-#else
-	timeout = (1<<WDIE)| (timeout & 0x08 ? (1<<WDP3) : 0x00) | (timeout & 0x07);
-	Disable_interrupt();
-	Wdt_reset_instruction();
-	WDTCSR = (1<<WDCE) | (1<<WDE);
-	WDTCSR = timeout;
-#endif
-	if( save_int )
-		{
-		Enable_interrupt();
-		}
-	}
+void wdtdrv_interrupt_enable( uint8_t timeout )
+    {
+    Ack_wdt_reset();
+    __asm__ __volatile__ (
+        "in __tmp_reg__,__SREG__" "\n\t"
+        "cli" "\n\t"
+        "wdr" "\n\t"
+        "sts %0,%1" "\n\t"
+        "out __SREG__,__tmp_reg__" "\n\t"
+        "sts %0,%2"
+        : /* no outputs */
+        : "M" (_SFR_MEM_ADDR(_WD_CONTROL_REG)),
+        "r" (_BV(_WD_CHANGE_BIT) | _BV(WDE)),
+        "r" ((uint8_t) ((timeout & 0x08 ? _WD_PS3_MASK : 0x00) |
+                _BV(WDIE) | (timeout & 0x07)) )
+        : "r0"
+    );
+    sei();
+    }
 
 /**
  * @brief Activate the hardware watchdog timer Interrupt & System Reset Mode
  *
  * @param timeout (WDTO_x)
  */
-#ifndef __GNUC__
-// Ignored if IAR compiler optimization option "Always do cross call optimization" is enabled
-#pragma optimize=none
-#endif
-void wdtdrv_interrupt_reset_enable( U8 timeout )
-	{
-	U8 save_int = Get_interrupt_state();
-	Disable_interrupt();
-#ifdef  __GNUC__
-	Ack_wdt_reset();
-	__asm__ __volatile__ (
-		"in __tmp_reg__,__SREG__" "\n\t"
-		"cli" "\n\t"
-		"wdr" "\n\t"
-		"sts %0,%1" "\n\t"
-		"out __SREG__,__tmp_reg__" "\n\t"
-		"sts %0,%2"
-		: /* no outputs */
-		: "M" (_SFR_MEM_ADDR(_WD_CONTROL_REG)),
-		"r" (_BV(_WD_CHANGE_BIT) | _BV(WDE)),
-		"r" ((uint8_t) ((timeout & 0x08 ? _WD_PS3_MASK : 0x00) |
-				_BV(WDE) | _BV(WDIE) | (timeout & 0x07)) )
-		: "r0"
-	);
-#else
-	timeout = (1<<WDIE)|(1<<WDE)| (timeout & 0x08 ? (1<<WDP3) : 0x00) | (timeout & 0x07);
-	Disable_interrupt();
-	Wdt_reset_instruction();
-	WDTCSR = (1<<WDCE) | (1<<WDE);
-	WDTCSR = timeout;
-#endif
-	if( save_int )
-		{
-		Enable_interrupt();
-		}
-	}
+void wdtdrv_interrupt_reset_enable( uint8_t timeout )
+    {
+    cli();
+    Ack_wdt_reset();
+    __asm__ __volatile__ (
+        "in __tmp_reg__,__SREG__" "\n\t"
+        "cli" "\n\t"
+        "wdr" "\n\t"
+        "sts %0,%1" "\n\t"
+        "out __SREG__,__tmp_reg__" "\n\t"
+        "sts %0,%2"
+        : /* no outputs */
+        : "M" (_SFR_MEM_ADDR(_WD_CONTROL_REG)),
+        "r" (_BV(_WD_CHANGE_BIT) | _BV(WDE)),
+        "r" ((uint8_t) ((timeout & 0x08 ? _WD_PS3_MASK : 0x00) |
+                _BV(WDE) | _BV(WDIE) | (timeout & 0x07)) )
+        : "r0"
+    );
+    sei();
+    }

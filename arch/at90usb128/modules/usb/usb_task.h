@@ -64,17 +64,17 @@
 #define Usb_send_event(x)               (g_usb_event |= (1<<x))
 #define Usb_ack_event(x)                (g_usb_event &= ~(1<<x))
 #define Usb_clear_all_event()           (g_usb_event = 0)
-#define Is_usb_event(x)                 ((g_usb_event & (1<<x)) ? TRUE : FALSE)
-#define Is_not_usb_event(x)             ((g_usb_event & (1<<x)) ? FALSE: TRUE)
+#define Is_usb_event(x)                 ((g_usb_event & (1<<x)) ? true : false)
+#define Is_not_usb_event(x)             ((g_usb_event & (1<<x)) ? false: true)
 #define Is_host_emergency_exit()        (Is_usb_id_device()||(device_state==DEVICE_DISCONNECTED))
-#define Is_usb_device()                 (g_usb_mode==USB_MODE_DEVICE ? TRUE : FALSE)
-#define Is_usb_host()                   (g_usb_mode==USB_MODE_HOST   ? TRUE : FALSE)
+#define Is_usb_device()                 (g_usb_mode==USB_MODE_DEVICE ? true : false)
+#define Is_usb_host()                   (g_usb_mode==USB_MODE_HOST   ? true : false)
 
 #define Otg_send_event(x)               (g_otg_event |= (1<<x))
 #define Otg_ack_event(x)                (g_otg_event &= ~(1<<x))
 #define Otg_clear_all_event()           (g_otg_event = 0)
-#define Is_otg_event(x)                 ((g_otg_event & (1<<x)) ? TRUE : FALSE)
-#define Is_not_otg_event(x)             ((g_otg_event & (1<<x)) ? FALSE: TRUE)
+#define Is_otg_event(x)                 ((g_otg_event & (1<<x)) ? true : false)
+#define Is_not_otg_event(x)             ((g_otg_event & (1<<x)) ? false: true)
 
 #define EVT_USB_POWERED               1         // USB plugged
 #define EVT_USB_UNPOWERED             2         // USB un-plugged
@@ -118,39 +118,39 @@
 #define USER_RQST_DISCONNECT    0x40
 
 // Ask for the B-PERIPH to generate a SRP
-#define Is_user_requested_srp()       (((otg_user_request&USER_RQST_SRP) != 0) ? TRUE : FALSE)
+#define Is_user_requested_srp()       (((otg_user_request&USER_RQST_SRP) != 0) ? true : false)
 #define Set_user_request_srp()        (otg_user_request |= USER_RQST_SRP)
 #define Ack_user_request_srp()        (otg_user_request &= ~USER_RQST_SRP)
 
 // Ask for the A-HOST to enter suspend
-#define Is_user_requested_suspend()   (((otg_user_request&USER_RQST_SUSPEND) != 0) ? TRUE : FALSE)
+#define Is_user_requested_suspend()   (((otg_user_request&USER_RQST_SUSPEND) != 0) ? true : false)
 #define Set_user_request_suspend()    (otg_user_request |= USER_RQST_SUSPEND)
 #define Ack_user_request_suspend()    (otg_user_request &= ~USER_RQST_SUSPEND)
 
 // Ask for the A-HOST to toggle Vbus
-#define Is_user_requested_vbus()      (((otg_user_request&USER_RQST_VBUS) != 0) ? TRUE : FALSE)
+#define Is_user_requested_vbus()      (((otg_user_request&USER_RQST_VBUS) != 0) ? true : false)
 #define Set_user_request_vbus()       (otg_user_request |= USER_RQST_VBUS)
 #define Ack_user_request_vbus()       (otg_user_request &= ~USER_RQST_VBUS)
 
 // Ask for an HNP initiation on both devices
-#define Is_user_requested_hnp()       (((otg_user_request&USER_RQST_HNP) != 0) ? TRUE : FALSE)
+#define Is_user_requested_hnp()       (((otg_user_request&USER_RQST_HNP) != 0) ? true : false)
 #define Set_user_request_hnp()        (otg_user_request |= USER_RQST_HNP)
 #define Ack_user_request_hnp()        (otg_user_request &= ~USER_RQST_HNP)
 
 // Ask for the B-PERIPH or the A-PERIPH to disconnect from the bus
-#define Is_user_requested_disc()      (((otg_user_request&USER_RQST_DISCONNECT) != 0) ? TRUE : FALSE)
+#define Is_user_requested_disc()      (((otg_user_request&USER_RQST_DISCONNECT) != 0) ? true : false)
 #define Set_user_request_disc()       (otg_user_request |= USER_RQST_DISCONNECT)
 #define Ack_user_request_disc()       (otg_user_request &= ~USER_RQST_DISCONNECT)
 
 /* NOT USED */
 /*
  // Ask for the A-HOST to resume the bus or the B-PERIPH to send an upstream resume
- #define Is_user_requested_resume()    (((otg_user_request&USER_RQST_RESUME) != 0) ? TRUE : FALSE)
+ #define Is_user_requested_resume()    (((otg_user_request&USER_RQST_RESUME) != 0) ? true : false)
  #define Set_user_request_resume()     (otg_user_request |= USER_RQST_RESUME)
  #define Ack_user_request_resume()     (otg_user_request &= ~USER_RQST_RESUME)
 
  // Ask for the A-HOST to reset the bus
- #define Is_user_requested_reset()     (((otg_user_request&USER_RQST_RESET) != 0) ? TRUE : FALSE)
+ #define Is_user_requested_reset()     (((otg_user_request&USER_RQST_RESET) != 0) ? true : false)
  #define Set_user_request_reset()      (otg_user_request |= USER_RQST_RESET)
  #define Ack_user_request_reset()      (otg_user_request &= ~USER_RQST_RESET)
  */
@@ -171,9 +171,9 @@
 
 //_____ D E C L A R A T I O N S ____________________________________________
 
-extern volatile U16 g_usb_event;
-extern U8 g_usb_mode;
-extern U8 remote_wakeup_feature;
+extern volatile uint16_t g_usb_event;
+extern uint8_t g_usb_mode;
+extern uint8_t remote_wakeup_feature;
 
 /**
  * @brief Initialize the USB process.
@@ -194,56 +194,56 @@ void usb_task_init( void );
  */
 void usb_task( void );
 
-extern volatile U8 private_sof_counter;
+extern volatile uint8_t private_sof_counter;
 
 /**
  * @brief External public declarations for OTG features
  */
-extern volatile U8 otg_features_supported;
-extern U8 otg_user_request;
+extern volatile uint8_t otg_features_supported;
+extern uint8_t otg_user_request;
 
-extern volatile U16 g_otg_event;
+extern volatile uint16_t g_otg_event;
 
-#if (OTG_VBUS_AUTO_AFTER_A_PLUG_INSERTION == ENABLED)
-extern U8 id_changed_to_host_event;
+#if (OTG_VBUS_AUTO_AFTER_A_PLUG_INSERTION == true)
+extern uint8_t id_changed_to_host_event;
 #endif
 
 extern void otg_not_supported_device( void );
 
-#if (USB_OTG_FEATURE == ENABLED)
+#if (USB_OTG_FEATURE == true)
 /**
  * @brief Enable some additionnal feature to pass compliance plan
  *
- * This feature must be  ENABLED to pass the OTG compliance program (FS-A-UUT tests TD4.5-2.9ms and TD4.6)
- * Possible values are : ENABLE to add a special feature to OTG firmware : the problem comes from the disconnection delay
+ * This feature must be  true to pass the OTG compliance program (FS-A-UUT tests TD4.5-2.9ms and TD4.6)
+ * Possible values are : true to add a special feature to OTG firmware : the problem comes from the disconnection delay
  *                       of A-PERIPH once it has detected a Suspend condition. This delay is 3ms, but compliance test
  *                       is not enough precise. This feature waits 500µs freezing clock when it notices that SOF are missing
- *                       DISABLE to disable this feature (that may lead to malfunction in original cases)
+ *                       false to disable this feature (that may lead to malfunction in original cases)
  */
 #ifndef   OTG_COMPLIANCE_TRICKS
-#define OTG_COMPLIANCE_TRICKS                   DISABLED
+#define OTG_COMPLIANCE_TRICKS                   false
 #endif
 
 /**
  * @brief Selects a Vbus delivery option
  *
- * This feature must be ENABLED to pass the OTG compliance program (Checklist OTG Protocol P23/P24)
- * Possible values are : ENABLE to make the application initiate a session (like an answer to SRP) once A-plug inserted
- *                       DISABLE to disable this feature
+ * This feature must be true to pass the OTG compliance program (Checklist OTG Protocol P23/P24)
+ * Possible values are : true to make the application initiate a session (like an answer to SRP) once A-plug inserted
+ *                       false to disable this feature
  * This feature is compatible with OTG_VBUS_AUTO_WHEN_A_PLUG feature disabled
  */
 #ifndef   OTG_VBUS_AUTO_AFTER_A_PLUG_INSERTION
-#define OTG_VBUS_AUTO_AFTER_A_PLUG_INSERTION    DISABLED
+#define OTG_VBUS_AUTO_AFTER_A_PLUG_INSERTION    false
 #endif
 
 /**
- * @brief ENABLE to make the B-Device run a HNP automatically if a SetFeature(b_hnp_enable) is received and Suspend detected
+ * @brief true to make the B-Device run a HNP automatically if a SetFeature(b_hnp_enable) is received and Suspend detected
  *
- * This feature must be ENABLED to pass the OTG compliance program
- * Possible values ENABLE or DISABLE
+ * This feature must be true to pass the OTG compliance program
+ * Possible values true or false
  */
 #ifndef   OTG_B_DEVICE_AUTORUN_HNP_IF_REQUIRED
-#define OTG_B_DEVICE_AUTORUN_HNP_IF_REQUIRED    ENABLED
+#define OTG_B_DEVICE_AUTORUN_HNP_IF_REQUIRED    true
 #endif
 
 /**
@@ -288,8 +288,8 @@ extern void otg_not_supported_device( void );
 #define   OTGSTR_SRP_RECEIVED     "SRP Received      "  // Event
 #define   OTGSTR_DEVICE_NO_RESP   "Device No Response"  // FAILURE
 #define   OTGSTR_VBUS_SURCHARGE   "VBUS OverCurrent !"  // Event
-extern U16 otg_msg_event_delay;
-extern U16 otg_msg_failure_delay;
+extern uint16_t otg_msg_event_delay;
+extern uint16_t otg_msg_failure_delay;
 
 // Output messaging method choice (mode and functions defined in "conf_usb.h")
 #define     OTGMSG_NONE     0   // no messages displayed
@@ -297,8 +297,8 @@ extern U16 otg_msg_failure_delay;
 #define     OTGMSG_ALL      2   // all messages displayed
 #if (OTG_MESSAGING_OUTPUT == OTGMSG_ALL)            // ALL MESSAGES
 extern void Otg_messaging_init(void);
-extern void Otg_output_event_msg(U8);
-extern void Otg_output_failure_msg(U8);
+extern void Otg_output_event_msg(uint8_t);
+extern void Otg_output_failure_msg(uint8_t);
 extern void Otg_output_event_clear(void);
 extern void Otg_output_failure_clear(void);
 ///Otg_print_new_event_message(str,tm) displays the "str" message on the EVENT line during the "tm" delay (x2ms)
@@ -313,7 +313,7 @@ extern void Otg_output_failure_clear(void);
 #define   Decrement_failure_msg_delay()           (otg_msg_failure_delay--)
 #elif (OTG_MESSAGING_OUTPUT == OTGMSG_FAIL)         // ONLY FAILURE MESSAGES (NEEDED FOR COMPLIANCE)
 extern void Otg_messaging_init(void);
-extern void Otg_output_failure_msg(U8);
+extern void Otg_output_failure_msg(uint8_t);
 extern void Otg_output_failure_clear(void);
 #define   Otg_print_new_event_message(str,tm)
 #define   Otg_clear_event_message()

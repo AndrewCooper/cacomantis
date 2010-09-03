@@ -127,7 +127,7 @@
  *
  * @return byte  Read value
  */
-U8 flash_read_sig( unsigned long adr );
+uint8_t flash_read_sig( unsigned long adr );
 
 /**
  * @brief read a fuse byte of the product.
@@ -136,6 +136,6 @@ U8 flash_read_sig( unsigned long adr );
  *
  * @return byte  Read value
  */
-U8 flash_read_fuse( unsigned long adr );
+uint8_t flash_read_fuse( unsigned long adr );
 
 #endif  // FLASH_DRV_H

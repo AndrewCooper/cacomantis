@@ -68,7 +68,7 @@
  * table[O] corresponds to -20°C temperature code
  * The following table gives the ADC code for VCC=3.3V and Aref=AVcc
  */
-code U16 temperature_code[]=
+code uint16_t temperature_code[]=
 	{0x3B4,0x3B0,0x3AB,0x3A6,0x3A0,0x39A,0x394,0x38E,0x388,0x381,0x37A,0x373,
 	0x36B,0x363,0x35B,0x353,0x34A,0x341,0x338,0x32F,0x325,0x31B,0x311,0x307,
 	0x2FC,0x2F1,0x2E6,0x2DB,0x2D0,0x2C4,0x2B8,0x2AC,0x2A0,0x294,0x288,0x27C,
@@ -80,60 +80,60 @@ code U16 temperature_code[]=
 	0x64,0x61,0x5E,0x5B,0x58,0x55,0x53,0x50,0x4E,0x4C,0x49,0x47,0x45,0x43,
 	0x41,0x3F,0x3D,0x3C,0x3A,0x38};
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 
 #ifdef __ICCAVR__
 #pragma diag_suppress=Pa082
 #endif
 
-U16 Get_adc_mic_val(void)
+uint16_t Get_adc_mic_val(void)
 	{
 	Start_conv_channel(ADC_MIC_CH);
 	while (!Is_adc_conv_finished());
 	return Adc_get_10_bits_result();
 	}
 
-U16 Get_adc_pot_val(void)
+uint16_t Get_adc_pot_val(void)
 	{
 	Start_conv_channel(ADC_POT_CH);
 	while (!Is_adc_conv_finished());
 	return Adc_get_10_bits_result();
 	}
 
-U16 Get_adc_temp_val(void)
+uint16_t Get_adc_temp_val(void)
 	{
 	Start_conv_channel(ADC_TEMP_CH);
 	while (!Is_adc_conv_finished());
 	return Adc_get_10_bits_result();
 	}
 
-S16 Read_temperature(void)
+int16_t Read_temperature(void)
 	{
 #ifndef __GNUC__
-	U16 adc_code;
-	S8 index=0;
+	uint16_t adc_code;
+	int8_t index=0;
 	adc_code=Get_adc_temp_val();
 	if(adc_code>temperature_code[0])
 		{
-		return (S16)(-20);
+		return (int16_t)(-20);
 		}
 	else
 		{
 		while(temperature_code[index++]>adc_code);
-		return (S16)(index-1-20);
+		return (int16_t)(index-1-20);
 		}
 #else
-	U16 adc_code;
-	S8 index=0;
+	uint16_t adc_code;
+	int8_t index=0;
 	adc_code=Get_adc_temp_val();
 	if(adc_code>pgm_read_word_near(&temperature_code))
 		{
-		return (S16)(-20);
+		return (int16_t)(-20);
 		}
 	else
 		{
 		while(pgm_read_word_near(&temperature_code[index++])>adc_code);
-		return (S16)(index-1-20);
+		return (int16_t)(index-1-20);
 		}
 
 #endif

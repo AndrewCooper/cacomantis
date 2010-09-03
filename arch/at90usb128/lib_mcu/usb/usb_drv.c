@@ -43,6 +43,7 @@
 
 //_____ I N C L U D E S ____________________________________________________
 
+#include <stdbool.h>
 #include "config.h"
 #include "conf_usb.h"
 #include "usb_drv.h"
@@ -51,11 +52,11 @@
 
 //_____ D E C L A R A T I O N ______________________________________________
 
-#if (USB_DEVICE_FEATURE==DISABLED && USB_HOST_FEATURE==DISABLED)
+#if (USB_DEVICE_FEATURE==false && USB_HOST_FEATURE==false)
 #error at least one of  USB_DEVICE_FEATURE or USB_HOST_FEATURE should be unabled
 #endif
 
-#if (USB_DEVICE_FEATURE == ENABLED)
+#if (USB_DEVICE_FEATURE == true)
 
 /**
  * @brief usb_configure_endpoint.
@@ -68,7 +69,7 @@
  *
  * @return Is_endpoint_configured.
  */
-U8 usb_config_ep( U8 config0, U8 config1 )
+uint8_t usb_config_ep( uint8_t config0, uint8_t config1 )
 	{
 	Usb_enable_endpoint();
 	UECFG0X = config0;
@@ -86,10 +87,10 @@ U8 usb_config_ep( U8 config0, U8 config1 )
  *
  * @return endpoint number.
  */
-U8 usb_select_enpoint_interrupt( void )
+uint8_t usb_select_enpoint_interrupt( void )
 	{
-	U8 interrupt_flags;
-	U8 ep_num;
+	uint8_t interrupt_flags;
+	uint8_t ep_num;
 
 	ep_num = 0;
 	interrupt_flags = Usb_interrupt_flags();
@@ -120,7 +121,7 @@ U8 usb_select_enpoint_interrupt( void )
  * @param *tbuf        address of the first data to send
  * @param data_length  number of bytes to send
  *
- * @return address of the next U8 to send.
+ * @return address of the next uint8_t to send.
  *
  * Example:
  * usb_send_packet(3,&first_data,0x20);    // send packet on the endpoint #3
@@ -130,9 +131,9 @@ U8 usb_select_enpoint_interrupt( void )
  * Note:
  * tbuf is incremented of 'data_length'.
  */
-U8 usb_send_packet( U8 ep_num, U8* tbuf, U8 data_length )
+uint8_t usb_send_packet( uint8_t ep_num, uint8_t* tbuf, uint8_t data_length )
 	{
-	U8 remaining_length;
+	uint8_t remaining_length;
 
 	remaining_length = data_length;
 	Usb_select_endpoint(ep_num);
@@ -156,7 +157,7 @@ U8 usb_send_packet( U8 ep_num, U8* tbuf, U8 data_length )
  * @param *rbuf        aaddress of the first data to write with the USB data
  * @param data_length  number of bytes to read
  *
- * @return address of the next U8 to send.
+ * @return address of the next uint8_t to send.
  *
  * Example:
  * while(!(Usb_rx_complete));                      // wait new packet received
@@ -166,9 +167,9 @@ U8 usb_send_packet( U8 ep_num, U8* tbuf, U8 data_length )
  * Note:
  * rbuf is incremented of 'data_length'.
  */
-U8 usb_read_packet( U8 ep_num, U8* rbuf, U8 data_length )
+uint8_t usb_read_packet( uint8_t ep_num, uint8_t* rbuf, uint8_t data_length )
 	{
-	U8 remaining_length;
+	uint8_t remaining_length;
 
 	remaining_length = data_length;
 	Usb_select_endpoint(ep_num);
@@ -193,7 +194,7 @@ U8 usb_read_packet( U8 ep_num, U8* rbuf, U8 data_length )
  *
  * @return none
  */
-void usb_halt_endpoint( U8 ep_num )
+void usb_halt_endpoint( uint8_t ep_num )
 	{
 	Usb_select_endpoint(ep_num);
 	Usb_enable_stall_handshake();
@@ -208,7 +209,7 @@ void usb_halt_endpoint( U8 ep_num )
  *
  * @return status
  */
-U8 usb_init_device( void )
+uint8_t usb_init_device( void )
 	{
 	Usb_select_device();
 	if( Is_usb_id_device() )
@@ -216,7 +217,7 @@ U8 usb_init_device( void )
 		Usb_select_endpoint(EP_CONTROL);
 		if( ! Is_usb_endpoint_enabled() )
 			{
-#if (USB_LOW_SPEED_DEVICE==DISABLE)
+#if (USB_LOW_SPEED_DEVICE==false)
 			return usb_configure_endpoint(EP_CONTROL,
 				TYPE_CONTROL,
 				DIRECTION_OUT,
@@ -233,7 +234,7 @@ U8 usb_init_device( void )
 #endif
 			}
 		}
-	return FALSE;
+	return false;
 	}
 
 #endif
@@ -242,7 +243,7 @@ U8 usb_init_device( void )
 // ------------------ HOST ---------------------------------
 // ---------------------------------------------------------
 
-#if (USB_HOST_FEATURE == ENABLED)
+#if (USB_HOST_FEATURE == true)
 
 /**
  * @brief usb_configure_pipe.
@@ -255,7 +256,7 @@ U8 usb_init_device( void )
  *
  * @return Is_endpoint_configured.
  */
-U8 host_config_pipe(U8 config0, U8 config1)
+uint8_t host_config_pipe(uint8_t config0, uint8_t config1)
 	{
 	Host_enable_pipe();
 	UPCFG0X = config0;
@@ -272,7 +273,7 @@ U8 host_config_pipe(U8 config0, U8 config1)
  *
  * @return pipe size register value.
  */
-U8 host_determine_pipe_size(U16 size)
+uint8_t host_determine_pipe_size(uint16_t size)
 	{
 	if(size <= 8 )
 		{return (SIZE_8 );}
@@ -303,7 +304,7 @@ U8 host_determine_pipe_size(U16 size)
  */
 void host_disable_all_pipe(void)
 	{
-	U8 i;
+	uint8_t i;
 	for (i=0;i<7;i++)
 		{
 		Host_reset_pipe(i);
@@ -321,10 +322,10 @@ void host_disable_all_pipe(void)
  *
  * @return pipe_number
  */
-U8 usb_get_nb_pipe_interrupt(void)
+uint8_t usb_get_nb_pipe_interrupt(void)
 	{
-	U8 interrupt_flags;
-	U8 i;
+	uint8_t interrupt_flags;
+	uint8_t i;
 
 	interrupt_flags = Host_get_pipe_interrupt();
 	for(i=0;i< MAX_EP_NB;i++)
@@ -338,4 +339,4 @@ U8 usb_get_nb_pipe_interrupt(void)
 	return MAX_EP_NB+1;
 	}
 
-#endif   // USB_HOST_FEATURE == ENABLED
+#endif   // USB_HOST_FEATURE == true

@@ -61,7 +61,7 @@ bit scheduler_tick_flag;
  * If the token is free, the tasks reserve it at the begin of the execution
  * and release it at the end of the execution to enable next waiting tasks to
  * run.
-Uchar token;
+unsigned char token;
 #endif
 
 //_____ D E C L A R A T I O N ______________________________________________
