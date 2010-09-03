@@ -4,6 +4,7 @@
 // Modified by: AR
 
 /* Includes */
+#include <stdbool.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "config.h"
@@ -27,9 +28,17 @@ static unsigned char USART_TxBuf[USART_TX_BUFFER_SIZE];
 static volatile unsigned char USART_TxHead;
 static volatile unsigned char USART_TxTail;
 
-/**
- *  Initialize USART
- */
+bool USART0_CTS( void )
+{
+    unsigned char tmphead;
+
+    /* Calculate buffer index */
+    tmphead = ( USART_TxHead + 1 ) & USART_TX_BUFFER_MASK;
+
+    /* Return 0 (false) if the transmit buffer is full */
+    return ( tmphead == USART_TxTail );
+}
+
 void USART0_Init( unsigned int baudrate )
 {
     unsigned char x;
@@ -42,8 +51,11 @@ void USART0_Init( unsigned int baudrate )
     UCSR1B = ( ( 1 << RXCIE1 ) | ( 1 << RXEN1 ) | ( 1 << TXEN1 ) );
 
     /* Set frame format: 8 data 2stop */
-    UCSR1C = ( 1 << USBS1 ) | ( 1 << UCSZ11 ) | ( 1 << UCSZ10 ); //For devices with Extended IO
-    //UCSR0C = (1<<URSEL)|(1<<USBS0)|(1<<UCSZ01)|(1<<UCSZ00);   //For devices without Extended IO
+    //For devices with Extended IO
+    UCSR1C = ( 1 << USBS1 ) | ( 1 << UCSZ11 ) | ( 1 << UCSZ10 );
+
+    //For devices without Extended IO
+    //UCSR0C = (1<<URSEL)|(1<<USBS0)|(1<<UCSZ01)|(1<<UCSZ00);
 
     /* Flush receive buffer */
     x = 0;
@@ -64,21 +76,22 @@ ISR(USART1_RX_vect)
 
     /* Read the received data */
     rxdata = UDR1;
+
     /* Calculate buffer index */
     tmphead = ( USART_RxHead + 1 ) & USART_RX_BUFFER_MASK;
-    USART_RxHead = tmphead; /* Store new index */
+
+    /* Store new index */
+    USART_RxHead = tmphead;
 
     if( tmphead == USART_RxTail )
     {
         /* ERROR! Receive buffer overflow */
     }
 
-    USART_RxBuf[tmphead] = rxdata; /* Store received data in buffer */
+    /* Store received data in buffer */
+    USART_RxBuf[tmphead] = rxdata;
 }
 
-/**
- * Interrupt handler called when USART1 is ready to send
- */
 ISR(USART1_TX_vect)
 {
     unsigned char tmptail;
@@ -88,57 +101,61 @@ ISR(USART1_TX_vect)
     {
         /* Calculate buffer index */
         tmptail = ( USART_TxTail + 1 ) & USART_TX_BUFFER_MASK;
-        USART_TxTail = tmptail; /* Store new index */
 
-        UDR1 = USART_TxBuf[tmptail]; /* Start transmition */
+        /* Store new index */
+        USART_TxTail = tmptail;
+
+        /* Start transmition */
+        UDR1 = USART_TxBuf[tmptail];
     }
     else
     {
-        UCSR1B &= ~( 1 << UDRIE1 ); /* Disable UDRE interrupt */
+        /* Disable UDRE interrupt */
+        UCSR1B &= ~( 1 << UDRIE1 );
     }
 }
 
-/**
- * Read a byte from the data buffer. Blocks if no bytes are available.
- * @return next received byte
- */
 unsigned char USART0_Receive( void )
 {
     unsigned char tmptail;
 
+    /* Wait for incomming data */
     while( USART_RxHead == USART_RxTail )
-        /* Wait for incomming data */
         ;
-    tmptail = ( USART_RxTail + 1 ) & USART_RX_BUFFER_MASK;/* Calculate buffer index */
 
-    USART_RxTail = tmptail; /* Store new index */
+    /* Calculate buffer index */
+    tmptail = ( USART_RxTail + 1 ) & USART_RX_BUFFER_MASK;
 
-    return USART_RxBuf[tmptail]; /* Return data */
+    /* Store new index */
+    USART_RxTail = tmptail;
+
+    /* Return data */
+    return USART_RxBuf[tmptail];
 }
 
-/**
- * Add a byte to the data buffer to be transmitted. Blocks if no space is available.
- * @param txdata
- */
+bool USART0_RTR( void )
+{
+    /* Return 0 (false) if the receive buffer is empty */
+    return ( USART_RxHead != USART_RxTail );
+}
+
 void USART0_Transmit( unsigned char txdata )
 {
     unsigned char tmphead;
+
     /* Calculate buffer index */
-    tmphead = ( USART_TxHead + 1 ) & USART_TX_BUFFER_MASK; /* Wait for free space in buffer */
+    tmphead = ( USART_TxHead + 1 ) & USART_TX_BUFFER_MASK;
+
+    /* Wait for free space in buffer */
     while( tmphead == USART_TxTail )
         ;
 
-    USART_TxBuf[tmphead] = txdata; /* Store data in buffer */
-    USART_TxHead = tmphead; /* Store new index */
+    /* Store data in buffer */
+    USART_TxBuf[tmphead] = txdata;
 
-    UCSR1B |= ( 1 << UDRIE1 ); /* Enable UDRE interrupt */
-}
+    /* Store new index */
+    USART_TxHead = tmphead;
 
-/**
- *
- * @return
- */
-unsigned char DataInReceiveBuffer( void )
-{
-    return ( USART_RxHead != USART_RxTail ); /* Return 0 (false) if the receive buffer is empty */
+    /* Enable UDRE interrupt */
+    UCSR1B |= ( 1 << UDRIE1 );
 }

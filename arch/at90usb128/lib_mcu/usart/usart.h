@@ -13,6 +13,8 @@
 
 //_____ I N C L U D E S ________________________________________________________
 
+#include <stdbool.h>
+
 //_____ M A C R O S ____________________________________________________________
 
 //_____ D E C L A R A T I O N __________________________________________________
@@ -25,19 +27,25 @@
 void USART0_Init( unsigned int baudrate );
 
 /**
- * Copy any received frames into data.
- *
- * @param data buffer for received frames
- * @param size of data buffer
- * @return number of frames copied
+ * Read a byte from the data buffer. Blocks if no bytes are available.
+ * @return next received byte
  */
-int USART0_Receive( unsigned char * data, int size );
+unsigned char USART0_Receive( void );
 
 /**
- * Copy frames to transmit queue.
- *
- * @param data buffer for outgoing data
- * @param size of data buffer
- * @return number of frames copied; may be less than size if queue becomes full
+ * Add a byte to the data buffer to be transmitted. Blocks if no space is available.
+ * @param txdata
  */
-int USART0_Transmit( unsigned char const * data, int size );
+void USART0_Transmit( unsigned char txdata );
+
+/**
+ * Indicates USART0 is Ready-To-Read i.e. there is data in the receive buffer
+ * @return
+ */
+bool USART0_RTR( void );
+
+/**
+ * Indicates USART0 is Clear-To-Send i.e. there is empty room in transmit buffer
+ * @return
+ */
+bool USART0_CTS( void );

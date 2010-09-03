@@ -25,10 +25,11 @@ INCLUDES =  -I"."\
 CSRCS = \
     main.c\
     hid_task.c\
-    uart_task.c\
+    snap_task.c\
     usb_descriptors.c\
     usb_specific_request.c\
     arch/at90usb128/lib_board/usb_key/usb_key.c\
+    arch/at90usb128/lib_mcu/usart/usart.c\
     arch/at90usb128/lib_mcu/usb/usb_drv.c\
     arch/at90usb128/lib_mcu/util/start_boot.c\
     arch/at90usb128/modules/usb/device_chap9/usb_device_task.c\
@@ -115,32 +116,38 @@ $(OUTPUT)/%.o: %.c
 	@echo 'Building file: $<'
 	@mkdir -p $(dir $@) 2>/dev/null
 	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $(@)
+	@echo
 	
 # Preprocess & assemble: create object files from assembler source files.
 $(OUTPUT)/%.o: %.s
 	@echo 'Building file: $<'
 	@mkdir -p $(dir $@) 2>/dev/null
 	@$(CC) $(INCLUDES) $(ASMFLAGS) -c $< -o $(@)
+	@echo
 
 # Link: bring object files together into a final executable
 $(TARGET): $(OBJECTS)
 	@echo "Linking"
 	@$(CC) $(LDFLAGS) $(OBJECTS) $(LINKONLYOBJECTS) $(LIBDIRS) $(LIBS) -o $(TARGET)
+	@echo
 
 # Hexify: convert executable into Intel-Hex format
 %.hex: $(TARGET)
 	@echo "Create hex file"
 	@avr-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
+	@echo
 
 # EEPify: convert executable into EEP format
 %.eep: $(TARGET)
 	@echo "Create eep file"
 	@avr-objcopy $(HEX_EEPROM_FLAGS) -O ihex $< $@  || exit 0
+	@echo
 
 # LSSify: convert executable into LSS format
 %.lss: $(TARGET)
 	@echo "Create lss file"
 	@avr-objdump -h -S $< > $@
+	@echo
 
 # Size: Tell memory usage of the executable
 size: ${TARGET}

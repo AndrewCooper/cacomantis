@@ -50,7 +50,7 @@
 #define Scheduler_task_1        usb_task
 #define Scheduler_task_2_init   hid_task_init
 #define Scheduler_task_2        hid_task
-#define Scheduler_task_3_init   uart_task_init
-#define Scheduler_task_3        uart_task
+#define Scheduler_task_3_init   snap_task_init
+#define Scheduler_task_3        snap_task
 
 #endif  /// _CONF_SCHEDULER_H_
