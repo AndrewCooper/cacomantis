@@ -41,7 +41,7 @@
 #ifndef _WDT_DRV_H_
 #define _WDT_DRV_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 #include <avr/io.h>
 #include <avr/wdt.h>

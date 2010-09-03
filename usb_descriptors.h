@@ -101,7 +101,6 @@
 #define EP_ATTRIBUTES_1     0x03          // BULK = 0x02, INTERUPT = 0x03
 #define EP_SIZE_1           64
 #define EP_INTERVAL_1       10 //interrupt pooling from host
-
 // USB Endpoint 2 descriptor FS
 #define ENDPOINT_NB_2       (EP_HID_OUT)
 #define EP_ATTRIBUTES_2     0x03          // BULK = 0x02, INTERUPT = 0x03
@@ -222,28 +221,28 @@
 
 /// manufacturer string
 typedef struct
-	{
-		/// size of this descriptor in bytes
-		uint8_t bLength;
-		/// STRING descriptor type
-		uint8_t bDescriptorType;
-		/// unicode characters
-		uint16_t wString[USB_MN_LENGTH];
-	} S_usb_manufacturer_string_descriptor;
+{
+    /// size of this descriptor in bytes
+    uint8_t bLength;
+    /// STRING descriptor type
+    uint8_t bDescriptorType;
+    /// unicode characters
+    uint16_t wString[USB_MN_LENGTH];
+} S_usb_manufacturer_string_descriptor;
 
 //_____ U S B   P R O D U C T   D E S C R I P T O R _________________________
 
 
 /// product string
 typedef struct
-	{
-		/// size of this descriptor in bytes
-		uint8_t bLength;
-		/// STRING descriptor type
-		uint8_t bDescriptorType;
-		/// unicode characters
-		uint16_t wString[USB_PN_LENGTH];
-	} S_usb_product_string_descriptor;
+{
+    /// size of this descriptor in bytes
+    uint8_t bLength;
+    /// STRING descriptor type
+    uint8_t bDescriptorType;
+    /// unicode characters
+    uint16_t wString[USB_PN_LENGTH];
+} S_usb_product_string_descriptor;
 
 //_____ U S B   S E R I A L   N U M B E R   D E S C R I P T O R _____________
 
@@ -251,31 +250,31 @@ typedef struct
 #if (USB_DEVICE_SN_USE==true)
 /// device serial number
 typedef struct
-	{
-	/// size of this descriptor in bytes
-	uint8_t bLength;
-	/// STRING descriptor type
-	uint8_t bDescriptorType;
+{
+    /// size of this descriptor in bytes
+    uint8_t bLength;
+    /// STRING descriptor type
+    uint8_t bDescriptorType;
 #if (USE_DEVICE_SN_UNIQUE==true)
 
 #else
-	/// unicode characters
-	uint16_t wString[USB_SN_LENGTH];
+/// unicode characters
+uint16_t wString[USB_SN_LENGTH];
 #endif
-	}S_usb_serial_number;
+} S_usb_serial_number;
 #endif
 
 /*_____ U S B   H I D   D E S C R I P T O R __________________________________*/
 
 /// USB configuration descriptor
 typedef struct
-	{
-		S_usb_configuration_descriptor cfg;
-		S_usb_interface_descriptor ifc;
-		S_usb_hid_descriptor hid;
-		S_usb_endpoint_descriptor ep1;
-		S_usb_endpoint_descriptor ep2;
-	} S_usb_user_configuration_descriptor;
+{
+    S_usb_configuration_descriptor cfg;
+    S_usb_interface_descriptor ifc;
+    S_usb_hid_descriptor hid;
+    S_usb_endpoint_descriptor ep1;
+    S_usb_endpoint_descriptor ep2;
+} S_usb_user_configuration_descriptor;
 
 #endif
 

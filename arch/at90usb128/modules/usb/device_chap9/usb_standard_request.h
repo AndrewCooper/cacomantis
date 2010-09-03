@@ -52,12 +52,12 @@
 #ifndef _USB_STANDARD_REQUEST_H_
 #define _USB_STANDARD_REQUEST_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 #include "modules/usb/usb_task.h"
 #include "usb_descriptors.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 //_____ S T A N D A R D    D E F I N I T I O N S ___________________________
 
@@ -79,7 +79,7 @@
 #define OTG_A_HNP_SUPPORT       4
 #define OTG_A_ALT_HNP_SUPPORT   5
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 
 /**
  * Returns true when device connected and correctly enumerated with an host.

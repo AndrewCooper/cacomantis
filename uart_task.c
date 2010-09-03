@@ -11,7 +11,7 @@
 /* Copyright (c) 2010 Andrew Cooper. All rights reserved.
  */
 
-//_____  I N C L U D E S ___________________________________________________
+//_____  I N C L U D E S _______________________________________________________
 
 #include <stdbool.h>
 #include <avr/interrupt.h>
@@ -21,7 +21,7 @@
 //_____ M A C R O S ____________________________________________________________
 
 
-//_____ V A R I A B L E S __________________________________________________
+//_____ V A R I A B L E S ______________________________________________________
 
 
 static uint8_t rx_buffer[USART_RX_BUFFER_SIZE];
@@ -33,7 +33,7 @@ static uint8_t tx_buffer[USART_TX_BUFFER_SIZE];
 static int tx_head;
 static int tx_tail;
 
-//_____ P R O C E D U R E S ________________________________________________
+//_____ D E F I N I T I O N S __________________________________________________
 
 
 /**
@@ -49,12 +49,12 @@ void uart_task( void )
  */
 void uart_task_init( void )
 {
-/** Initialize buffer variables                                              **/
-rx_head = 0;
-rx_overflow = false;
-rx_tail = 0;
-tx_head = 0;
-tx_tail = 0;
+    /** Initialize buffer variables                                          **/
+    rx_head = 0;
+    rx_overflow = false;
+    rx_tail = 0;
+    tx_head = 0;
+    tx_tail = 0;
 
 }
 

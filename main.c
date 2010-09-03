@@ -75,7 +75,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____  I N C L U D E S ___________________________________________________
+//_____  I N C L U D E S _______________________________________________________
 
 #include "config.h"
 #include "modules/scheduler/scheduler.h"
@@ -87,14 +87,14 @@
 
 //_____ D E F I N I T I O N S ______________________________________________
 
-int main(void)
-    {
+int main( void )
+{
     start_boot_if_required();
     wdtdrv_disable();
     Clear_prescaler();
     scheduler();
     return 0;
-    }
+}
 
 /**
  * @name Procedure to speed up the startup code
@@ -103,17 +103,17 @@ int main(void)
 ///@{
 // Locate low level init function before RAM init (init3 section)
 // and remove std prologue/epilogue
-char __low_level_init(void) __attribute__ ((section (".init3"),naked));
+char __low_level_init( void ) __attribute__ ((section (".init3"),naked));
 
 #ifdef __cplusplus
 extern "C"
-    {
+{
 #endif
 char __low_level_init()
-    {
+{
     Clear_prescaler();
     return 1;
-    }
+}
 #ifdef __cplusplus
 }
 #endif

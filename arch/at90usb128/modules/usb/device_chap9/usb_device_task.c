@@ -44,7 +44,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-//_____  I N C L U D E S ___________________________________________________
+//_____  I N C L U D E S _______________________________________________________
 #include <stdbool.h>
 #include <avr/interrupt.h>
 #include "config.h"
@@ -61,7 +61,7 @@
 #if ((TARGET_BOARD==SPIDER) && (USB_OTG_FEATURE==true))
 #include "lib_board/lcd/lcd_drv.h"
 #endif
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 //_____ D E F I N I T I O N S ______________________________________________
 /**
  * Public : (bool) usb_connected

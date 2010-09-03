@@ -49,7 +49,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 #include "config.h"
 #include "conf_usb.h"
@@ -64,7 +64,7 @@
 static uint8_t bin_to_ascii (uint8_t b);
 #endif
 
-//_____ D E F I N I T I O N ________________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 
 static bool usb_get_descriptor( void );
 static void usb_set_address( void );
@@ -82,7 +82,7 @@ static bool usb_set_interface( void );
 uint8_t f_get_serial_string=false;
 #endif
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E F I N I T I O N ____________________________________________________
 
 #ifdef __GNUC__                          // AVRGCC does not support point to PGM space
 PGM_VOID_P pbuffer;

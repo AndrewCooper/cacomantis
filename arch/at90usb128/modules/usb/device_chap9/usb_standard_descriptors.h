@@ -13,7 +13,7 @@
 #ifndef _USB_STANDARD_DESCRIPTORS_H_
 #define _USB_STANDARD_DESCRIPTORS_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 /// USB Request
 typedef struct

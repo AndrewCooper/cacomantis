@@ -56,7 +56,7 @@
  * @{
  */
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 #define Setup_idle_mode()                       (SMCR=0,SMCR |= (1<<SE))
 #define Setup_power_down_mode()                 (SMCR=0,SMCR |= (1<<SE)+(1<<SM1))
@@ -91,7 +91,7 @@ extern void Set_cpu_prescaler(U8 x);
 #define Set_power_down_mode()      set_power_down_mode()
 #define Set_idle_mode()            set_idle_mode()
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 
 void set_idle_mode( void );
 void set_power_down_mode( void );

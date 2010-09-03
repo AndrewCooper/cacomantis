@@ -44,7 +44,7 @@
 #ifndef _USB_DRV_H_
 #define _USB_DRV_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 
 typedef enum endpoint_parameter
@@ -63,7 +63,7 @@ typedef enum endpoint_parameter
  * @{
  */
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 #define MAX_EP_NB             7
 
@@ -968,7 +968,7 @@ typedef enum endpoint_parameter
 
 ///@}
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 
 uint8_t usb_config_ep( uint8_t, uint8_t );
 uint8_t usb_select_enpoint_interrupt( void );

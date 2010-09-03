@@ -56,133 +56,131 @@
 //_____ T Y P E S __________________________________________________________
 
 struct hid_report
-	{
-	/*
-	 * Inputs, 1bit * 13
-	 * Usage: Generic Desktop / Gamepad / Button
-	 */
-	uint8_t		b1:1;
-	uint8_t		b2:1;
-	uint8_t		b3:1;
-	uint8_t		b4:1;
-	uint8_t		b5:1;
-	uint8_t		b6:1;
-	uint8_t		b7:1;
-	uint8_t		b8:1;
-	uint8_t		b9:1;
-	uint8_t		b10:1;
-	uint8_t		b11:1;
-	uint8_t		b12:1;
-	uint8_t		b13:1;
+{
+    /*
+     * Inputs, 1bit * 13
+     * Usage: Generic Desktop / Gamepad / Button
+     */
+    uint8_t b1 :1;
+    uint8_t b2 :1;
+    uint8_t b3 :1;
+    uint8_t b4 :1;
+    uint8_t b5 :1;
+    uint8_t b6 :1;
+    uint8_t b7 :1;
+    uint8_t b8 :1;
+    uint8_t b9 :1;
+    uint8_t b10 :1;
+    uint8_t b11 :1;
+    uint8_t b12 :1;
+    uint8_t b13 :1;
 
-	/*
-	 * Padding, 1bit * 3
-	 */
-	uint8_t		pad1:3;
+    /*
+     * Padding, 1bit * 3
+     */
+    uint8_t pad1 :3;
 
-	/*
-	 * Inputs: 4bit * 1
-	 * Usage: Generic Desktop / Gamepad
-	 * Logical: 0..7
-	 * Physical: 0..315
-	 */
-	/// hatswitch
-	uint8_t		hat:4;
+    /*
+     * Inputs: 4bit * 1
+     * Usage: Generic Desktop / Gamepad
+     * Logical: 0..7
+     * Physical: 0..315
+     */
+    /// hatswitch
+    uint8_t hat :4;
 
-	/*
-	 * Padding 4bit * 1
-	 */
-	uint8_t		pad2:4;
+    /*
+     * Padding 4bit * 1
+     */
+    uint8_t pad2 :4;
 
-	/*
-	 * Inputs: 8bit * 4
-	 * Usage: Generic Desktop / Gamepad
-	 * Logical: 0..255
-	 * Physical: 0..255
-	 */
-	/// X axis
-	uint8_t		x;
-	/// Y axis
-	uint8_t		y;
-	/// Z axis
-	uint8_t		z;
-	/// Rz axis
-	uint8_t		Rz;
+    /*
+     * Inputs: 8bit * 4
+     * Usage: Generic Desktop / Gamepad
+     * Logical: 0..255
+     * Physical: 0..255
+     */
+    /// X axis
+    uint8_t x;
+    /// Y axis
+    uint8_t y;
+    /// Z axis
+    uint8_t z;
+    /// Rz axis
+    uint8_t Rz;
 
-	/*
-	 * Inputs: 8bit * 12
-	 * Usage: Generic Desktop / 65280 (Vendor)
-	 */
-	/// Usage 0x20
-	uint8_t		iVendorX20;
-	/// Usage 0x21
-	uint8_t		iVendorX21;
-	/// Usage 0x22
-	uint8_t		iVendorX22;
-	/// Usage 0x23
-	uint8_t		iVendorX23;
-	/// Usage 0x24
-	uint8_t		iVendorX24;
-	/// Usage 0x25
-	uint8_t		iVendorX25;
-	/// Usage 0x26
-	uint8_t		iVendorX26;
-	/// Usage 0x27
-	uint8_t		iVendorX27;
-	/// Usage 0x28
-	uint8_t		iVendorX28;
-	/// Usage 0x29
-	uint8_t		iVendorX29;
-	/// Usage 0x2A
-	uint8_t		iVendorX2A;
-	/// Usage 0x2B
-	uint8_t		iVendorX2B;
+    /*
+     * Inputs: 8bit * 12
+     * Usage: Generic Desktop / 65280 (Vendor)
+     */
+    /// Usage 0x20
+    uint8_t iVendorX20;
+    /// Usage 0x21
+    uint8_t iVendorX21;
+    /// Usage 0x22
+    uint8_t iVendorX22;
+    /// Usage 0x23
+    uint8_t iVendorX23;
+    /// Usage 0x24
+    uint8_t iVendorX24;
+    /// Usage 0x25
+    uint8_t iVendorX25;
+    /// Usage 0x26
+    uint8_t iVendorX26;
+    /// Usage 0x27
+    uint8_t iVendorX27;
+    /// Usage 0x28
+    uint8_t iVendorX28;
+    /// Usage 0x29
+    uint8_t iVendorX29;
+    /// Usage 0x2A
+    uint8_t iVendorX2A;
+    /// Usage 0x2B
+    uint8_t iVendorX2B;
 
-	/*
-	 * Features: 8bit * 8
-	 * Usage: Generic Desktop / 65280 (Vendor)
-	 */
-	/// Usage 0x2621
-	uint8_t		iFeatureD2621_1;
-	uint8_t		iFeatureD2621_2;
-	uint8_t		iFeatureD2621_3;
-	uint8_t		iFeatureD2621_4;
-	uint8_t		iFeatureD2621_5;
-	uint8_t		iFeatureD2621_6;
-	uint8_t		iFeatureD2621_7;
-	uint8_t		iFeatureD2621_8;
+    /*
+     * Features: 8bit * 8
+     * Usage: Generic Desktop / 65280 (Vendor)
+     */
+    /// Usage 0x2621
+    uint8_t iFeatureD2621_1;
+    uint8_t iFeatureD2621_2;
+    uint8_t iFeatureD2621_3;
+    uint8_t iFeatureD2621_4;
+    uint8_t iFeatureD2621_5;
+    uint8_t iFeatureD2621_6;
+    uint8_t iFeatureD2621_7;
+    uint8_t iFeatureD2621_8;
 
-	/*
-	 * Outputs: 8bit * 8
-	 * Usage: Generic Desktop / 65280 (Vendor)
-	 */
-	/// Usage 0x2621
-	uint8_t		iOutputD2621_1;
-	uint8_t		iOutputD2621_2;
-	uint8_t		iOutputD2621_3;
-	uint8_t		iOutputD2621_4;
-	uint8_t		iOutputD2621_5;
-	uint8_t		iOutputD2621_6;
-	uint8_t		iOutputD2621_7;
-	uint8_t		iOutputD2621_8;
+    /*
+     * Outputs: 8bit * 8
+     * Usage: Generic Desktop / 65280 (Vendor)
+     */
+    /// Usage 0x2621
+    uint8_t iOutputD2621_1;
+    uint8_t iOutputD2621_2;
+    uint8_t iOutputD2621_3;
+    uint8_t iOutputD2621_4;
+    uint8_t iOutputD2621_5;
+    uint8_t iOutputD2621_6;
+    uint8_t iOutputD2621_7;
+    uint8_t iOutputD2621_8;
 
-	/*
-	 * Inputs: 16bit * 4
-	 * Usage: Generic Destop / 65280 (Vendor)
-	 * Logical: 0..1023
-	 * Physical: 0..1023
-	 */
-	/// Usage 0x2C
-	uint16_t		iInputX2C;
-	/// Usage 0x2D
-	uint16_t		iInputX2D;
-	/// Usage 0x2E
-	uint16_t		iInputX2E;
-	/// Usage 0x2F
-	uint16_t		iInputx2F;
-	};
-
-
+    /*
+     * Inputs: 16bit * 4
+     * Usage: Generic Destop / 65280 (Vendor)
+     * Logical: 0..1023
+     * Physical: 0..1023
+     */
+    /// Usage 0x2C
+    uint16_t iInputX2C;
+    /// Usage 0x2D
+    uint16_t iInputX2D;
+    /// Usage 0x2E
+    uint16_t iInputX2E;
+    /// Usage 0x2F
+    uint16_t iInputx2F;
+};
 
 #endif /* _HID_TASK_H_ */
 

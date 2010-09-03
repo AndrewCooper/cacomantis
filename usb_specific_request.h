@@ -49,15 +49,13 @@
 #include <avr/pgmspace.h>
 #include <stdbool.h>
 
-
 #include "config.h"
 
 //_____ M A C R O S ____________________________________________________________
 
 extern PROGMEM S_usb_device_descriptor usb_dev_desc;
 extern PROGMEM S_usb_user_configuration_descriptor usb_conf_desc;
-extern PROGMEM S_usb_manufacturer_string_descriptor
-	usb_user_manufacturer_string_descriptor;
+extern PROGMEM S_usb_manufacturer_string_descriptor usb_user_manufacturer_string_descriptor;
 extern PROGMEM S_usb_product_string_descriptor usb_user_product_string_descriptor;
 #if (USB_DEVICE_SN_USE==true)
 extern PROGMEM S_usb_serial_number usb_user_serial_number;
@@ -66,18 +64,18 @@ extern PROGMEM S_usb_language_id usb_user_language_id;
 
 //_____ D E F I N I T I O N ____________________________________________________
 
-bool usb_user_read_request(uint8_t, uint8_t);
-void usb_user_endpoint_init(uint8_t);
-uint8_t usb_user_interface_get(uint16_t wInterface);
-void usb_user_interface_reset(uint16_t wInterface, uint8_t alternate_setting);
-bool usb_user_get_descriptor(uint8_t, uint8_t);
+bool usb_user_read_request( uint8_t, uint8_t );
+void usb_user_endpoint_init( uint8_t );
+uint8_t usb_user_interface_get( uint16_t wInterface );
+void usb_user_interface_reset( uint16_t wInterface, uint8_t alternate_setting );
+bool usb_user_get_descriptor( uint8_t, uint8_t );
 
 /**
  * Usb HID Report Descriptor HID generic
  */
 typedef struct
-    {
-	uint8_t report[SIZE_OF_REPORT];
-    } S_usb_hid_report_descriptor;
+{
+    uint8_t report[SIZE_OF_REPORT];
+} S_usb_hid_report_descriptor;
 
 #endif

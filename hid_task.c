@@ -41,7 +41,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____  I N C L U D E S ___________________________________________________
+//_____  I N C L U D E S _______________________________________________________
 
 #include "config.h"
 #include "conf_usb.h"
@@ -55,7 +55,7 @@
 //_____ M A C R O S ____________________________________________________________
 
 
-//_____ V A R I A B L E S __________________________________________________
+//_____ V A R I A B L E S ______________________________________________________
 
 volatile uint8_t cpt_sof = 0;
 extern uint8_t jump_bootloader;
@@ -63,7 +63,7 @@ uint8_t g_last_joy = 0;
 
 struct hid_report report;
 
-//_____ P R O C E D U R E S ________________________________________________
+//_____ D E F I N I T I O N S __________________________________________________
 
 void hid_report_out( void );
 void hid_report_in( void );
@@ -72,10 +72,10 @@ void hid_report_in( void );
  * @brief Initialize the target board resources.
  */
 void hid_task_init( void )
-	{
-	Leds_init();
-	Joy_init();
-	}
+{
+    Leds_init();
+    Joy_init();
+}
 
 /**
  * @brief Entry point of the HID generic communication task
@@ -83,65 +83,65 @@ void hid_task_init( void )
  * This function manages IN/OUT report management.
  */
 void hid_task( void )
-	{
-	if( ! Is_device_enumerated() ) // Check USB HID is enumerated
-		return;
+{
+    if( !Is_device_enumerated() ) // Check USB HID is enumerated
+        return;
 
-	hid_report_out();
-	hid_report_in();
-	}
+    hid_report_out();
+    hid_report_in();
+}
 
 /**
  * @brief Get data report from Host
  */
 void hid_report_out( void )
-	{
-	Usb_select_endpoint(EP_HID_OUT);
-	if( Is_usb_receive_out() )
-		{
-		Usb_ack_receive_out();
-		}
+{
+    Usb_select_endpoint(EP_HID_OUT);
+    if( Is_usb_receive_out() )
+    {
+        Usb_ack_receive_out();
+    }
 
-	// Check if we received DFU mode command from host
-//	if( jump_bootloader )
-//		{
-//		uint32_t volatile tempo;
-//		Leds_off();
-//		Usb_detach(); // Detach actual generic HID application
-//		for( tempo = 0; tempo < 70000; tempo++ )
-//			; // Wait some time before
-//		start_boot(); // Jumping to booltoader
-//		}
-	}
+    // Check if we received DFU mode command from host
+    //	if( jump_bootloader )
+    //		{
+    //		uint32_t volatile tempo;
+    //		Leds_off();
+    //		Usb_detach(); // Detach actual generic HID application
+    //		for( tempo = 0; tempo < 70000; tempo++ )
+    //			; // Wait some time before
+    //		start_boot(); // Jumping to booltoader
+    //		}
+}
 
 /**
  * @brief Send data report to Host
  */
 void hid_report_in( void )
-	{
-	uint8_t *report_p = (uint8_t*)&report;
-	int i;
+{
+    uint8_t *report_p = ( uint8_t* ) &report;
+    int i;
 
-	Usb_select_endpoint(EP_HID_IN);
-	if( ! Is_usb_write_enabled() )
-		return; // Not ready to send report
+    Usb_select_endpoint(EP_HID_IN);
+    if( !Is_usb_write_enabled() )
+        return; // Not ready to send report
 
-	for( i = 0; i < sizeof(report); ++i)
-		{
+    for( i = 0; i < sizeof( report ); ++i )
+    {
 
-		}
-	// Send report
-	Usb_write_byte(g_last_joy); // Joystick
-	Usb_write_byte(GPIOR1); // Dummy (not used)
-	Usb_write_byte(GPIOR1); // Dummy (not used)
-	Usb_write_byte(GPIOR1); // Dummy (not used)
-	Usb_write_byte(GPIOR1); // Dummy (not used)
-	Usb_write_byte(GPIOR1); // Dummy (not used)
-	Usb_write_byte(GPIOR1); // Dummy (not used)
-	Usb_write_byte(GPIOR1); // Dummy (not used)
+    }
+    // Send report
+    Usb_write_byte(g_last_joy); // Joystick
+    Usb_write_byte(GPIOR1); // Dummy (not used)
+    Usb_write_byte(GPIOR1); // Dummy (not used)
+    Usb_write_byte(GPIOR1); // Dummy (not used)
+    Usb_write_byte(GPIOR1); // Dummy (not used)
+    Usb_write_byte(GPIOR1); // Dummy (not used)
+    Usb_write_byte(GPIOR1); // Dummy (not used)
+    Usb_write_byte(GPIOR1); // Dummy (not used)
 
-	Usb_ack_in_ready(); // Send data over the USB
-	}
+    Usb_ack_in_ready(); // Send data over the USB
+}
 
 /**
  * @brief  Increments the cpt_sof counter
@@ -151,6 +151,6 @@ void hid_report_in( void )
  * Useful to manage time delays.
  */
 void sof_action()
-	{
-	cpt_sof++ ;
-	}
+{
+    cpt_sof++ ;
+}

@@ -41,14 +41,15 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 #include "config.h"
 #include "power_drv.h"
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 
 
+//TODO Delete
 /**
  * @brief This function write the CPU prescaler register to a define value
  *

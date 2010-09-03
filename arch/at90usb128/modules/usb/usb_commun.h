@@ -43,6 +43,8 @@
 #ifndef _USB_COMMUN_H_
 #define _USB_COMMUN_H_
 
+//_____ C O N S T A N T S ______________________________________________________
+
 ///@name Vendor Identifiant according by USB org to ATMEL
 #define  VID_ATMEL                              0x03EB
 

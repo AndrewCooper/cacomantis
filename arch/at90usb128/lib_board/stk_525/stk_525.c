@@ -41,7 +41,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____  I N C L U D E S ___________________________________________________
+//_____  I N C L U D E S _______________________________________________________
 
 #include "config.h"
 #include "stk_525.h"
@@ -52,13 +52,13 @@
 #ifdef USE_ADC
 #include "lib_mcu/adc/adc_drv.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 
 //_____ P R I V A T E    D E C L A R A T I O N _____________________________
 
 
-//_____ D E F I N I T I O N ________________________________________________
+//_____ D E F I N I T I O N ____________________________________________________
 
 /**
  * The following table give the correspondance between the ADC code and the temperature

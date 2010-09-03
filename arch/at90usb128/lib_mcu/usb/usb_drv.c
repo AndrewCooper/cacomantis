@@ -41,16 +41,16 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 #include <stdbool.h>
 #include "config.h"
 #include "conf_usb.h"
 #include "usb_drv.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 
 #if (USB_DEVICE_FEATURE==false && USB_HOST_FEATURE==false)
 #error at least one of  USB_DEVICE_FEATURE or USB_HOST_FEATURE should be unabled

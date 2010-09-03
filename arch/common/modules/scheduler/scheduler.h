@@ -46,7 +46,7 @@
 #ifndef _SCHEDULER_H_
 #define _SCHEDULER_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 #ifdef KEIL
 #include <intrins.h>
 #define Wait_semaphore(a) while(!_testbit_(a))
@@ -54,7 +54,7 @@
 #define Wait_semaphore(a) while(!(a)) (a) = false
 #endif
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 /**
  * Definition of Task ID. This ID is used to properly send the event to a
  * specific task.
@@ -161,7 +161,7 @@ extern void Scheduler_task_10 (void);
 extern void Scheduler_task_11 (void);
 #endif
 
-//_____ D E F I N I T I O N ________________________________________________
+//_____ D E F I N I T I O N ____________________________________________________
 #if SCHEDULER_TYPE != SCHEDULER_FREE
 extern bit scheduler_tick_flag;
 #endif

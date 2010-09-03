@@ -42,14 +42,14 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 #define _SCHEDULER_C_
 #include "config.h"                         // system definition
 #include "conf/conf_scheduler.h"            // Configuration for the scheduler
 #include "scheduler.h"                      // scheduler definition
 
-//_____ M A C R O S ________________________________________________________
-//_____ D E F I N I T I O N ________________________________________________
+//_____ M A C R O S ____________________________________________________________
+//_____ D E F I N I T I O N ____________________________________________________
 #if SCHEDULER_TYPE != SCHEDULER_FREE
  * When SCHEDULER_TYPE != SCHEDULER_FREE, this flag control task calls.
 bit scheduler_tick_flag;
@@ -64,7 +64,7 @@ bit scheduler_tick_flag;
 unsigned char token;
 #endif
 
-//_____ D E C L A R A T I O N ______________________________________________
+//_____ D E C L A R A T I O N __________________________________________________
 /**
  * @brief Scheduler initialization
  *

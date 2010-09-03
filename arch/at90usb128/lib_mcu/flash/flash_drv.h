@@ -46,11 +46,11 @@
 #ifndef FLASH_DRV_H
 #define FLASH_DRV_H
 
-//_____ I N C L U D E S ______________________________________________________
+//_____ I N C L U D E S __________________________________________________________
 
 #include "config.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 /**
  * @name These macros allow to read a specific device ID of the product.

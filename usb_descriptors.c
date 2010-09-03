@@ -57,242 +57,242 @@
 //_____ D E F I N I T I O N ____________________________________________________
 // usb_user_device_descriptor
 PROGMEM S_usb_device_descriptor usb_dev_desc =
-	{
-	sizeof( usb_dev_desc ),
-	DESCRIPTOR_DEVICE,
-	USB_SPECIFICATION,
-	DEVICE_CLASS,
-	DEVICE_SUB_CLASS,
-	DEVICE_PROTOCOL,
-	EP_CONTROL_LENGTH,
-	VENDOR_ID,
-	PRODUCT_ID,
-	RELEASE_NUMBER,
-	MAN_INDEX,
-	PROD_INDEX,
-	SN_INDEX,
-	NB_CONFIGURATION
-	};
+    {
+    sizeof( usb_dev_desc ),
+    DESCRIPTOR_DEVICE,
+    USB_SPECIFICATION,
+    DEVICE_CLASS,
+    DEVICE_SUB_CLASS,
+    DEVICE_PROTOCOL,
+    EP_CONTROL_LENGTH,
+    VENDOR_ID,
+    PRODUCT_ID,
+    RELEASE_NUMBER,
+    MAN_INDEX,
+    PROD_INDEX,
+    SN_INDEX,
+    NB_CONFIGURATION
+    };
 // usb_user_configuration_descriptor FS
 PROGMEM S_usb_user_configuration_descriptor usb_conf_desc =
-	{
-	.cfg =
-		{
-		.bLength = sizeof(S_usb_configuration_descriptor),
-		.bDescriptorType = DESCRIPTOR_CONFIGURATION,
-		.wTotalLength = sizeof(S_usb_configuration_descriptor)
-                      + sizeof(S_usb_interface_descriptor)
-                      + sizeof(S_usb_hid_descriptor)
-                      + sizeof(S_usb_endpoint_descriptor)
-                      + sizeof(S_usb_endpoint_descriptor),
-		.bNumInterfaces = NB_INTERFACE,
-		.bConfigurationValue = CONF_NB,
-		.iConfiguration = CONF_INDEX,
-		.bmAttributes = CONF_ATTRIBUTES,
-		.MaxPower = MAX_POWER
-		},
-	.ifc =
-		{
-		.bLength = sizeof(S_usb_interface_descriptor),
-		.bDescriptorType = DESCRIPTOR_INTERFACE,
-		.bInterfaceNumber = INTERFACE_NB,
-		.bAlternateSetting = ALTERNATE,
-		.bNumEndpoints = NB_ENDPOINT,
-		.bInterfaceClass = INTERFACE_CLASS,
-		.bInterfaceSubClass = INTERFACE_SUB_CLASS,
-		.bInterfaceProtocol = INTERFACE_PROTOCOL,
-		.iInterface = INTERFACE_INDEX
-		},
-	.hid =
-		{
-		.bLength = sizeof(S_usb_hid_descriptor),
-		.bDescriptorType = DESCRIPTOR_HID,
-		.bcdHIDVer = HID_BCD,
-		.bCountryCode = HID_NO_COUNTRY_CODE,
-		.bNumDescriptors = HID_CLASS_DESC_NB_DEFAULT,
-		.bRDescriptorType = DESCRIPTOR_REPORT,
-		.wDescriptorLength = sizeof(S_usb_hid_report_descriptor)
-		},
-	.ep1 =
-		{
-		.bLength = sizeof(S_usb_endpoint_descriptor),
-		.bDescriptorType = DESCRIPTOR_ENDPOINT,
-		.bEndpointAddress = ENDPOINT_NB_1,
-		.bmAttributes = EP_ATTRIBUTES_1,
-		.wMaxPacketSize = EP_SIZE_1,
-		.bInterval = EP_INTERVAL_1
-		},
-	.ep2 =
-		{
-		.bLength = sizeof(S_usb_endpoint_descriptor),
-		.bDescriptorType = DESCRIPTOR_ENDPOINT,
-		.bEndpointAddress = ENDPOINT_NB_2,
-		.bmAttributes = EP_ATTRIBUTES_2,
-		.wMaxPacketSize = EP_SIZE_2,
-		.bInterval = EP_INTERVAL_2
-		}
-	};
+    {
+    .cfg =
+    {
+        .bLength = sizeof(S_usb_configuration_descriptor),
+        .bDescriptorType = DESCRIPTOR_CONFIGURATION,
+        .wTotalLength = sizeof(S_usb_configuration_descriptor)
+        + sizeof(S_usb_interface_descriptor)
+        + sizeof(S_usb_hid_descriptor)
+        + sizeof(S_usb_endpoint_descriptor)
+        + sizeof(S_usb_endpoint_descriptor),
+        .bNumInterfaces = NB_INTERFACE,
+        .bConfigurationValue = CONF_NB,
+        .iConfiguration = CONF_INDEX,
+        .bmAttributes = CONF_ATTRIBUTES,
+        .MaxPower = MAX_POWER
+    },
+    .ifc =
+    {
+        .bLength = sizeof(S_usb_interface_descriptor),
+        .bDescriptorType = DESCRIPTOR_INTERFACE,
+        .bInterfaceNumber = INTERFACE_NB,
+        .bAlternateSetting = ALTERNATE,
+        .bNumEndpoints = NB_ENDPOINT,
+        .bInterfaceClass = INTERFACE_CLASS,
+        .bInterfaceSubClass = INTERFACE_SUB_CLASS,
+        .bInterfaceProtocol = INTERFACE_PROTOCOL,
+        .iInterface = INTERFACE_INDEX
+    },
+    .hid =
+    {
+        .bLength = sizeof(S_usb_hid_descriptor),
+        .bDescriptorType = DESCRIPTOR_HID,
+        .bcdHIDVer = HID_BCD,
+        .bCountryCode = HID_NO_COUNTRY_CODE,
+        .bNumDescriptors = HID_CLASS_DESC_NB_DEFAULT,
+        .bRDescriptorType = DESCRIPTOR_REPORT,
+        .wDescriptorLength = sizeof(S_usb_hid_report_descriptor)
+    },
+    .ep1 =
+    {
+        .bLength = sizeof(S_usb_endpoint_descriptor),
+        .bDescriptorType = DESCRIPTOR_ENDPOINT,
+        .bEndpointAddress = ENDPOINT_NB_1,
+        .bmAttributes = EP_ATTRIBUTES_1,
+        .wMaxPacketSize = EP_SIZE_1,
+        .bInterval = EP_INTERVAL_1
+    },
+    .ep2 =
+    {
+        .bLength = sizeof(S_usb_endpoint_descriptor),
+        .bDescriptorType = DESCRIPTOR_ENDPOINT,
+        .bEndpointAddress = ENDPOINT_NB_2,
+        .bmAttributes = EP_ATTRIBUTES_2,
+        .wMaxPacketSize = EP_SIZE_2,
+        .bInterval = EP_INTERVAL_2
+    }
+    };
 // usb_user_manufacturer_string_descriptor
 PROGMEM S_usb_manufacturer_string_descriptor usb_user_manufacturer_string_descriptor =
-	{
-	.bLength = sizeof( usb_user_manufacturer_string_descriptor ),
-	.bDescriptorType = DESCRIPTOR_STRING,
-	.wString = USB_MANUFACTURER_NAME
-	};
+    {
+    .bLength = sizeof( usb_user_manufacturer_string_descriptor ),
+    .bDescriptorType = DESCRIPTOR_STRING,
+    .wString = USB_MANUFACTURER_NAME
+    };
 // usb_user_product_string_descriptor
 PROGMEM S_usb_product_string_descriptor usb_user_product_string_descriptor =
-	{
-	.bLength = sizeof( usb_user_product_string_descriptor ),
-	.bDescriptorType = DESCRIPTOR_STRING,
-	.wString = USB_PRODUCT_NAME
-	};
+    {
+    .bLength = sizeof( usb_user_product_string_descriptor ),
+    .bDescriptorType = DESCRIPTOR_STRING,
+    .wString = USB_PRODUCT_NAME
+    };
 // usb_user_serial_number
 #if (USB_DEVICE_SN_USE==true)
 PROGMEM S_usb_serial_number usb_user_serial_number =
-	{
+{
 #if (USE_DEVICE_SN_UNIQUE==true)
-	sizeof(usb_user_serial_number)+4*SN_LENGTH,
-	DESCRIPTOR_STRING
+    sizeof(usb_user_serial_number)+4*SN_LENGTH,
+    DESCRIPTOR_STRING
 #else
-	sizeof(usb_user_serial_number),
-	DESCRIPTOR_STRING,
-	USB_SERIAL_NUMBER
+    sizeof(usb_user_serial_number),
+    DESCRIPTOR_STRING,
+    USB_SERIAL_NUMBER
 #endif
-	};
+};
 #endif
 
 // usb_user_language_id
 
 PROGMEM S_usb_language_id usb_user_language_id =
-	{
-	.bLength = sizeof( usb_user_language_id ),
-	.bDescriptorType = DESCRIPTOR_STRING,
-	.wLangId = LANGUAGE_ID
-	};
+    {
+    .bLength = sizeof( usb_user_language_id ),
+    .bDescriptorType = DESCRIPTOR_STRING,
+    .wLangId = LANGUAGE_ID
+    };
 PROGMEM S_usb_hid_report_descriptor usb_hid_report_descriptor =
-	{
-	.report =
-		{
-		REPORT_ITEM_SHORT1( GLOBAL_USAGE_PAGE, USAGE_PAGE_GENERIC_DESKTOP ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_GAMEPAD ),
-		REPORT_ITEM_SHORT1( MAIN_COLLECTION, COLLECTION_APPLICATION ),
-		REPORT_ITEM_SHORT1( GLOBAL_LOGICAL_MIN, 0 ),
-		REPORT_ITEM_SHORT1( GLOBAL_LOGICAL_MAX, 1 ),
-		REPORT_ITEM_SHORT1( GLOBAL_PHYSICAL_MIN, 0 ),
-		REPORT_ITEM_SHORT1( GLOBAL_PHYSICAL_MAX, 1 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 1 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 13 ),
-		REPORT_ITEM_SHORT1( GLOBAL_USAGE_PAGE, USAGE_PAGE_BUTTON ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE_MIN, 1 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE_MAX, 13 ),
-		REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
-			INPUT_VARIABLE |
-			INPUT_ABSOLUTE |
-			INPUT_NO_WRAP |
-			INPUT_LINEAR |
-			INPUT_PREFERRED_STATE |
-			INPUT_NO_NULL_POSITION |
-			INPUT_BITFIELD ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 3 ),
-		REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_CONSTANT |
-			INPUT_ARRAY |
-			INPUT_ABSOLUTE ),
-		REPORT_ITEM_SHORT1( GLOBAL_USAGE_PAGE, USAGE_PAGE_GENERIC_DESKTOP ),
-		REPORT_ITEM_SHORT1( GLOBAL_LOGICAL_MAX, 7 ),
-		REPORT_ITEM_SHORT2( GLOBAL_PHYSICAL_MAX, 315 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 4 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 1 ),
-		REPORT_ITEM_SHORT1( GLOBAL_UNIT, 20 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_HATSWITCH ),
-		REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
-			INPUT_VARIABLE |
-			INPUT_ABSOLUTE |
-			INPUT_NO_WRAP |
-			INPUT_LINEAR |
-			INPUT_PREFERRED_STATE |
-			INPUT_NULL_STATE |
-			INPUT_BITFIELD ),
-		REPORT_ITEM_SHORT1( GLOBAL_UNIT, 0 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 1 ),
-		REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_CONSTANT |
-			INPUT_ARRAY |
-			INPUT_ABSOLUTE ),
-		REPORT_ITEM_SHORT2( GLOBAL_LOGICAL_MAX, 255 ),
-		REPORT_ITEM_SHORT2( GLOBAL_PHYSICAL_MAX, 255 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_X ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_Y ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_Z ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_RZ ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 8 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 4 ),
-		REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
-			INPUT_VARIABLE |
-			INPUT_ABSOLUTE |
-			INPUT_NO_WRAP |
-			INPUT_LINEAR |
-			INPUT_PREFERRED_STATE |
-			INPUT_NO_NULL_POSITION |
-			INPUT_BITFIELD ),
-		REPORT_ITEM_SHORT2( GLOBAL_USAGE_PAGE, 65280 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x20 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x21 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x22 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x23 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x24 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x25 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x26 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x27 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x28 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x29 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2a ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2b ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 12 ),
-		REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
-			INPUT_VARIABLE |
-			INPUT_ABSOLUTE |
-			INPUT_NO_WRAP |
-			INPUT_LINEAR |
-			INPUT_PREFERRED_STATE |
-			INPUT_NO_NULL_POSITION |
-			INPUT_BITFIELD ),
-		REPORT_ITEM_SHORT2( LOCAL_USAGE, 0x2621 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 8 ),
-		REPORT_ITEM_SHORT1( MAIN_FEATURE, FEATURE_DATA |
-			FEATURE_VARIABLE |
-			FEATURE_ABSOLUTE |
-			FEATURE_NO_WRAP |
-			FEATURE_LINEAR |
-			FEATURE_PREFERRED_STATE |
-			FEATURE_NO_NULL_POSITION |
-			FEATURE_NONVOLATILE |
-			FEATURE_BITFIELD ),
-		REPORT_ITEM_SHORT2( LOCAL_USAGE, 0x2621 ),
-		REPORT_ITEM_SHORT1( MAIN_OUTPUT, OUTPUT_DATA |
-			OUTPUT_VARIABLE |
-			OUTPUT_ABSOLUTE |
-			OUTPUT_NO_WRAP |
-			OUTPUT_LINEAR |
-			OUTPUT_PREFERRED_STATE |
-			OUTPUT_NO_NULL_POSITION |
-			OUTPUT_NONVOLATILE |
-			OUTPUT_BITFIELD ),
-		REPORT_ITEM_SHORT2( GLOBAL_LOGICAL_MAX, 1023 ),
-		REPORT_ITEM_SHORT2( GLOBAL_PHYSICAL_MAX, 1023 ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2c ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2d ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2e ),
-		REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2f ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 16 ),
-		REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 4 ),
-		REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
-			INPUT_VARIABLE |
-			INPUT_ABSOLUTE |
-			INPUT_NO_WRAP |
-			INPUT_LINEAR |
-			INPUT_PREFERRED_STATE |
-			INPUT_NO_NULL_POSITION |
-			INPUT_BITFIELD ),
-		REPORT_ITEM_SHORT0( MAIN_ENDCOLLECTION )
-		}
-	};
+    {
+    .report =
+    {
+        REPORT_ITEM_SHORT1( GLOBAL_USAGE_PAGE, USAGE_PAGE_GENERIC_DESKTOP ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_GAMEPAD ),
+        REPORT_ITEM_SHORT1( MAIN_COLLECTION, COLLECTION_APPLICATION ),
+        REPORT_ITEM_SHORT1( GLOBAL_LOGICAL_MIN, 0 ),
+        REPORT_ITEM_SHORT1( GLOBAL_LOGICAL_MAX, 1 ),
+        REPORT_ITEM_SHORT1( GLOBAL_PHYSICAL_MIN, 0 ),
+        REPORT_ITEM_SHORT1( GLOBAL_PHYSICAL_MAX, 1 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 1 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 13 ),
+        REPORT_ITEM_SHORT1( GLOBAL_USAGE_PAGE, USAGE_PAGE_BUTTON ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE_MIN, 1 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE_MAX, 13 ),
+        REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
+            INPUT_VARIABLE |
+            INPUT_ABSOLUTE |
+            INPUT_NO_WRAP |
+            INPUT_LINEAR |
+            INPUT_PREFERRED_STATE |
+            INPUT_NO_NULL_POSITION |
+            INPUT_BITFIELD ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 3 ),
+        REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_CONSTANT |
+            INPUT_ARRAY |
+            INPUT_ABSOLUTE ),
+        REPORT_ITEM_SHORT1( GLOBAL_USAGE_PAGE, USAGE_PAGE_GENERIC_DESKTOP ),
+        REPORT_ITEM_SHORT1( GLOBAL_LOGICAL_MAX, 7 ),
+        REPORT_ITEM_SHORT2( GLOBAL_PHYSICAL_MAX, 315 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 4 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 1 ),
+        REPORT_ITEM_SHORT1( GLOBAL_UNIT, 20 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_HATSWITCH ),
+        REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
+            INPUT_VARIABLE |
+            INPUT_ABSOLUTE |
+            INPUT_NO_WRAP |
+            INPUT_LINEAR |
+            INPUT_PREFERRED_STATE |
+            INPUT_NULL_STATE |
+            INPUT_BITFIELD ),
+        REPORT_ITEM_SHORT1( GLOBAL_UNIT, 0 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 1 ),
+        REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_CONSTANT |
+            INPUT_ARRAY |
+            INPUT_ABSOLUTE ),
+        REPORT_ITEM_SHORT2( GLOBAL_LOGICAL_MAX, 255 ),
+        REPORT_ITEM_SHORT2( GLOBAL_PHYSICAL_MAX, 255 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_X ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_Y ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_Z ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, GENERIC_DESKTOP_RZ ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 8 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 4 ),
+        REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
+            INPUT_VARIABLE |
+            INPUT_ABSOLUTE |
+            INPUT_NO_WRAP |
+            INPUT_LINEAR |
+            INPUT_PREFERRED_STATE |
+            INPUT_NO_NULL_POSITION |
+            INPUT_BITFIELD ),
+        REPORT_ITEM_SHORT2( GLOBAL_USAGE_PAGE, 65280 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x20 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x21 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x22 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x23 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x24 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x25 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x26 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x27 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x28 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x29 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2a ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2b ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 12 ),
+        REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
+            INPUT_VARIABLE |
+            INPUT_ABSOLUTE |
+            INPUT_NO_WRAP |
+            INPUT_LINEAR |
+            INPUT_PREFERRED_STATE |
+            INPUT_NO_NULL_POSITION |
+            INPUT_BITFIELD ),
+        REPORT_ITEM_SHORT2( LOCAL_USAGE, 0x2621 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 8 ),
+        REPORT_ITEM_SHORT1( MAIN_FEATURE, FEATURE_DATA |
+            FEATURE_VARIABLE |
+            FEATURE_ABSOLUTE |
+            FEATURE_NO_WRAP |
+            FEATURE_LINEAR |
+            FEATURE_PREFERRED_STATE |
+            FEATURE_NO_NULL_POSITION |
+            FEATURE_NONVOLATILE |
+            FEATURE_BITFIELD ),
+        REPORT_ITEM_SHORT2( LOCAL_USAGE, 0x2621 ),
+        REPORT_ITEM_SHORT1( MAIN_OUTPUT, OUTPUT_DATA |
+            OUTPUT_VARIABLE |
+            OUTPUT_ABSOLUTE |
+            OUTPUT_NO_WRAP |
+            OUTPUT_LINEAR |
+            OUTPUT_PREFERRED_STATE |
+            OUTPUT_NO_NULL_POSITION |
+            OUTPUT_NONVOLATILE |
+            OUTPUT_BITFIELD ),
+        REPORT_ITEM_SHORT2( GLOBAL_LOGICAL_MAX, 1023 ),
+        REPORT_ITEM_SHORT2( GLOBAL_PHYSICAL_MAX, 1023 ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2c ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2d ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2e ),
+        REPORT_ITEM_SHORT1( LOCAL_USAGE, 0x2f ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_SIZE, 16 ),
+        REPORT_ITEM_SHORT1( GLOBAL_REPORT_COUNT, 4 ),
+        REPORT_ITEM_SHORT1( MAIN_INPUT, INPUT_DATA |
+            INPUT_VARIABLE |
+            INPUT_ABSOLUTE |
+            INPUT_NO_WRAP |
+            INPUT_LINEAR |
+            INPUT_PREFERRED_STATE |
+            INPUT_NO_NULL_POSITION |
+            INPUT_BITFIELD ),
+        REPORT_ITEM_SHORT0( MAIN_ENDCOLLECTION )
+    }
+    };
 
