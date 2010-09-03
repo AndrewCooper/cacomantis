@@ -55,19 +55,19 @@
  *
  * @param x the precaler value to be written
  */
-#ifndef __GNUC__
-// Ignored if IAR compiler optimization option "Always do cross call optimization" is enabled
-#pragma optimize=none
-void Set_cpu_prescaler(U8 x)
-	{
-	U8 save_int=Get_interrupt_state();
-	Disable_interrupt();
-	CLKPR=(1<<CLKPCE);
-	CLKPR=x;
-	if(save_int)
-		{Enable_interrupt();}
-	}
-#endif
+//#ifndef __GNUC__
+//// Ignored if IAR compiler optimization option "Always do cross call optimization" is enabled
+//#pragma optimize=none
+//void Set_cpu_prescaler(uint8_t x)
+//	{
+//	uint8_t save_int=Get_interrupt_state();
+//	cli();
+//	CLKPR=(1<<CLKPCE);
+//	CLKPR=x;
+//	if(save_int)
+//		{sei();}
+//	}
+//#endif
 
 /**
  * @brief This function makes the AVR core enter power down mode.

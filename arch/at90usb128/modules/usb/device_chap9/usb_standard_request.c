@@ -84,13 +84,8 @@ uint8_t f_get_serial_string=false;
 
 //_____ D E F I N I T I O N ____________________________________________________
 
-#ifdef __GNUC__                          // AVRGCC does not support point to PGM space
 PGM_VOID_P pbuffer;
 #define Usb_write_PGM_byte(byte) (Usb_write_byte(pgm_read_byte_near((unsigned int)byte)))
-#else
-U8 code *pbuffer;
-#define Usb_write_PGM_byte(byte) (Usb_write_byte(*byte))
-#endif
 
 uint8_t endpoint_status[MAX_EP_NB];
 uint8_t data_to_transfer;

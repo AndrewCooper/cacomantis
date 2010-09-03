@@ -47,9 +47,7 @@
 #ifndef _POWER_DRV_H_
 #define _POWER_DRV_H_
 
-#ifdef  __GNUC__
 #include <avr/power.h>
-#endif
 /**
  * @defgroup powermode Power management drivers
  *
@@ -68,22 +66,14 @@
 /**
  * @brief This function reset the internal CPU core clock prescaler
  */
-#ifdef  __GNUC__
 #define Clear_prescaler()                       clock_prescale_set(0)
-#else
-#define Clear_prescaler()                       Set_cpu_prescaler(0)
-#endif
 
 /**
  * @brief This function configure the internal CPU core clock prescaler value
  *
  * @param x: prescaler new value
  */
-#ifdef  __GNUC__
 #define Set_cpu_prescaler(x)                        clock_prescale_set(x)
-#else
-extern void Set_cpu_prescaler(U8 x);
-#endif
 
 #define Sleep_instruction()      {asm("SLEEP");}
 

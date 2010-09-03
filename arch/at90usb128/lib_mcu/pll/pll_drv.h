@@ -60,22 +60,12 @@
  */
 #define PLLx06          ( (0<<PLLP2) | (1<<PLLP1) | (1<<PLLP0) )
 
-#ifdef __ICCAVR__
-#if (defined(__AT90USB1287__) || defined(__AT90USB1286__))
-#define PLLx03          ( (1<<PLLP2) | (0<<PLLP1) | (1<<PLLP0) )
-#elif (defined(__AT90USB647__) || defined(__AT90USB646__) || defined(__ATmega32U6__))
-#define PLLx03          ( (1<<PLLP2) | (1<<PLLP1) | (0<<PLLP0) )
-#else
-#error TARGET should be defined
-#endif
-#elif defined __GNUC__
 #if (defined(__AVR_AT90USB1287__) || defined(__AVR_AT90USB1286__))
-#define PLLx03          ( (1<<PLLP2) | (0<<PLLP1) | (1<<PLLP0) )
+#  define PLLx03          ( (1<<PLLP2) | (0<<PLLP1) | (1<<PLLP0) )
 #elif (defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB646__) || defined(__AVR_ATmega32U6__))
-#define PLLx03          ( (1<<PLLP2) | (1<<PLLP1) | (0<<PLLP0) )
-#endif
-#else // Other compiler
-#error Compiler unknow
+#  define PLLx03          ( (1<<PLLP2) | (1<<PLLP1) | (0<<PLLP0) )
+#else
+#  error TARGET should be defined
 #endif
 
 /// Start the USB PLL with correct clockfactor

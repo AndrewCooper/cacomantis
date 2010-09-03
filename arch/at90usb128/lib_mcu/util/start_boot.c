@@ -45,15 +45,6 @@
 #include "start_boot.h"
 #include "lib_mcu/wdt/wdt_drv.h"
 
-#ifdef __ICCAVR__
-#if (defined(__AT90USB1287__) || defined(__AT90USB1286__))
-void (*start_bootloader) (void)=(void (*)(void))0xf000;
-#elif (defined(__AT90USB647__) || defined(__AT90USB646__))
-void (*start_bootloader) (void)=(void (*)(void))0x7800;
-#else
-#error MCU part not define in project options
-#endif
-#elif defined __GNUC__
 #if (defined(__AVR_AT90USB1287__) || defined(__AVR_AT90USB1286__))
 void (*start_bootloader) (void)=(void (*)(void))0xf000;
 #elif (defined(__AVR_AT90USB647__) || defined(__AVR_AT90USB646__))
@@ -61,15 +52,8 @@ void (*start_bootloader) (void)=(void (*)(void))0x7800;
 #else
 #error MCU part not define in project options
 #endif
-#else // Other compiler
-#error Compiler unknow
-#endif
 
-#ifdef __GNUC__
-U32 boot_key __attribute__ ((section (".noinit")));
-#else
-__no_init U32 boot_key At(0x0100);
-#endif
+uint32_t boot_key __attribute__ ((section (".noinit")));
 
 /**
  * @brief Jump to on-chip bootloader without CPU reset.

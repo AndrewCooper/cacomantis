@@ -46,11 +46,7 @@
 
 #define GOTOBOOTKEY  0x55AAAA55
 
-#ifdef __GNUC__
-extern U32 boot_key __attribute__ ((section (".noinit")));
-#else
-extern __no_init U32 boot_key;
-#endif
+extern uint32_t boot_key __attribute__ ((section (".noinit")));
 
 void goto_boot( void );
 

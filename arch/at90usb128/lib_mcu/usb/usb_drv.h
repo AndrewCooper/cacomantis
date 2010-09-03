@@ -957,14 +957,14 @@ typedef enum endpoint_parameter
  *
  * @return         (uint16_t) the 16 bit word written
  */
-#if !defined(BIG_ENDIAN) && !defined(LITTLE_ENDIAN)
-#error YOU MUST Define the Endian Type of target: LITTLE_ENDIAN or BIG_ENDIAN
-#endif
-#ifdef LITTLE_ENDIAN
-#define Usb_write_word_enum_struc(x)   (x)
-#else //BIG_ENDIAN
-#define Usb_write_word_enum_struc(x)   (wSWAP(x))
-#endif
+//#if !defined(BIG_ENDIAN) && !defined(LITTLE_ENDIAN)
+//#error YOU MUST Define the Endian Type of target: LITTLE_ENDIAN or BIG_ENDIAN
+//#endif
+//#ifdef LITTLE_ENDIAN
+//#define Usb_write_word_enum_struc(x)   (x)
+//#else //BIG_ENDIAN
+//#define Usb_write_word_enum_struc(x)   (wSWAP(x))
+//#endif
 
 ///@}
 
