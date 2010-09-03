@@ -42,48 +42,49 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
+#include <avr/pgmspace.h>
 #include "config.h"
 #include "conf_usb.h"
 #include "lib_mcu/usb/usb_drv.h"
 #include "usb_descriptors.h"
 #include "modules/usb/device_chap9/usb_standard_request.h"
 #include "usb_specific_request.h"
-#if ((USB_DEVICE_SN_USE==ENABLE) && (USE_DEVICE_SN_UNIQUE==ENABLE))
+#if ((USB_DEVICE_SN_USE==true) && (USE_DEVICE_SN_UNIQUE==true))
 #include "lib_mcu/flash/flash_drv.h"
 #endif
-//_____ M A C R O S ________________________________________________________
-//_____ D E F I N I T I O N ________________________________________________
+//_____ M A C R O S ____________________________________________________________
+//_____ D E F I N I T I O N ____________________________________________________
 // usb_user_device_descriptor
-code S_usb_device_descriptor usb_dev_desc =
+PROGMEM S_usb_device_descriptor usb_dev_desc =
 	{
 	sizeof( usb_dev_desc ),
 	DESCRIPTOR_DEVICE,
-	Usb_write_word_enum_struc(USB_SPECIFICATION),
+	USB_SPECIFICATION,
 	DEVICE_CLASS,
 	DEVICE_SUB_CLASS,
 	DEVICE_PROTOCOL,
 	EP_CONTROL_LENGTH,
-	Usb_write_word_enum_struc(VENDOR_ID),
-	Usb_write_word_enum_struc(PRODUCT_ID),
-	Usb_write_word_enum_struc(RELEASE_NUMBER),
+	VENDOR_ID,
+	PRODUCT_ID,
+	RELEASE_NUMBER,
 	MAN_INDEX,
 	PROD_INDEX,
 	SN_INDEX,
 	NB_CONFIGURATION
 	};
 // usb_user_configuration_descriptor FS
-code S_usb_user_configuration_descriptor usb_conf_desc =
+PROGMEM S_usb_user_configuration_descriptor usb_conf_desc =
 	{
 	.cfg =
 		{
 		.bLength = sizeof(S_usb_configuration_descriptor),
 		.bDescriptorType = DESCRIPTOR_CONFIGURATION,
-		.wTotalLength = Usb_write_word_enum_struc(sizeof(S_usb_configuration_descriptor)
-			+sizeof(S_usb_interface_descriptor)
-			+sizeof(S_usb_hid_descriptor)
-			+sizeof(S_usb_endpoint_descriptor)
-			+sizeof(S_usb_endpoint_descriptor)),
+		.wTotalLength = sizeof(S_usb_configuration_descriptor)
+                      + sizeof(S_usb_interface_descriptor)
+                      + sizeof(S_usb_hid_descriptor)
+                      + sizeof(S_usb_endpoint_descriptor)
+                      + sizeof(S_usb_endpoint_descriptor),
 		.bNumInterfaces = NB_INTERFACE,
 		.bConfigurationValue = CONF_NB,
 		.iConfiguration = CONF_INDEX,
@@ -110,7 +111,7 @@ code S_usb_user_configuration_descriptor usb_conf_desc =
 		.bCountryCode = HID_NO_COUNTRY_CODE,
 		.bNumDescriptors = HID_CLASS_DESC_NB_DEFAULT,
 		.bRDescriptorType = DESCRIPTOR_REPORT,
-		.wDescriptorLength = Usb_write_word_enum_struc(sizeof(S_usb_hid_report_descriptor))
+		.wDescriptorLength = sizeof(S_usb_hid_report_descriptor)
 		},
 	.ep1 =
 		{
@@ -118,7 +119,7 @@ code S_usb_user_configuration_descriptor usb_conf_desc =
 		.bDescriptorType = DESCRIPTOR_ENDPOINT,
 		.bEndpointAddress = ENDPOINT_NB_1,
 		.bmAttributes = EP_ATTRIBUTES_1,
-		.wMaxPacketSize = Usb_write_word_enum_struc(EP_SIZE_1),
+		.wMaxPacketSize = EP_SIZE_1,
 		.bInterval = EP_INTERVAL_1
 		},
 	.ep2 =
@@ -127,29 +128,29 @@ code S_usb_user_configuration_descriptor usb_conf_desc =
 		.bDescriptorType = DESCRIPTOR_ENDPOINT,
 		.bEndpointAddress = ENDPOINT_NB_2,
 		.bmAttributes = EP_ATTRIBUTES_2,
-		.wMaxPacketSize = Usb_write_word_enum_struc(EP_SIZE_2),
+		.wMaxPacketSize = EP_SIZE_2,
 		.bInterval = EP_INTERVAL_2
 		}
 	};
 // usb_user_manufacturer_string_descriptor
-code S_usb_manufacturer_string_descriptor usb_user_manufacturer_string_descriptor =
+PROGMEM S_usb_manufacturer_string_descriptor usb_user_manufacturer_string_descriptor =
 	{
 	.bLength = sizeof( usb_user_manufacturer_string_descriptor ),
 	.bDescriptorType = DESCRIPTOR_STRING,
 	.wString = USB_MANUFACTURER_NAME
 	};
 // usb_user_product_string_descriptor
-code S_usb_product_string_descriptor usb_user_product_string_descriptor =
+PROGMEM S_usb_product_string_descriptor usb_user_product_string_descriptor =
 	{
 	.bLength = sizeof( usb_user_product_string_descriptor ),
 	.bDescriptorType = DESCRIPTOR_STRING,
 	.wString = USB_PRODUCT_NAME
 	};
 // usb_user_serial_number
-#if (USB_DEVICE_SN_USE==ENABLE)
-code S_usb_serial_number usb_user_serial_number =
+#if (USB_DEVICE_SN_USE==true)
+PROGMEM S_usb_serial_number usb_user_serial_number =
 	{
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
+#if (USE_DEVICE_SN_UNIQUE==true)
 	sizeof(usb_user_serial_number)+4*SN_LENGTH,
 	DESCRIPTOR_STRING
 #else
@@ -162,13 +163,13 @@ code S_usb_serial_number usb_user_serial_number =
 
 // usb_user_language_id
 
-code S_usb_language_id usb_user_language_id =
+PROGMEM S_usb_language_id usb_user_language_id =
 	{
 	.bLength = sizeof( usb_user_language_id ),
 	.bDescriptorType = DESCRIPTOR_STRING,
-	.wLangId = Usb_write_word_enum_struc(LANGUAGE_ID)
+	.wLangId = LANGUAGE_ID
 	};
-code S_usb_hid_report_descriptor usb_hid_report_descriptor =
+PROGMEM S_usb_hid_report_descriptor usb_hid_report_descriptor =
 	{
 	.report =
 		{

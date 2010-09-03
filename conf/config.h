@@ -45,16 +45,11 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
-// Compiler switch (do not change these settings)
-#include "lib_mcu/compiler.h"             // Compiler definitions
-#ifdef __GNUC__
+//_____ I N C L U D E S ________________________________________________________
+
 #include <avr/io.h>                    // Use AVR-GCC library
-#elif __ICCAVR__
-#define ENABLE_BIT_DEFINITIONS
-#include <ioavr.h>                     // Use IAR-AVR library
-#else
-#error Current COMPILER not supported
-#endif
+
+//_____ C O N S T A N T S ______________________________________________________
 
 /**
  * @defgroup global_config Application configuration
@@ -113,6 +108,14 @@
 #define ADC_RIGHT_ADJUST_RESULT 1
 /// AVCC As reference voltage (See adc_drv.h)
 #define ADC_INTERNAL_VREF  2
+
+//------------------------------------------------------------------------------
+// F r e e R T O S    T a s k    C o n f i g u r a t i o n
+//------------------------------------------------------------------------------
+
+#define kUART_TASK_PRIORITY             ( 1 )
+#define kUSB_TASK_PRIORITY              ( 1 )
+#define kHID_TASK_PRIORITY              ( 1 )
 
 /// @}
 

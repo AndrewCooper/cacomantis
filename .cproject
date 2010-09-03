@@ -35,9 +35,10 @@
 <option id="de.innot.avreclipse.compiler.option.optimize.1166383761" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize"/>
 <option id="de.innot.avreclipse.compiler.option.incpath.1701094562" name="Include Paths (-I)" superClass="de.innot.avreclipse.compiler.option.incpath" valueType="includePath">
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/cacomantis}&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cacomantis/at90usb128}&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cacomantis/common}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/cacomantis/conf}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cacomantis/arch/at90usb128}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cacomantis/arch/common}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/cacomantis/kernel/include}&quot;"/>
 </option>
 <inputType id="de.innot.avreclipse.compiler.winavr.input.1894123255" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 </tool>

@@ -1,21 +1,60 @@
-##############################################################################
-# Generic Makefile for following parts AT90USBx ATMegaxUx
-###############################################################################
+################################################################################
+# Project Makefile for Cacomantis (Rock Band Robot) 
+################################################################################
 
+################################################################################
+# Project Variables 
+################################################################################
+
+# Project name
+PROJECT = cacomantis
+
+# CPU architecture
+MCU = at90usb1287
+
+# Build Directory
 OUTPUT = build
 
-# General Flags
-TARGET = $(PROJECT).elf
+# Include Directories
+INCLUDES =  -I"."\
+			-I"conf"\
+			-I"arch/at90usb128"\
+			-I"arch/common"\
+
+# Source files
+CSRCS = \
+    main.c\
+    hid_task.c\
+    uart_task.c\
+    usb_descriptors.c\
+    usb_specific_request.c\
+    arch/at90usb128/lib_board/usb_key/usb_key.c\
+    arch/at90usb128/lib_mcu/usb/usb_drv.c\
+    arch/at90usb128/lib_mcu/util/start_boot.c\
+    arch/at90usb128/modules/usb/device_chap9/usb_device_task.c\
+    arch/at90usb128/modules/usb/device_chap9/usb_standard_request.c\
+    arch/at90usb128/modules/usb/usb_task.c\
+    arch/common/lib_mcu/wdt/wdt_drv.c\
+    arch/common/modules/scheduler/scheduler.c\
+
+#    arch/at90usb128/lib_mcu/usart/usart.c\
+
+# Assembler source files
+ASSRCS = \
+
+################################################################################
+# Compile Variables 
+################################################################################
+
+# Compiler
 CC = avr-gcc
-MAKECFG   = config.mk
 
 # Options common to compile, link and assembly rules
-COMMON = -mmcu=$(MCU)
+COMMON = -mmcu=$(MCU) -MD -MP -MF $(OUTPUT)/$(*).d
 
 # Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
 CFLAGS += -std=c99 -Wall -gdwarf-2 -Os -fsigned-char -ffunction-sections
-CFLAGS += -MD -MP -MF $(OUTPUT)/dep/$(@F).d 
 
 # Assembly specific flags
 ASMFLAGS = $(COMMON)
@@ -33,70 +72,77 @@ HEX_EEPROM_FLAGS = -j .eeprom
 HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
 HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0
 
-# Include Directories
-INCLUDES = -I"." -I"conf" -I"at90usb128" -I"common" 
+################################################################################
+# Derived Variables 
+################################################################################
 
-# Include Source files list and part informations
-include $(MAKECFG)
+# Target name
+TARGET = $(PROJECT).elf
 
-# Create objects files list with sources files
-OBJECTS  = $(CSRCS:.c=.o) $(ASSRCS:.s=.o)
+# Object files in build directory
+OBJECTS := $(CSRCS:.c=.o) $(ASSRCS:.s=.o)
+OBJECTS := $(addprefix $(OUTPUT)/,$(OBJECTS))
 
+# Dependency files in build directory
+DEPS = $(OBJECTS:.o=.d)
 
-## Build
+# Tell make where to look for files
+VPATH = $(OUTPUT)
+
+################################################################################
+# Rules 
+################################################################################
+
+# Default Rule
 .PHONY: all
 all: $(TARGET) $(PROJECT).hex size
 
-## Clean target
+# Cleanup build products
 .PHONY: clean
 clean:
 	@echo "Clean project"
-	-rm -rf $(OUTPUT)/dep/* $(OBJECTS) $(PROJECT).elf $(PROJECT).hex $(PROJECT).eep $(PROJECT).map
+	-rm -rf $(OUTPUT) $(PROJECT).elf $(PROJECT).hex $(PROJECT).eep $(PROJECT).map
 
-## Rebuild the project.
+# Rebuild the project
 .PHONY: rebuild
 rebuild: clean all
 
-## Prerequisites
--include $(OUTPUT)/dep/*
+# Include Compiler-generated Prerequisites
+-include $(DEPS)
 
-## Compile
-
-.PHONY: objfiles
-objfiles: $(OBJECTS)
-
-# create object files from C source files.
-%.o: %.c
+# Compile: create object files from C source files.
+$(OUTPUT)/%.o: %.c
 	@echo 'Building file: $<'
-	@$(shell mkdir $(OUTPUT) 2>/dev/null)
-	@$(shell mkdir $(OUTPUT)/dep 2>/dev/null)
-	@$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $(@)
+	@mkdir -p $(dir $@) 2>/dev/null
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $(@)
 	
 # Preprocess & assemble: create object files from assembler source files.
-%.o: %.s
+$(OUTPUT)/%.o: %.s
 	@echo 'Building file: $<'
-	@$(shell mkdir $(OUTPUT) 2>/dev/null)
-	@$(shell mkdir $(OUTPUT)/dep 2>/dev/null)
+	@mkdir -p $(dir $@) 2>/dev/null
 	@$(CC) $(INCLUDES) $(ASMFLAGS) -c $< -o $(@)
 
-
-## Link
+# Link: bring object files together into a final executable
 $(TARGET): $(OBJECTS)
 	@echo "Linking"
 	@$(CC) $(LDFLAGS) $(OBJECTS) $(LINKONLYOBJECTS) $(LIBDIRS) $(LIBS) -o $(TARGET)
 
+# Hexify: convert executable into Intel-Hex format
 %.hex: $(TARGET)
 	@echo "Create hex file"
 	@avr-objcopy -O ihex $(HEX_FLASH_FLAGS)  $< $@
 
+# EEPify: convert executable into EEP format
 %.eep: $(TARGET)
 	@echo "Create eep file"
 	@avr-objcopy $(HEX_EEPROM_FLAGS) -O ihex $< $@  || exit 0
 
+# LSSify: convert executable into LSS format
 %.lss: $(TARGET)
 	@echo "Create lss file"
 	@avr-objdump -h -S $< > $@
 
+# Size: Tell memory usage of the executable
 size: ${TARGET}
 	@avr-size -C --mcu=${MCU} ${TARGET}
 

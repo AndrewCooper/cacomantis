@@ -45,12 +45,12 @@
 #ifndef _HID_TASK_H_
 #define _HID_TASK_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 
 #include "config.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 
 //_____ T Y P E S __________________________________________________________
@@ -61,24 +61,24 @@ struct hid_report
 	 * Inputs, 1bit * 13
 	 * Usage: Generic Desktop / Gamepad / Button
 	 */
-	U8		b1:1;
-	U8		b2:1;
-	U8		b3:1;
-	U8		b4:1;
-	U8		b5:1;
-	U8		b6:1;
-	U8		b7:1;
-	U8		b8:1;
-	U8		b9:1;
-	U8		b10:1;
-	U8		b11:1;
-	U8		b12:1;
-	U8		b13:1;
+	uint8_t		b1:1;
+	uint8_t		b2:1;
+	uint8_t		b3:1;
+	uint8_t		b4:1;
+	uint8_t		b5:1;
+	uint8_t		b6:1;
+	uint8_t		b7:1;
+	uint8_t		b8:1;
+	uint8_t		b9:1;
+	uint8_t		b10:1;
+	uint8_t		b11:1;
+	uint8_t		b12:1;
+	uint8_t		b13:1;
 
 	/*
 	 * Padding, 1bit * 3
 	 */
-	U8		pad1:3;
+	uint8_t		pad1:3;
 
 	/*
 	 * Inputs: 4bit * 1
@@ -87,12 +87,12 @@ struct hid_report
 	 * Physical: 0..315
 	 */
 	/// hatswitch
-	U8		hat:4;
+	uint8_t		hat:4;
 
 	/*
 	 * Padding 4bit * 1
 	 */
-	U8		pad2:4;
+	uint8_t		pad2:4;
 
 	/*
 	 * Inputs: 8bit * 4
@@ -101,70 +101,70 @@ struct hid_report
 	 * Physical: 0..255
 	 */
 	/// X axis
-	U8		x;
+	uint8_t		x;
 	/// Y axis
-	U8		y;
+	uint8_t		y;
 	/// Z axis
-	U8		z;
+	uint8_t		z;
 	/// Rz axis
-	U8		Rz;
+	uint8_t		Rz;
 
 	/*
 	 * Inputs: 8bit * 12
 	 * Usage: Generic Desktop / 65280 (Vendor)
 	 */
 	/// Usage 0x20
-	U8		iVendorX20;
+	uint8_t		iVendorX20;
 	/// Usage 0x21
-	U8		iVendorX21;
+	uint8_t		iVendorX21;
 	/// Usage 0x22
-	U8		iVendorX22;
+	uint8_t		iVendorX22;
 	/// Usage 0x23
-	U8		iVendorX23;
+	uint8_t		iVendorX23;
 	/// Usage 0x24
-	U8		iVendorX24;
+	uint8_t		iVendorX24;
 	/// Usage 0x25
-	U8		iVendorX25;
+	uint8_t		iVendorX25;
 	/// Usage 0x26
-	U8		iVendorX26;
+	uint8_t		iVendorX26;
 	/// Usage 0x27
-	U8		iVendorX27;
+	uint8_t		iVendorX27;
 	/// Usage 0x28
-	U8		iVendorX28;
+	uint8_t		iVendorX28;
 	/// Usage 0x29
-	U8		iVendorX29;
+	uint8_t		iVendorX29;
 	/// Usage 0x2A
-	U8		iVendorX2A;
+	uint8_t		iVendorX2A;
 	/// Usage 0x2B
-	U8		iVendorX2B;
+	uint8_t		iVendorX2B;
 
 	/*
 	 * Features: 8bit * 8
 	 * Usage: Generic Desktop / 65280 (Vendor)
 	 */
 	/// Usage 0x2621
-	U8		iFeatureD2621_1;
-	U8		iFeatureD2621_2;
-	U8		iFeatureD2621_3;
-	U8		iFeatureD2621_4;
-	U8		iFeatureD2621_5;
-	U8		iFeatureD2621_6;
-	U8		iFeatureD2621_7;
-	U8		iFeatureD2621_8;
+	uint8_t		iFeatureD2621_1;
+	uint8_t		iFeatureD2621_2;
+	uint8_t		iFeatureD2621_3;
+	uint8_t		iFeatureD2621_4;
+	uint8_t		iFeatureD2621_5;
+	uint8_t		iFeatureD2621_6;
+	uint8_t		iFeatureD2621_7;
+	uint8_t		iFeatureD2621_8;
 
 	/*
 	 * Outputs: 8bit * 8
 	 * Usage: Generic Desktop / 65280 (Vendor)
 	 */
 	/// Usage 0x2621
-	U8		iOutputD2621_1;
-	U8		iOutputD2621_2;
-	U8		iOutputD2621_3;
-	U8		iOutputD2621_4;
-	U8		iOutputD2621_5;
-	U8		iOutputD2621_6;
-	U8		iOutputD2621_7;
-	U8		iOutputD2621_8;
+	uint8_t		iOutputD2621_1;
+	uint8_t		iOutputD2621_2;
+	uint8_t		iOutputD2621_3;
+	uint8_t		iOutputD2621_4;
+	uint8_t		iOutputD2621_5;
+	uint8_t		iOutputD2621_6;
+	uint8_t		iOutputD2621_7;
+	uint8_t		iOutputD2621_8;
 
 	/*
 	 * Inputs: 16bit * 4
@@ -173,13 +173,13 @@ struct hid_report
 	 * Physical: 0..1023
 	 */
 	/// Usage 0x2C
-	U16		iInputX2C;
+	uint16_t		iInputX2C;
 	/// Usage 0x2D
-	U16		iInputX2D;
+	uint16_t		iInputX2D;
 	/// Usage 0x2E
-	U16		iInputX2E;
+	uint16_t		iInputX2E;
 	/// Usage 0x2F
-	U16		iInputx2F;
+	uint16_t		iInputx2F;
 	};
 
 

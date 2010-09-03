@@ -83,7 +83,7 @@
 #include "lib_mcu/power/power_drv.h"
 #include "lib_mcu/util/start_boot.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 //_____ D E F I N I T I O N S ______________________________________________
 
@@ -101,11 +101,9 @@ int main(void)
  * This one increment the CPU clock before RAM initialisation
  */
 ///@{
-#ifdef  __GNUC__
 // Locate low level init function before RAM init (init3 section)
 // and remove std prologue/epilogue
 char __low_level_init(void) __attribute__ ((section (".init3"),naked));
-#endif
 
 #ifdef __cplusplus
 extern "C"

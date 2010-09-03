@@ -52,14 +52,14 @@
 #include "usb_specific_request.h"
 #include "lib_mcu/util/start_boot.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 
 //_____ V A R I A B L E S __________________________________________________
 
-volatile U8 cpt_sof = 0;
-extern U8 jump_bootloader;
-U8 g_last_joy = 0;
+volatile uint8_t cpt_sof = 0;
+extern uint8_t jump_bootloader;
+uint8_t g_last_joy = 0;
 
 struct hid_report report;
 
@@ -105,7 +105,7 @@ void hid_report_out( void )
 	// Check if we received DFU mode command from host
 //	if( jump_bootloader )
 //		{
-//		U32 volatile tempo;
+//		uint32_t volatile tempo;
 //		Leds_off();
 //		Usb_detach(); // Detach actual generic HID application
 //		for( tempo = 0; tempo < 70000; tempo++ )
@@ -119,7 +119,7 @@ void hid_report_out( void )
  */
 void hid_report_in( void )
 	{
-	U8 *report_p = (U8*)&report;
+	uint8_t *report_p = (uint8_t*)&report;
 	int i;
 
 	Usb_select_endpoint(EP_HID_IN);

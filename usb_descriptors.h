@@ -47,14 +47,14 @@
 #ifndef _USB_DESCRIPTORS_H_
 #define _USB_DESCRIPTORS_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
 
 #include "config.h"
 #include "modules/usb/device_chap9/usb_standard_request.h"
 #include "modules/usb/device_chap9/usb_standard_descriptors.h"
 #include "conf_usb.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
 #define Usb_get_dev_desc_pointer()        (&(usb_dev_desc.bLength))
 #define Usb_get_dev_desc_length()         (sizeof (usb_dev_desc))
@@ -74,7 +74,7 @@
 #define RELEASE_NUMBER        0x0200
 #define MAN_INDEX             0x01
 #define PROD_INDEX            0x02
-#if (USB_DEVICE_SN_USE==ENABLE)
+#if (USB_DEVICE_SN_USE==true)
 #define SN_INDEX              0x03
 #else
 #define SN_INDEX              0x00  // No serial number field
@@ -224,11 +224,11 @@
 typedef struct
 	{
 		/// size of this descriptor in bytes
-		U8 bLength;
+		uint8_t bLength;
 		/// STRING descriptor type
-		U8 bDescriptorType;
+		uint8_t bDescriptorType;
 		/// unicode characters
-		U16 wString[USB_MN_LENGTH];
+		uint16_t wString[USB_MN_LENGTH];
 	} S_usb_manufacturer_string_descriptor;
 
 //_____ U S B   P R O D U C T   D E S C R I P T O R _________________________
@@ -238,29 +238,29 @@ typedef struct
 typedef struct
 	{
 		/// size of this descriptor in bytes
-		U8 bLength;
+		uint8_t bLength;
 		/// STRING descriptor type
-		U8 bDescriptorType;
+		uint8_t bDescriptorType;
 		/// unicode characters
-		U16 wString[USB_PN_LENGTH];
+		uint16_t wString[USB_PN_LENGTH];
 	} S_usb_product_string_descriptor;
 
 //_____ U S B   S E R I A L   N U M B E R   D E S C R I P T O R _____________
 
 
-#if (USB_DEVICE_SN_USE==ENABLE)
+#if (USB_DEVICE_SN_USE==true)
 /// device serial number
 typedef struct
 	{
 	/// size of this descriptor in bytes
-	U8 bLength;
+	uint8_t bLength;
 	/// STRING descriptor type
-	U8 bDescriptorType;
-#if (USE_DEVICE_SN_UNIQUE==ENABLE)
+	uint8_t bDescriptorType;
+#if (USE_DEVICE_SN_UNIQUE==true)
 
 #else
 	/// unicode characters
-	U16 wString[USB_SN_LENGTH];
+	uint16_t wString[USB_SN_LENGTH];
 #endif
 	}S_usb_serial_number;
 #endif

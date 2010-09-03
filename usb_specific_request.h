@@ -44,36 +44,40 @@
 #ifndef _USB_SPECIFIC_REQUEST_H_
 #define _USB_SPECIFIC_REQUEST_H_
 
-//_____ I N C L U D E S ____________________________________________________
+//_____ I N C L U D E S ________________________________________________________
+
+#include <avr/pgmspace.h>
+#include <stdbool.h>
+
 
 #include "config.h"
 
-//_____ M A C R O S ________________________________________________________
+//_____ M A C R O S ____________________________________________________________
 
-extern code S_usb_device_descriptor usb_dev_desc;
-extern code S_usb_user_configuration_descriptor usb_conf_desc;
-extern code S_usb_manufacturer_string_descriptor
+extern PROGMEM S_usb_device_descriptor usb_dev_desc;
+extern PROGMEM S_usb_user_configuration_descriptor usb_conf_desc;
+extern PROGMEM S_usb_manufacturer_string_descriptor
 	usb_user_manufacturer_string_descriptor;
-extern code S_usb_product_string_descriptor usb_user_product_string_descriptor;
-#if (USB_DEVICE_SN_USE==ENABLE)
-extern code S_usb_serial_number usb_user_serial_number;
+extern PROGMEM S_usb_product_string_descriptor usb_user_product_string_descriptor;
+#if (USB_DEVICE_SN_USE==true)
+extern PROGMEM S_usb_serial_number usb_user_serial_number;
 #endif
-extern code S_usb_language_id usb_user_language_id;
+extern PROGMEM S_usb_language_id usb_user_language_id;
 
-//_____ D E F I N I T I O N ________________________________________________
+//_____ D E F I N I T I O N ____________________________________________________
 
-Bool usb_user_read_request(U8, U8);
-void usb_user_endpoint_init(U8);
-U8 usb_user_interface_get(U16 wInterface);
-void usb_user_interface_reset(U16 wInterface, U8 alternate_setting);
-Bool usb_user_get_descriptor(U8, U8);
+bool usb_user_read_request(uint8_t, uint8_t);
+void usb_user_endpoint_init(uint8_t);
+uint8_t usb_user_interface_get(uint16_t wInterface);
+void usb_user_interface_reset(uint16_t wInterface, uint8_t alternate_setting);
+bool usb_user_get_descriptor(uint8_t, uint8_t);
 
 /**
  * Usb HID Report Descriptor HID generic
  */
 typedef struct
     {
-	U8 report[SIZE_OF_REPORT];
+	uint8_t report[SIZE_OF_REPORT];
     } S_usb_hid_report_descriptor;
 
 #endif

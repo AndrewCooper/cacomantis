@@ -62,18 +62,18 @@
  */
 
 /**
- * @brief ENABLE to activate the host software library support
+ * @brief true to activate the host software library support
  *
- * Possible values ENABLE or DISABLE
+ * Possible values true or false
  */
-#define USB_HOST_FEATURE            DISABLED
+#define USB_HOST_FEATURE            false
 
 /**
- * @brief ENABLE to activate the device software library support
+ * @brief true to activate the device software library support
  *
- * Possible values ENABLE or DISABLE
+ * Possible values true or false
  */
-#define USB_DEVICE_FEATURE          ENABLED
+#define USB_DEVICE_FEATURE          true
 
 ///@}
 
@@ -91,11 +91,11 @@
  * the internal USB pads regulatr can be disabled.
  */
 #ifndef USE_USB_PADS_REGULATOR
-#define USE_USB_PADS_REGULATOR   ENABLE      // Possible values ENABLE or DISABLE
+#define USE_USB_PADS_REGULATOR   true      // Possible values true or false
 #endif
 ///@}
 
-#if defined(USB_HOST_FEATURE) && USB_HOST_FEATURE == ENABLED
+#if defined(USB_HOST_FEATURE) && USB_HOST_FEATURE == true
 // _________________ HOST MODE CONFIGURATION ____________________________
 //
 /**
@@ -148,34 +148,34 @@
  * When enabled, if the device PID/VID does not belongs  to the supported list,
  * the host controller library will not go to deeper configuration, but to error state.
  */
-#define HOST_STRICT_VID_PID_TABLE      DISABLE
+#define HOST_STRICT_VID_PID_TABLE      false
 
 /**
  * Try to configure the host pipe according to the device descriptors received
  */
-#define HOST_AUTO_CFG_ENDPOINT         ENABLE
+#define HOST_AUTO_CFG_ENDPOINT         true
 
 /**
  * Host start of frame interrupt always enable
  */
-#define HOST_CONTINUOUS_SOF_INTERRUPT  DISABLE
+#define HOST_CONTINUOUS_SOF_INTERRUPT  false
 
 /**
  * When Host error state detected, goto unattached state
  */
-#define HOST_ERROR_RESTART             ENABLE
+#define HOST_ERROR_RESTART             true
 
 /**
  * Force WDT reset upon ID pin change
  */
-#define ID_PIN_CHANGE_GENERATE_RESET   DISABLE
+#define ID_PIN_CHANGE_GENERATE_RESET   false
 
 /**
  * NAK handshake in 1/4sec (250ms) before timeout
  */
 #define NAK_TIMEOUT_DELAY              1
 
-#if (HOST_AUTO_CFG_ENDPOINT==FALSE)
+#if (HOST_AUTO_CFG_ENDPOINT==false)
 /**
  * If no auto configuration of EP, map here user function
  */
@@ -200,9 +200,9 @@
 #define Host_device_error_action()
 ///@}
 
-extern void host_suspend_action(void);
+extern void host_suspend_action( void );
 ///@}
-#endif /* USB_HOST_FEATURE == ENABLED */
+#endif /* USB_HOST_FEATURE == true */
 
 // _________________ DEVICE MODE CONFIGURATION __________________________
 
@@ -212,14 +212,14 @@ extern void host_suspend_action(void);
  * @{
  */
 
-#define USB_DEVICE_SN_USE          DISABLE            // DISABLE
-#define USE_DEVICE_SN_UNIQUE       DISABLE            // ignore if USB_DEVICE_SN_USE = DISABLE
-#define Usb_unicode(a)         ((U16)(a))
+#define USB_DEVICE_SN_USE          false            // false
+#define USE_DEVICE_SN_UNIQUE       false            // ignore if USB_DEVICE_SN_USE = false
+#define Usb_unicode(a)         ((uint16_t)(a))
 
 #define EP_HID_IN             1
 #define EP_HID_OUT            2
 
-#define USB_REMOTE_WAKEUP_FEATURE   DISABLE
+#define USB_REMOTE_WAKEUP_FEATURE   false
 
 /**
  * @defgroup device_cst_actions USB device custom actions
@@ -238,7 +238,7 @@ extern void host_suspend_action(void);
 #define Usb_set_configuration_action()
 ///@}
 
-extern void sof_action(void);
+extern void sof_action( void );
 ///@}
 
 ///@}
