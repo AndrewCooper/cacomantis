@@ -61,24 +61,32 @@ struct hid_report
      * Inputs, 1bit * 13
      * Usage: Generic Desktop / Gamepad / Button
      */
-    uint8_t b1 :1;
-    uint8_t b2 :1;
-    uint8_t b3 :1;
-    uint8_t b4 :1;
-    uint8_t b5 :1;
-    uint8_t b6 :1;
-    uint8_t b7 :1;
-    uint8_t b8 :1;
-    uint8_t b9 :1;
-    uint8_t b10 :1;
-    uint8_t b11 :1;
-    uint8_t b12 :1;
-    uint8_t b13 :1;
+    union
+    {
+        struct
+        {
+        uint8_t b1 :1;
+        uint8_t b2 :1;
+        uint8_t b3 :1;
+        uint8_t b4 :1;
+        uint8_t b5 :1;
+        uint8_t b6 :1;
+        uint8_t b7 :1;
+        uint8_t b8 :1;
+        uint8_t b9 :1;
+        uint8_t b10 :1;
+        uint8_t b11 :1;
+        uint8_t b12 :1;
+        uint8_t b13 :1;
 
-    /*
-     * Padding, 1bit * 3
-     */
-    uint8_t pad1 :3;
+        /*
+         * Padding, 1bit * 3
+         */
+        uint8_t pad1 :3;
+        } bits;
+
+        uint16_t raw;
+    } buttons;
 
     /*
      * Inputs: 4bit * 1

@@ -106,7 +106,7 @@
 #define EP_ATTRIBUTES_2     0x03          // BULK = 0x02, INTERUPT = 0x03
 #define EP_SIZE_2           64
 #define EP_INTERVAL_2       1 //interrupt pooling from host
-#define SIZE_OF_REPORT        156
+#define SIZE_OF_REPORT        137
 
 #define DEVICE_STATUS         USB_DEVICE_STATUS_BUS_POWERED
 

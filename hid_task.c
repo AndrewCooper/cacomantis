@@ -60,7 +60,7 @@
 volatile uint8_t cpt_sof = 0;
 extern uint8_t jump_bootloader;
 uint8_t g_last_joy = 0;
-
+int report_cnt = 0;
 struct hid_report report;
 
 //_____ D E F I N I T I O N S __________________________________________________
@@ -126,19 +126,13 @@ void hid_report_in( void )
     if( !Is_usb_write_enabled() )
         return; // Not ready to send report
 
+    ++report_cnt;
+    report.buttons.raw = (0x1FFF & report_cnt);
+
     for( i = 0; i < sizeof( report ); ++i )
     {
-
+        Usb_write_byte( report_p[i] ); // Joystick
     }
-    // Send report
-    Usb_write_byte(g_last_joy); // Joystick
-    Usb_write_byte(GPIOR1); // Dummy (not used)
-    Usb_write_byte(GPIOR1); // Dummy (not used)
-    Usb_write_byte(GPIOR1); // Dummy (not used)
-    Usb_write_byte(GPIOR1); // Dummy (not used)
-    Usb_write_byte(GPIOR1); // Dummy (not used)
-    Usb_write_byte(GPIOR1); // Dummy (not used)
-    Usb_write_byte(GPIOR1); // Dummy (not used)
 
     Usb_ack_in_ready(); // Send data over the USB
 }
